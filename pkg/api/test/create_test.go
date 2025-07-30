@@ -21,12 +21,12 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 var sampleText string = `MOST of the adventures recorded in this book really occurred; one or
@@ -217,8 +217,8 @@ func writeTextDemoAlignedWidthAndMargin(
 	p model.Page,
 	region *types.Rectangle,
 	hAlign types.HAlignment,
-	w, mLeft, mRight, mTop, mBot float64) {
-
+	w, mLeft, mRight, mTop, mBot float64,
+) {
 	buf := p.Buf
 	mediaBox := p.MediaBox
 
@@ -1526,7 +1526,7 @@ func createTextBorderNoMarginAlignLeftTest(xRefTable *model.XRefTable, mediaBox 
 	draw.DrawLineSimple(p.Buf, 0, 450, 600, 450)
 	draw.DrawLineSimple(p.Buf, 0, 160, 600, 160)
 	draw.DrawLineSimple(p.Buf, 0, 440, 600, 440)
-	//pdf.DrawHairCross(p.Buf, 0, 0, mediaBox)
+	// pdf.DrawHairCross(p.Buf, 0, 0, mediaBox)
 	return p
 }
 
@@ -1570,7 +1570,7 @@ func createTextBorderNoMarginAlignRightTest(xRefTable *model.XRefTable, mediaBox
 	draw.DrawLineSimple(p.Buf, 0, 450, 600, 450)
 	draw.DrawLineSimple(p.Buf, 0, 160, 600, 160)
 	draw.DrawLineSimple(p.Buf, 0, 440, 600, 440)
-	//pdf.DrawHairCross(p.Buf, 0, 0, mediaBox)
+	// pdf.DrawHairCross(p.Buf, 0, 0, mediaBox)
 	return p
 }
 
@@ -1613,7 +1613,7 @@ func createTextBorderNoMarginAlignCenterTest(xRefTable *model.XRefTable, mediaBo
 	draw.DrawLineSimple(p.Buf, 0, 150, 600, 150)
 	draw.DrawLineSimple(p.Buf, 0, 450, 600, 450)
 	draw.DrawLineSimple(p.Buf, 0, 440, 600, 440)
-	//pdf.DrawHairCross(p.Buf, 0, 0, mediaBox)
+	// pdf.DrawHairCross(p.Buf, 0, 0, mediaBox)
 	return p
 }
 
@@ -1657,7 +1657,7 @@ func createTextBorderNoMarginAlignJustifyTest(xRefTable *model.XRefTable, mediaB
 	draw.DrawLineSimple(p.Buf, 0, 450, 600, 450)
 	draw.DrawLineSimple(p.Buf, 0, 160, 600, 160)
 	draw.DrawLineSimple(p.Buf, 0, 440, 600, 440)
-	//pdf.DrawHairCross(p.Buf, 0, 0, mediaBox)
+	// pdf.DrawHairCross(p.Buf, 0, 0, mediaBox)
 	return p
 }
 
@@ -1923,7 +1923,8 @@ func createXRefAndWriteRTLPDF(t *testing.T,
 	msg, fileName string,
 	mediaBox *types.Rectangle,
 	language, fontName string,
-	f func(xRefTable *model.XRefTable, mediaBox *types.Rectangle, language, fontName string) model.Page) {
+	f func(xRefTable *model.XRefTable, mediaBox *types.Rectangle, language, fontName string) model.Page,
+) {
 	t.Helper()
 
 	xRefTable, err := pdfcpu.CreateDemoXRef()

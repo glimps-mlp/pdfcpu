@@ -23,15 +23,17 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
-var inDir, outDir, resDir, fontDir, samplesDir string
-var conf *model.Configuration
+var (
+	inDir, outDir, resDir, fontDir, samplesDir string
+	conf                                       *model.Configuration
+)
 
 func isTrueType(filename string) bool {
 	s := strings.ToLower(filename)
@@ -77,7 +79,7 @@ func TestMain(m *testing.M) {
 		fmt.Printf("%v", err)
 		os.Exit(1)
 	}
-	//fmt.Printf("outDir = %s\n", outDir)
+	// fmt.Printf("outDir = %s\n", outDir)
 
 	exitCode := m.Run()
 
@@ -166,7 +168,8 @@ func TestUnknownCommand(t *testing.T) {
 	cmd := &cli.Command{
 		Mode:   99,
 		InFile: &inFile,
-		Conf:   conf}
+		Conf:   conf,
+	}
 
 	if _, err := cli.Process(cmd); err == nil {
 		t.Fatalf("%s: %v\n", msg, err)
@@ -178,12 +181,12 @@ func XTestSomeCommand(t *testing.T) {
 	msg := "TestSomeCommand"
 
 	log.SetDefaultTraceLogger()
-	//log.SetDefaultParseLogger()
+	// log.SetDefaultParseLogger()
 	log.SetDefaultReadLogger()
 	log.SetDefaultValidateLogger()
 	log.SetDefaultOptimizeLogger()
 	log.SetDefaultWriteLogger()
-	//log.SetDefaultStatsLogger()
+	// log.SetDefaultStatsLogger()
 
 	inFile := filepath.Join(inDir, "test.pdf")
 

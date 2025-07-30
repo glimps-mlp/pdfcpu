@@ -19,14 +19,13 @@ package validate
 import (
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 func validateResourceDict(xRefTable *model.XRefTable, o types.Object) (hasResources bool, err error) {
-
 	d, err := xRefTable.DereferenceDict(o)
 	if err != nil || d == nil {
 		return false, err
@@ -149,7 +148,6 @@ func validatePageContents(xRefTable *model.XRefTable, d types.Dict) (hasContents
 }
 
 func validatePageResources(xRefTable *model.XRefTable, d types.Dict) error {
-
 	if o, found := d.Find("Resources"); found {
 		_, err := validateResourceDict(xRefTable, o)
 		return err
@@ -164,7 +162,6 @@ func validatePageResources(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validatePageEntryMediaBox(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) (hasMediaBox bool, err error) {
-
 	o, err := validateRectangleEntry(xRefTable, d, "pageDict", "MediaBox", required, sinceVersion, nil)
 	if err != nil {
 		return false, err
@@ -177,35 +174,30 @@ func validatePageEntryMediaBox(xRefTable *model.XRefTable, d types.Dict, require
 }
 
 func validatePageEntryCropBox(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	_, err := validateRectangleEntry(xRefTable, d, "pagesDict", "CropBox", required, sinceVersion, nil)
 
 	return err
 }
 
 func validatePageEntryBleedBox(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	_, err := validateRectangleEntry(xRefTable, d, "pagesDict", "BleedBox", required, sinceVersion, nil)
 
 	return err
 }
 
 func validatePageEntryTrimBox(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	_, err := validateRectangleEntry(xRefTable, d, "pagesDict", "TrimBox", required, sinceVersion, nil)
 
 	return err
 }
 
 func validatePageEntryArtBox(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	_, err := validateRectangleEntry(xRefTable, d, "pagesDict", "ArtBox", required, sinceVersion, nil)
 
 	return err
 }
 
 func validateBoxStyleDictEntry(xRefTable *model.XRefTable, d types.Dict, dictName string, entryName string, required bool, sinceVersion model.Version) error {
-
 	d1, err := validateDictEntry(xRefTable, d, dictName, entryName, required, sinceVersion, nil)
 	if err != nil || d1 == nil {
 		return err
@@ -239,7 +231,6 @@ func validateBoxStyleDictEntry(xRefTable *model.XRefTable, d types.Dict, dictNam
 }
 
 func validatePageBoxColorInfo(xRefTable *model.XRefTable, pageDict types.Dict, required bool, sinceVersion model.Version) error {
-
 	// box color information dict
 	// see 14.11.2.2
 
@@ -271,7 +262,6 @@ func validatePageBoxColorInfo(xRefTable *model.XRefTable, pageDict types.Dict, r
 }
 
 func validatePageEntryRotate(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	validate := func(i int) bool { return i%90 == 0 }
 	_, err := validateIntegerEntry(xRefTable, d, "pagesDict", "Rotate", required, sinceVersion, validate)
 
@@ -279,7 +269,6 @@ func validatePageEntryRotate(xRefTable *model.XRefTable, d types.Dict, required 
 }
 
 func validatePageEntryGroup(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	if xRefTable.ValidationMode == model.ValidationRelaxed {
 		sinceVersion = model.V13
 	}
@@ -297,7 +286,6 @@ func validatePageEntryGroup(xRefTable *model.XRefTable, d types.Dict, required b
 }
 
 func validatePageEntryThumb(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	sd, err := validateStreamDictEntry(xRefTable, d, "pagesDict", "Thumb", required, sinceVersion, nil)
 	if err != nil || sd == nil {
 		return err
@@ -309,13 +297,12 @@ func validatePageEntryThumb(xRefTable *model.XRefTable, d types.Dict, required b
 
 	indRef := d.IndirectRefEntry("Thumb")
 	xRefTable.PageThumbs[xRefTable.CurPage] = *indRef
-	//fmt.Printf("adding thumb page:%d obj#:%d\n", xRefTable.CurPage, indRef.ObjectNumber.Value())
+	// fmt.Printf("adding thumb page:%d obj#:%d\n", xRefTable.CurPage, indRef.ObjectNumber.Value())
 
 	return nil
 }
 
 func validatePageEntryB(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	// Note: Only makes sense if "Threads" entry in document root and bead dicts present.
 
 	_, err := validateIndRefArrayEntry(xRefTable, d, "pagesDict", "B", required, sinceVersion, nil)
@@ -324,14 +311,12 @@ func validatePageEntryB(xRefTable *model.XRefTable, d types.Dict, required bool,
 }
 
 func validatePageEntryDur(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	_, err := validateNumberEntry(xRefTable, d, "pagesDict", "Dur", required, sinceVersion, nil)
 
 	return err
 }
 
 func validateTransitionDictEntryDi(d types.Dict) error {
-
 	o, found := d.Find("Di")
 	if !found {
 		return nil
@@ -355,7 +340,6 @@ func validateTransitionDictEntryDi(d types.Dict) error {
 }
 
 func validateTransitionDictEntryM(xRefTable *model.XRefTable, d types.Dict, dictName string, transStyle *types.Name) error {
-
 	// see 12.4.4
 	validateTransitionDirectionOfMotion := func(s string) bool { return types.MemberOf(s, []string{"I", "O"}) }
 
@@ -370,7 +354,6 @@ func validateTransitionDictEntryM(xRefTable *model.XRefTable, d types.Dict, dict
 }
 
 func validateTransitionDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	dictName := "transitionDict"
 
 	// S, name, optional
@@ -383,7 +366,6 @@ func validateTransitionDict(xRefTable *model.XRefTable, d types.Dict) error {
 
 	if xRefTable.Version() >= model.V15 {
 		validate = func(s string) bool {
-
 			if validateTransitionStyle(s) {
 				return true
 			}
@@ -441,7 +423,6 @@ func validateTransitionDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validatePageEntryTrans(xRefTable *model.XRefTable, pageDict types.Dict, required bool, sinceVersion model.Version) error {
-
 	d, err := validateDictEntry(xRefTable, pageDict, "pagesDict", "Trans", required, sinceVersion, nil)
 	if err != nil || d == nil {
 		return err
@@ -451,21 +432,18 @@ func validatePageEntryTrans(xRefTable *model.XRefTable, pageDict types.Dict, req
 }
 
 func validatePageEntryStructParents(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	_, err := validateIntegerEntry(xRefTable, d, "pagesDict", "StructParents", required, sinceVersion, nil)
 
 	return err
 }
 
 func validatePageEntryID(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	_, err := validateStringEntry(xRefTable, d, "pagesDict", "ID", required, sinceVersion, nil)
 
 	return err
 }
 
 func validatePageEntryPZ(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	// Preferred zoom factor, number
 
 	_, err := validateNumberEntry(xRefTable, d, "pagesDict", "PZ", required, sinceVersion, nil)
@@ -474,7 +452,6 @@ func validatePageEntryPZ(xRefTable *model.XRefTable, d types.Dict, required bool
 }
 
 func validatePageEntrySeparationInfo(xRefTable *model.XRefTable, pagesDict types.Dict, required bool, sinceVersion model.Version) error {
-
 	// see 14.11.4
 
 	d, err := validateDictEntry(xRefTable, pagesDict, "pagesDict", "SeparationInfo", required, sinceVersion, nil)
@@ -506,7 +483,6 @@ func validatePageEntrySeparationInfo(xRefTable *model.XRefTable, pagesDict types
 }
 
 func validatePageEntryTabs(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	validateTabs := func(s string) bool { return types.MemberOf(s, []string{"R", "C", "S", "A", "W"}) }
 
 	if xRefTable.ValidationMode == model.ValidationRelaxed {
@@ -522,7 +498,6 @@ func validatePageEntryTabs(xRefTable *model.XRefTable, d types.Dict, required bo
 }
 
 func validatePageEntryTemplateInstantiated(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	// see 12.7.6
 
 	_, err := validateNameEntry(xRefTable, d, "pagesDict", "TemplateInstantiated", required, sinceVersion, nil)
@@ -532,7 +507,6 @@ func validatePageEntryTemplateInstantiated(xRefTable *model.XRefTable, d types.D
 
 // TODO implement
 func validatePageEntryPresSteps(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	// see 12.4.4.2
 
 	d1, err := validateDictEntry(xRefTable, d, "pagesDict", "PresSteps", required, sinceVersion, nil)
@@ -544,7 +518,6 @@ func validatePageEntryPresSteps(xRefTable *model.XRefTable, d types.Dict, requir
 }
 
 func validatePageEntryUserUnit(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	// UserUnit, optional, positive number, since V1.6
 	if xRefTable.ValidationMode == model.ValidationRelaxed {
 		sinceVersion = model.V13
@@ -555,7 +528,6 @@ func validatePageEntryUserUnit(xRefTable *model.XRefTable, d types.Dict, require
 }
 
 func validateNumberFormatDict(xRefTable *model.XRefTable, d types.Dict, sinceVersion model.Version) error {
-
 	dictName := "numberFormatDict"
 
 	// Type, name, optional
@@ -625,7 +597,6 @@ func validateNumberFormatDict(xRefTable *model.XRefTable, d types.Dict, sinceVer
 }
 
 func validateNumberFormatArrayEntry(xRefTable *model.XRefTable, d types.Dict, dictName, entryName string, required bool, sinceVersion model.Version) error {
-
 	a, err := validateArrayEntry(xRefTable, d, dictName, entryName, required, sinceVersion, nil)
 	if err != nil || a == nil {
 		return err
@@ -653,7 +624,6 @@ func validateNumberFormatArrayEntry(xRefTable *model.XRefTable, d types.Dict, di
 }
 
 func validateMeasureDict(xRefTable *model.XRefTable, d types.Dict, sinceVersion model.Version) error {
-
 	dictName := "measureDict"
 
 	_, err := validateNameEntry(xRefTable, d, dictName, "Type", OPTIONAL, sinceVersion, func(s string) bool { return s == "Measure" })
@@ -734,7 +704,6 @@ func validateMeasureDict(xRefTable *model.XRefTable, d types.Dict, sinceVersion 
 }
 
 func validateViewportDict(xRefTable *model.XRefTable, d types.Dict, sinceVersion model.Version) error {
-
 	dictName := "viewportDict"
 
 	_, err := validateNameEntry(xRefTable, d, dictName, "Type", OPTIONAL, sinceVersion, func(s string) bool { return s == "Viewport" })
@@ -766,7 +735,6 @@ func validateViewportDict(xRefTable *model.XRefTable, d types.Dict, sinceVersion
 }
 
 func validatePageEntryVP(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) error {
-
 	// see table 260
 
 	if xRefTable.ValidationMode == model.ValidationRelaxed {
@@ -827,7 +795,6 @@ func handlePieceInfo(xRefTable *model.XRefTable, d types.Dict, dictName string) 
 }
 
 func validatePageDict(xRefTable *model.XRefTable, d types.Dict, hasMediaBox bool) error {
-
 	dictName := "pageDict"
 
 	if ir := d.IndirectRefEntry("Parent"); ir == nil {
@@ -938,7 +905,6 @@ func validatePagesDictGeneralEntries(xRefTable *model.XRefTable, d types.Dict) (
 }
 
 func dictTypeForPageNodeDict(d types.Dict) (string, error) {
-
 	if d == nil {
 		return "", errors.New("pdfcpu: dictTypeForPageNodeDict: pageNodeDict is null")
 	}

@@ -19,11 +19,10 @@ package model
 import (
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func checkAddResult(t *testing.T, r *Node, exp string, root bool) {
-
 	l := r.String()
 
 	if l != exp {
@@ -40,11 +39,9 @@ func checkAddResult(t *testing.T, r *Node, exp string, root bool) {
 	if r.leaf() {
 		t.Fatal("root node with kids should not be a leaf node")
 	}
-
 }
 
 func checkRemoveResult(t *testing.T, r *Node, k string, empty, ok bool, exp string, leaf bool) {
-
 	if !ok {
 		t.Fatalf("could not Remove %s\n", k)
 	}
@@ -74,7 +71,6 @@ func checkRemoveResult(t *testing.T, r *Node, k string, empty, ok bool, exp stri
 }
 
 func buildNameTree(t *testing.T, r *Node) {
-
 	r.Add(nil, "b", types.StringLiteral("bv"), nil, nil)
 	checkAddResult(t, r, "[(b,(bv)){b,b}]", true)
 
@@ -113,7 +109,6 @@ func buildNameTree(t *testing.T, r *Node) {
 }
 
 func destroyNameTree(t *testing.T, r *Node) {
-
 	_, ok, _ := r.Remove(nil, "g")
 	if ok {
 		t.Fatal("should not be able to Remove g")
@@ -195,7 +190,6 @@ func destroyNameTree(t *testing.T, r *Node) {
 }
 
 func TestNameTree(t *testing.T) {
-
 	r := &Node{}
 	buildNameTree(t, r)
 	destroyNameTree(t, r)

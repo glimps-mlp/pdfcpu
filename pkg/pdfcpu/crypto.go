@@ -35,9 +35,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 
 	"golang.org/x/text/secure/precis"
@@ -208,7 +208,7 @@ func encKey(userpw string, e *model.Enc) (key []byte) {
 	h.Write(e.O)
 
 	// 2d
-	var q = uint32(e.P)
+	q := uint32(e.P)
 	h.Write([]byte{byte(q), byte(q >> 8), byte(q >> 16), byte(q >> 24)})
 
 	// 2e
@@ -360,7 +360,7 @@ func u(ctx *model.Context) (u []byte, key []byte, err error) {
 	// The PW string is generated from OS codepage characters by first converting the string to PDFDocEncoding.
 	// If input is Unicode, first convert to a codepage encoding , and then to PDFDocEncoding for backward compatibility.
 	userpw := ctx.UserPW
-	//fmt.Printf("U userpw=ctx.UserPW=%s\n", userpw)
+	// fmt.Printf("U userpw=ctx.UserPW=%s\n", userpw)
 
 	e := ctx.E
 
@@ -894,7 +894,6 @@ func logP(enc *model.Enc) {
 	for _, s := range perms(enc.P) {
 		log.Info.Println(s)
 	}
-
 }
 
 func maskExtract(mode model.CommandMode, secHandlerRev int) int {
@@ -972,6 +971,7 @@ func getV(ctx *model.Context, d types.Dict, l int) (*int, error) {
 
 	return v, nil
 }
+
 func checkStmf(ctx *model.Context, stmf *string, cfDict types.Dict) error {
 	if stmf != nil && *stmf != "Identity" {
 
@@ -1232,7 +1232,8 @@ func supportedEncryption(ctx *model.Context, d types.Dict) (*model.Enc, error) {
 			Perms: perms,
 			R:     r,
 			V:     *v,
-			Emd:   encMeta},
+			Emd:   encMeta,
+		},
 		nil
 }
 

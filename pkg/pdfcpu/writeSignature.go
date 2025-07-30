@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -134,7 +134,6 @@ func writeSigFieldDict(ctx *model.Context, d types.Dict, objNr, genNr int) error
 }
 
 func writeBlankSignature(ctx *model.Context, d types.Dict, objNr, genNr int) error {
-
 	// <<
 	// 	<DR, <<
 	// 		<Font, <<

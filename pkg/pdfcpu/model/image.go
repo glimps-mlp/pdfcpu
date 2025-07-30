@@ -25,7 +25,6 @@ import (
 	"image/draw"
 	"image/jpeg"
 	_ "image/png"
-
 	"io"
 	"math"
 	"os"
@@ -34,8 +33,8 @@ import (
 
 	"github.com/hhrutter/tiff"
 
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 	_ "golang.org/x/image/webp"
 )
@@ -376,7 +375,7 @@ func writeCMYKImageBuf(img image.Image) []byte {
 			buf[i+2] = c.Y
 			buf[i+3] = c.K
 			i += 4
-			//fmt.Printf("x:%3d(%3d) y:%3d(%3d) c:#%02x m:#%02x y:#%02x k:#%02x\n", x1, x, y1, y, c.C, c.M, c.Y, c.K)
+			// fmt.Printf("x:%3d(%3d) y:%3d(%3d) c:#%02x m:#%02x y:#%02x k:#%02x\n", x1, x, y1, y, c.C, c.M, c.Y, c.K)
 		}
 	}
 
@@ -749,7 +748,6 @@ func createImageResources(xRefTable *XRefTable, c image.Config, bb bytes.Buffer,
 
 // CreateImageResources creates a new XObject for given image data represented by r and applies optional filters.
 func CreateImageResources(xRefTable *XRefTable, r io.Reader, gray, sepia bool) ([]ImageResource, error) {
-
 	var bb bytes.Buffer
 	tee := io.TeeReader(r, &bb)
 
@@ -776,7 +774,6 @@ func CreateImageResources(xRefTable *XRefTable, r io.Reader, gray, sepia bool) (
 
 // CreateImageStreamDict returns a stream dict for image data represented by r and applies optional filters.
 func CreateImageStreamDict(xRefTable *XRefTable, r io.Reader) (*types.StreamDict, int, int, error) {
-
 	var bb bytes.Buffer
 	tee := io.TeeReader(r, &bb)
 

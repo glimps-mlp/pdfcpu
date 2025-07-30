@@ -21,9 +21,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func validateMetadataStream(xRefTable *model.XRefTable, d types.Dict, required bool, sinceVersion model.Version) (*types.StreamDict, error) {
@@ -97,7 +97,6 @@ func catalogMetaData(xRefTable *model.XRefTable, rootDict types.Dict, required b
 }
 
 func validateRootMetadata(xRefTable *model.XRefTable, rootDict types.Dict, required bool, sinceVersion model.Version) error {
-
 	if xRefTable.CatalogXMPMeta == nil {
 		return nil
 	}
@@ -122,7 +121,7 @@ func validateRootMetadata(xRefTable *model.XRefTable, rootDict types.Dict, requi
 	xRefTable.CreationDate = time.Time(d.CreationDate).Format(time.RFC3339Nano)
 	xRefTable.ModDate = time.Time(d.ModDate).Format(time.RFC3339Nano)
 	xRefTable.Producer = d.Producer
-	//xRefTable.Trapped = d.Trapped
+	// xRefTable.Trapped = d.Trapped
 
 	ss := strings.FieldsFunc(d.Keywords, func(c rune) bool { return c == ',' || c == ';' || c == '\r' })
 	for _, s := range ss {

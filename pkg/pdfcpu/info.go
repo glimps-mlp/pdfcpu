@@ -22,10 +22,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func extractAuthor(ctx *model.Context, obj types.Object) (err error) {
@@ -56,7 +56,6 @@ func logKey(key string) {
 // handleInfoDict extracts relevant infoDict fields into the context.
 func handleInfoDict(ctx *model.Context, d types.Dict) (err error) {
 	for key, value := range d {
-
 		switch key {
 
 		case "Title":
@@ -631,7 +630,7 @@ func Info(ctx *model.Context, fileName string, selectedPages types.IntSet, fonts
 
 // ListInfo returns formatted info about ctx.
 func ListInfo(info *PDFInfo, selectedPages types.IntSet, fonts bool) ([]string, error) {
-	var separator = draw.HorSepLine([]int{44})
+	separator := draw.HorSepLine([]int{44})
 
 	var ss []string
 

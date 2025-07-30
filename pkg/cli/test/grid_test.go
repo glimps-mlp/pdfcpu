@@ -20,9 +20,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 )
 
 func testGrid(t *testing.T, msg string, inFiles []string, outFile string, selectedPages []string, desc string, rows, cols int, isImg bool, conf *model.Configuration) {
@@ -64,19 +64,23 @@ func TestGridCommand(t *testing.T) {
 		rows, cols    int
 		isImg         bool
 	}{
-		{"TestGridFromPDF",
+		{
+			"TestGridFromPDF",
 			[]string{filepath.Join(inDir, "Acroforms2.pdf")},
 			filepath.Join(outDir, "testGridFromPDF.pdf"),
-			nil, "form:LegalL", "points", 1, 3, false},
+			nil, "form:LegalL", "points", 1, 3, false,
+		},
 
-		{"TestGridFromImages",
+		{
+			"TestGridFromImages",
 			[]string{
 				filepath.Join(resDir, "pdfchip3.png"),
 				filepath.Join(resDir, "demo.png"),
 				filepath.Join(resDir, "snow.jpg"),
 			},
 			filepath.Join(outDir, "testGridFromImages.pdf"),
-			nil, "d:500 500, margin:20, border:off", "points", 1, 3, true},
+			nil, "d:500 500, margin:20, border:off", "points", 1, 3, true,
+		},
 	} {
 		conf := model.NewDefaultConfiguration()
 		conf.SetUnit(tt.unit)

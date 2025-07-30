@@ -17,11 +17,11 @@
 package primitives
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/format"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/format"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -44,7 +44,6 @@ type HorizontalBand struct {
 }
 
 func (hb *HorizontalBand) validate() error {
-
 	pdf := hb.pdf
 
 	if hb.BackgroundColor != "" {
@@ -75,8 +74,8 @@ func (hb *HorizontalBand) renderAnchoredImageBox(
 	a types.Anchor,
 	p *model.Page,
 	pageNr int,
-	images model.ImageMap) error {
-
+	images model.ImageMap,
+) error {
 	ib := hb.pdf.ImageBoxPool[imageName]
 	if ib == nil {
 		return errors.Errorf("pdfcpu: HorizontalBand - unable to resolve $%s", imageName)
@@ -115,8 +114,8 @@ func (hb *HorizontalBand) renderAnchoredTextBox(
 	a types.Anchor,
 	p *model.Page,
 	pageNr int,
-	fonts model.FontMap) error {
-
+	fonts model.FontMap,
+) error {
 	pdf := hb.pdf
 	font := hb.Font
 	bgCol := hb.bgCol
@@ -163,8 +162,8 @@ func (hb *HorizontalBand) renderComponent(
 	p *model.Page,
 	pageNr int,
 	fonts model.FontMap,
-	images model.ImageMap) error {
-
+	images model.ImageMap,
+) error {
 	if content[0] == '$' {
 		return hb.renderAnchoredImageBox(content[1:], r, a, p, pageNr, images)
 	}
@@ -173,7 +172,6 @@ func (hb *HorizontalBand) renderComponent(
 }
 
 func (hb *HorizontalBand) render(p *model.Page, pageNr int, fonts model.FontMap, images model.ImageMap, top bool) error {
-
 	if pageNr < hb.From || (hb.Thru > 0 && pageNr > hb.Thru) {
 		return nil
 	}

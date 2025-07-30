@@ -29,9 +29,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/hhrutter/pkcs7"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -45,8 +45,8 @@ func validateCertChains(
 	crls [][]byte,
 	ocsps [][]byte,
 	result *model.SignatureValidationResult,
-	conf *model.Configuration) {
-
+	conf *model.Configuration,
+) {
 	var cd *model.CertificateDetails
 
 	// TODO Process all chains.
@@ -112,8 +112,8 @@ func setupCertDetails(
 	signer *model.Signer,
 	signingTime *time.Time,
 	result *model.SignatureValidationResult,
-	i int) bool {
-
+	i int,
+) bool {
 	certDetails.Leaf = i == 0
 	certDetails.Subject = cert.Subject.CommonName
 	certDetails.Issuer = cert.Issuer.CommonName

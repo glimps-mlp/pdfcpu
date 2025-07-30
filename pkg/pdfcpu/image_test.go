@@ -27,17 +27,18 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
-var inDir, outDir string
-var xRefTable *model.XRefTable
+var (
+	inDir, outDir string
+	xRefTable     *model.XRefTable
+)
 
 func TestMain(m *testing.M) {
-
 	inDir = filepath.Join("..", "testdata", "resources")
 
 	var err error
@@ -58,7 +59,6 @@ func TestMain(m *testing.M) {
 }
 
 func streamDictForJPGFile(xRefTable *model.XRefTable, fileName string) (*types.StreamDict, error) {
-
 	bb, err := os.ReadFile(fileName)
 	if err != nil {
 		return nil, err
@@ -112,7 +112,6 @@ func streamDictForImageFile(xRefTable *model.XRefTable, fileName string) (*types
 }
 
 func compare(t *testing.T, fn1, fn2 string) {
-
 	f1, err := os.Open(fn1)
 	if err != nil {
 		t.Errorf("%s: %v", fn1, err)
@@ -150,7 +149,6 @@ func compare(t *testing.T, fn1, fn2 string) {
 			return
 		}
 	}
-
 }
 
 func printOptionalSMask(t *testing.T, sd *types.StreamDict) {
@@ -163,8 +161,8 @@ func printOptionalSMask(t *testing.T, sd *types.StreamDict) {
 		fmt.Printf("SMask %s: %s\n", o, sm)
 	}
 }
-func TestReadWritePNGAndWEBP(t *testing.T) {
 
+func TestReadWritePNGAndWEBP(t *testing.T) {
 	for _, filename := range []string{
 		"mountain.png",
 		"mountain.webp",
@@ -213,7 +211,6 @@ func TestReadWritePNGAndWEBP(t *testing.T) {
 		// ..and compare each other.
 		compare(t, fn1, fn2)
 	}
-
 }
 
 // Read in a device gray image stream dump from disk.
@@ -243,7 +240,8 @@ func read1BPCDeviceGrayFlateStreamDump(fileName string) (*types.StreamDict, erro
 			},
 		),
 		Raw:            buf,
-		FilterPipeline: []types.PDFFilter{{Name: filter.Flate, DecodeParms: nil}}}
+		FilterPipeline: []types.PDFFilter{{Name: filter.Flate, DecodeParms: nil}},
+	}
 
 	sd.InsertName("Filter", filter.Flate)
 
@@ -252,7 +250,6 @@ func read1BPCDeviceGrayFlateStreamDump(fileName string) (*types.StreamDict, erro
 
 // Starting out with a DeviceGray color space based image object, write a PNG file then read and write again.
 func TestReadDeviceGrayWritePNG(t *testing.T) {
-
 	// Create an image for a flate encoded stream dump file.
 	filename := "DeviceGray"
 	path := filepath.Join(inDir, filename+".raw")
@@ -337,7 +334,8 @@ func read8BPCDeviceCMYKFlateStreamDump(fileName string) (*types.StreamDict, erro
 			},
 		),
 		Raw:            buf,
-		FilterPipeline: []types.PDFFilter{{Name: filter.Flate, DecodeParms: decodeParms}}}
+		FilterPipeline: []types.PDFFilter{{Name: filter.Flate, DecodeParms: decodeParms}},
+	}
 
 	sd.InsertName("Filter", filter.Flate)
 
@@ -348,7 +346,6 @@ func read8BPCDeviceCMYKFlateStreamDump(fileName string) (*types.StreamDict, erro
 
 // Starting out with a CMYK color space based image object, write a TIFF file then read and write again.
 func TestReadCMYKWriteTIFF(t *testing.T) {
-
 	filename := "DeviceCMYK"
 	path := filepath.Join(inDir, filename+".raw")
 
@@ -389,11 +386,9 @@ func TestReadCMYKWriteTIFF(t *testing.T) {
 
 	// ..and compare each other.
 	compare(t, fn1, fn2)
-
 }
 
 func TestReadTIFFWritePNG(t *testing.T) {
-
 	// TIFF images get read into a Flate encoded image stream like PNGs.
 	// Any Flate encoded image stream gets written as PNG unless it operates in the Device CMYK color space.
 
@@ -444,7 +439,6 @@ func TestReadTIFFWritePNG(t *testing.T) {
 }
 
 func TestReadWriteJPEG(t *testing.T) {
-
 	fileName := "mountain.jpg"
 
 	// Read a JPEG file and create a stream dict w/o decoding.

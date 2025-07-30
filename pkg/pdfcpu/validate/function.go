@@ -17,15 +17,14 @@ limitations under the License.
 package validate
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 // see 7.10 Functions
 
 func validateExponentialInterpolationFunctionDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	dictName := "exponentialInterpolationFunctionDict"
 
 	// Version check
@@ -60,7 +59,6 @@ func validateExponentialInterpolationFunctionDict(xRefTable *model.XRefTable, d 
 }
 
 func validateStitchingFunctionDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	dictName := "stitchingFunctionDict"
 
 	// Version check
@@ -95,7 +93,6 @@ func validateStitchingFunctionDict(xRefTable *model.XRefTable, d types.Dict) err
 }
 
 func validateSampledFunctionStreamDict(xRefTable *model.XRefTable, sd *types.StreamDict) error {
-
 	dictName := "sampledFunctionStreamDict"
 
 	// Version check
@@ -141,7 +138,6 @@ func validateSampledFunctionStreamDict(xRefTable *model.XRefTable, sd *types.Str
 }
 
 func validatePostScriptCalculatorFunctionStreamDict(xRefTable *model.XRefTable, sd *types.StreamDict) error {
-
 	dictName := "postScriptCalculatorFunctionStreamDict"
 
 	// Version check
@@ -161,7 +157,6 @@ func validatePostScriptCalculatorFunctionStreamDict(xRefTable *model.XRefTable, 
 }
 
 func processFunctionDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	funcType, err := validateIntegerEntry(xRefTable, d, "functionDict", "FunctionType", REQUIRED, model.V10, func(i int) bool { return i == 2 || i == 3 })
 	if err != nil {
 		return err
@@ -181,7 +176,6 @@ func processFunctionDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func processFunctionStreamDict(xRefTable *model.XRefTable, sd *types.StreamDict) error {
-
 	funcType, err := validateIntegerEntry(xRefTable, sd.Dict, "functionDict", "FunctionType", REQUIRED, model.V10, func(i int) bool { return i == 0 || i == 4 })
 	if err != nil {
 		return err
@@ -200,7 +194,6 @@ func processFunctionStreamDict(xRefTable *model.XRefTable, sd *types.StreamDict)
 }
 
 func processFunction(xRefTable *model.XRefTable, o types.Object) (err error) {
-
 	// Function dict: dict or stream dict with required entry "FunctionType" (integer):
 	// 0: Sampled function (stream dict)
 	// 2: Exponential interpolation function (dict)
@@ -227,7 +220,6 @@ func processFunction(xRefTable *model.XRefTable, o types.Object) (err error) {
 }
 
 func validateFunction(xRefTable *model.XRefTable, o types.Object) error {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil {
 		return err

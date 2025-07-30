@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -101,7 +101,7 @@ func (n Node) Value(k string) (types.Object, bool) {
 
 // AppendToNames adds an entry to a leaf node (for internalizing name trees).
 func (n *Node) AppendToNames(k string, v types.Object) {
-	//fmt.Printf("AddToLeaf: %s %v (%v)\n\n", k, v, &v)
+	// fmt.Printf("AddToLeaf: %s %v (%v)\n\n", k, v, &v)
 
 	if n.Names == nil {
 		n.Names = make([]entry, 0, maxEntries)
@@ -222,7 +222,7 @@ func (n *Node) HandleLeaf(xRefTable *XRefTable, k string, v types.Object, m Name
 	// A leaf node contains up to maxEntries names.
 	// Any number of entries greater than maxEntries will be delegated to kid nodes.
 
-	//fmt.Printf("HandleLeaf: %s %v\n\n", k, v)
+	// fmt.Printf("HandleLeaf: %s %v\n\n", k, v)
 
 	if len(n.Names) == 0 {
 		n.Names = append(n.Names, entry{k, v})
@@ -291,7 +291,7 @@ func (n *Node) HandleLeaf(xRefTable *XRefTable, k string, v types.Object, m Name
 
 // Add adds an entry to a name tree.
 func (n *Node) Add(xRefTable *XRefTable, k string, v types.Object, m NameMap, nameRefDictKeys []string) error {
-	//fmt.Printf("Add: %s %v\n", k, v)
+	// fmt.Printf("Add: %s %v\n", k, v)
 
 	// The values associated with the keys may be objects of any type.
 	// Stream objects shall be specified by indirect object references.
@@ -549,7 +549,6 @@ func (n *Node) Remove(xRefTable *XRefTable, k string) (empty, ok bool, err error
 	}
 
 	return false, ok, nil
-
 }
 
 // Process traverses the nametree applying a handler to each entry (key-value pair).
@@ -587,7 +586,6 @@ func (n Node) KeyList() ([]string, error) {
 	}
 
 	return list, nil
-
 }
 
 func (n Node) String() string {

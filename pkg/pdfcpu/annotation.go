@@ -22,10 +22,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -239,7 +239,6 @@ func Annotation(xRefTable *model.XRefTable, d types.Dict) (model.AnnotationRende
 }
 
 func AnnotationsForSelectedPages(ctx *model.Context, selectedPages types.IntSet) map[int]model.PgAnnots {
-
 	var pageNrs []int
 	for k := range ctx.PageAnnots {
 		pageNrs = append(pageNrs, k)
@@ -427,8 +426,8 @@ func addAnnotationToDirectObj(
 	pageDict types.Dict,
 	pageNr int,
 	ar model.AnnotationRenderer,
-	incr bool) error {
-
+	incr bool,
+) error {
 	i, err := findAnnotByID(ctx, ar.ID(), annots)
 	if err != nil {
 		return err
@@ -452,8 +451,8 @@ func AddAnnotation(
 	pageDict types.Dict,
 	pageNr int,
 	ar model.AnnotationRenderer,
-	incr bool) (*types.IndirectRef, types.Dict, error) {
-
+	incr bool,
+) (*types.IndirectRef, types.Dict, error) {
 	// Create xreftable entry for annotation.
 	annotIndRef, d, err := createAnnot(ctx, ar, pageDictIndRef)
 	if err != nil {
@@ -612,8 +611,8 @@ func removeAllAnnotations(
 	pageDict types.Dict,
 	pageDictObjNr,
 	pageNr int,
-	incr bool) (bool, error) {
-
+	incr bool,
+) (bool, error) {
 	var err error
 	obj, found := pageDict.Find("Annots")
 	if !found {
@@ -672,8 +671,8 @@ func removeAnnotationsByType(
 	annotTypes []model.AnnotationType,
 	pageNr int,
 	annots types.Array,
-	incr bool) (types.Array, bool, error) {
-
+	incr bool,
+) (types.Array, bool, error) {
 	pgAnnots, found := ctx.PageAnnots[pageNr]
 	if !found {
 		return annots, false, nil
@@ -727,8 +726,8 @@ func removeAnnotationByID(
 	id string,
 	pageNr int,
 	annots types.Array,
-	incr bool) (types.Array, bool, error) {
-
+	incr bool,
+) (types.Array, bool, error) {
 	i, err := findAnnotByID(ctx, id, annots)
 	if err != nil || i < 0 {
 		return annots, false, err
@@ -765,8 +764,8 @@ func removeAnnotationsByID(
 	objNrSet types.IntSet,
 	pageNr int,
 	annots types.Array,
-	incr bool) (types.Array, bool, error) {
-
+	incr bool,
+) (types.Array, bool, error) {
 	var (
 		ok, ok1 bool
 		err     error
@@ -804,8 +803,8 @@ func removeAnnotationsByObjNr(
 	objNrSet types.IntSet,
 	pageNr int,
 	annots types.Array,
-	incr bool) (types.Array, bool, error) {
-
+	incr bool,
+) (types.Array, bool, error) {
 	var ok bool
 	for objNr, v := range objNrSet {
 		if !v || objNr < 0 {
@@ -852,8 +851,8 @@ func removeAnnotationsFromAnnots(
 	objNrSet types.IntSet,
 	pageNr int,
 	annots types.Array,
-	incr bool) (types.Array, bool, error) {
-
+	incr bool,
+) (types.Array, bool, error) {
 	var (
 		ok1, ok2, ok3 bool
 		err           error
@@ -895,8 +894,8 @@ func removeAnnotationsFromIndAnnots(ctx *model.Context,
 	incr bool,
 	pageDict types.Dict,
 	pageDictObjNr int,
-	indRef types.IndirectRef) (bool, error) {
-
+	indRef types.IndirectRef,
+) (bool, error) {
 	ann, ok, err := removeAnnotationsFromAnnots(ctx, annotTypes, ids, objNrSet, pageNr, annots, incr)
 	if err != nil {
 		return false, err
@@ -941,9 +940,9 @@ func RemoveAnnotationsFromPageDict(
 	pageDict types.Dict,
 	pageDictObjNr,
 	pageNr int,
-	incr bool) (bool, error) {
-
-	//fmt.Printf("ids:%v objNrSet:%v\n", ids, objNrSet)
+	incr bool,
+) (bool, error) {
+	// fmt.Printf("ids:%v objNrSet:%v\n", ids, objNrSet)
 
 	if len(annotTypes) == 0 && len(ids) == 0 && len(objNrSet) == 0 {
 		return removeAllAnnotations(ctx, pageDict, pageDictObjNr, pageNr, incr)
@@ -1024,7 +1023,6 @@ func prepForRemoveAnnotations(ctx *model.Context, idsAndTypes []string, objNrs [
 // RemoveAnnotations removes annotations for selected pages by id, type or object number.
 // All annotations for selected pages are removed if neither idsAndTypes nor objNrs are provided.
 func RemoveAnnotations(ctx *model.Context, selectedPages types.IntSet, idsAndTypes []string, objNrs []int, incr bool) (bool, error) {
-
 	annTypes, ids, objNrSet, removeAll := prepForRemoveAnnotations(ctx, idsAndTypes, objNrs, incr)
 
 	var removed bool

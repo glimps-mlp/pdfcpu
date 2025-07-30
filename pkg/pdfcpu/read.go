@@ -26,11 +26,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/scan"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/scan"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -483,13 +483,13 @@ func createXRefTableEntryFromXRefStream(entryType int64, objNr int, c2, c3, offE
 		}
 		g := int(c3)
 
-		xRefTableEntry =
-			model.XRefTableEntry{
-				Free:       true,
-				Compressed: false,
-				Offset:     &c2,
-				Generation: &g,
-				Incr:       incr}
+		xRefTableEntry = model.XRefTableEntry{
+			Free:       true,
+			Compressed: false,
+			Offset:     &c2,
+			Generation: &g,
+			Incr:       incr,
+		}
 
 	case 0x01:
 		// in use object
@@ -500,13 +500,13 @@ func createXRefTableEntryFromXRefStream(entryType int64, objNr int, c2, c3, offE
 
 		c2 += offExtra
 
-		xRefTableEntry =
-			model.XRefTableEntry{
-				Free:       false,
-				Compressed: false,
-				Offset:     &c2,
-				Generation: &g,
-				Incr:       incr}
+		xRefTableEntry = model.XRefTableEntry{
+			Free:       false,
+			Compressed: false,
+			Offset:     &c2,
+			Generation: &g,
+			Incr:       incr,
+		}
 
 	case 0x02:
 		// compressed object
@@ -517,13 +517,13 @@ func createXRefTableEntryFromXRefStream(entryType int64, objNr int, c2, c3, offE
 		objNumberRef := int(c2)
 		objIndex := int(c3)
 
-		xRefTableEntry =
-			model.XRefTableEntry{
-				Free:            false,
-				Compressed:      true,
-				ObjectStream:    &objNumberRef,
-				ObjectStreamInd: &objIndex,
-				Incr:            incr}
+		xRefTableEntry = model.XRefTableEntry{
+			Free:            false,
+			Compressed:      true,
+			ObjectStream:    &objNumberRef,
+			ObjectStreamInd: &objIndex,
+			Incr:            incr,
+		}
 
 		objStreams[objNumberRef] = true
 	}
@@ -1339,7 +1339,8 @@ func parseAndLoad(c context.Context, ctx *model.Context, line string, offset *in
 		Free:       false,
 		Offset:     offset,
 		Generation: generation,
-		Incr:       incr}
+		Incr:       incr,
+	}
 
 	if !ctx.XRefTable.Exists(*objNr) {
 		ctx.Table[*objNr] = &entry
@@ -1423,7 +1424,8 @@ func bypassXrefSection(c context.Context, ctx *model.Context, offExtra int64, wa
 	ctx.Table[0] = &model.XRefTableEntry{
 		Free:       true,
 		Offset:     &z,
-		Generation: &g}
+		Generation: &g,
+	}
 
 	rs := ctx.Read.RS
 	eolCount := ctx.Read.EolCount
@@ -1603,7 +1605,7 @@ func buildXRefTableStartingAt(c context.Context, ctx *model.Context, offset *int
 	for offset != nil {
 
 		incr++
-		//fmt.Printf("Incr: %d\n", incr)
+		// fmt.Printf("Incr: %d\n", incr)
 
 		if err := c.Err(); err != nil {
 			return err
@@ -1684,8 +1686,8 @@ func readXRefTable(c context.Context, ctx *model.Context) (err error) {
 		return
 	}
 
-	//Log list of free objects (not the "free list").
-	//log.Read.Printf("freelist: %v\n", ctx.freeObjects())
+	// Log list of free objects (not the "free list").
+	// log.Read.Printf("freelist: %v\n", ctx.freeObjects())
 
 	// Note: Acrobat 6.0 and later do not use the free list to recycle object numbers - pdfcpu does.
 	err = ctx.EnsureValidFreeList()
@@ -1703,7 +1705,7 @@ func growBufBy(buf []byte, size int, rd io.Reader) ([]byte, error) {
 	if _, err := fillBuffer(rd, b); err != nil {
 		return nil, err
 	}
-	//log.Read.Printf("growBufBy: Read %d bytes\n", n)
+	// log.Read.Printf("growBufBy: Read %d bytes\n", n)
 
 	return append(buf, b...), nil
 }
@@ -1759,7 +1761,6 @@ func lastStreamMarker(streamInd *int, endInd int, line string) {
 		// We found a stream marker of another object
 		*streamInd = -1
 	}
-
 }
 
 // Provide a PDF file buffer of sufficient size for parsing an object w/o stream.
@@ -1768,7 +1769,7 @@ func buffer(c context.Context, rd io.Reader) (buf []byte, endInd int, streamInd 
 	//                                    streamInd                            endInd
 	//                                  -1 if absent                        -1 if absent
 
-	//log.Read.Println("buffer: begin")
+	// log.Read.Println("buffer: begin")
 
 	endInd, streamInd = -1, -1
 	growSize := defaultBufSize
@@ -1827,14 +1828,14 @@ func buffer(c context.Context, rd io.Reader) (buf []byte, endInd int, streamInd 
 		}
 	}
 
-	//log.Read.Printf("buffer: end, returned bufsize=%d streamOffset=%d\n", len(buf), streamOffset)
+	// log.Read.Printf("buffer: end, returned bufsize=%d streamOffset=%d\n", len(buf), streamOffset)
 
 	return buf, endInd, streamInd, streamOffset, nil
 }
 
 // return true if 'stream' follows end of dict: >>{whitespace}stream
 func keywordStreamRightAfterEndOfDict(buf string, streamInd int) bool {
-	//log.Read.Println("keywordStreamRightAfterEndOfDict: begin")
+	// log.Read.Println("keywordStreamRightAfterEndOfDict: begin")
 
 	// Get a slice of the chunk right in front of 'stream'.
 	b := buf[:streamInd]
@@ -1849,7 +1850,7 @@ func keywordStreamRightAfterEndOfDict(buf string, streamInd int) bool {
 	// We found the last >>. Return true if after end of dict only whitespace.
 	ok := strings.TrimSpace(b[eod:]) == ">>"
 
-	//log.Read.Printf("keywordStreamRightAfterEndOfDict: end, %v\n", ok)
+	// log.Read.Printf("keywordStreamRightAfterEndOfDict: end, %v\n", ok)
 
 	return ok
 }
@@ -1952,7 +1953,7 @@ func pdfFilterPipeline(c context.Context, ctx *model.Context, dict types.Dict) (
 		}
 	}
 
-	//fmt.Printf("dereferenced filter obj: %s\n", obj)
+	// fmt.Printf("dereferenced filter obj: %s\n", obj)
 
 	if name, ok := o.(types.Name); ok {
 		return singleFilter(c, ctx, name.String(), dict)
@@ -1980,7 +1981,7 @@ func pdfFilterPipeline(c context.Context, ctx *model.Context, dict types.Dict) (
 		}
 	}
 
-	//fmt.Printf("decodeParmsArr: %s\n", decodeParmsArr)
+	// fmt.Printf("decodeParmsArr: %s\n", decodeParmsArr)
 
 	filterPipeline, err = buildFilterPipeline(c, ctx, filterArray, decodeParmsArr)
 
@@ -2039,7 +2040,7 @@ func object(c context.Context, ctx *model.Context, offset int64, objNr, genNr in
 		return nil, 0, 0, 0, err
 	}
 
-	//log.Read.Printf("object: seeked to offset:%d\n", offset)
+	// log.Read.Printf("object: seeked to offset:%d\n", offset)
 
 	// process: # gen obj ... obj dict ... {stream ... data ... endstream} endobj
 	//                                    streamInd                        endInd
@@ -2049,8 +2050,8 @@ func object(c context.Context, ctx *model.Context, offset int64, objNr, genNr in
 		return nil, 0, 0, 0, err
 	}
 
-	//log.Read.Printf("streamInd:%d(#%x) streamOffset:%d(#%x) endInd:%d(#%x)\n", streamInd, streamInd, streamOffset, streamOffset, endInd, endInd)
-	//log.Read.Printf("buflen=%d\n%s", len(buf), hex.Dump(buf))
+	// log.Read.Printf("streamInd:%d(#%x) streamOffset:%d(#%x) endInd:%d(#%x)\n", streamInd, streamInd, streamOffset, streamOffset, endInd, endInd)
+	// log.Read.Printf("buflen=%d\n%s", len(buf), hex.Dump(buf))
 
 	line := string(buf)
 
@@ -2276,7 +2277,6 @@ func int64Object(c context.Context, ctx *model.Context, objNr int) (*int64, erro
 	}
 
 	return &i64, nil
-
 }
 
 func readStreamContentBlindly(rd io.Reader) (buf []byte, err error) {
@@ -2548,7 +2548,6 @@ func logStream(o types.Object) {
 		log.Read.Println("logStream: no ObjectStreamDict")
 
 	}
-
 }
 
 func decodeObjectStreamObjects(c context.Context, sd *types.StreamDict, objNr int) (*types.ObjectStreamDict, error) {
@@ -2811,7 +2810,7 @@ func dereferenceObject(c context.Context, ctx *model.Context, objNr int) error {
 		if err := decompressXRefTableEntry(ctx.XRefTable, objNr, entry); err != nil {
 			return err
 		}
-		//log.Read.Printf("dereferenceObject: decompressed entry, Compressed=%v\n%s\n", entry.Compressed, entry.Object)
+		// log.Read.Printf("dereferenceObject: decompressed entry, Compressed=%v\n%s\n", entry.Compressed, entry.Object)
 		return nil
 	}
 
@@ -2984,7 +2983,7 @@ func dereferenceXRefTable(c context.Context, ctx *model.Context) error {
 	if err := checkForEncryption(c, ctx); err != nil {
 		return err
 	}
-	//fmt.Println("pw authenticated")
+	// fmt.Println("pw authenticated")
 
 	// Prepare decompressed objects.
 	if err := decodeObjectStreams(c, ctx); err != nil {
@@ -3064,7 +3063,7 @@ func setupEncryptionKey(ctx *model.Context, d types.Dict) (err error) {
 
 	var ok bool
 
-	//fmt.Printf("opw: <%s> upw: <%s> \n", ctx.OwnerPW, ctx.UserPW)
+	// fmt.Printf("opw: <%s> upw: <%s> \n", ctx.OwnerPW, ctx.UserPW)
 
 	// Validate the owner password aka. permissions/master password.
 	if ok, err = validateOwnerPassword(ctx); err != nil {
@@ -3098,7 +3097,7 @@ func setupEncryptionKey(ctx *model.Context, d types.Dict) (err error) {
 		return ErrWrongPassword
 	}
 
-	//fmt.Printf("upw ok: %t\n", ok)
+	// fmt.Printf("upw ok: %t\n", ok)
 
 	return handlePermissions(ctx)
 }

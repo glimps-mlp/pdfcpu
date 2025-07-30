@@ -19,8 +19,8 @@ package primitives
 import (
 	"bytes"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -42,7 +42,6 @@ func (b *Buttons) Rtl() bool {
 }
 
 func (b *Buttons) validate(defValue, value string) error {
-
 	if len(b.Values) < 2 {
 		return errors.New("pdfcpu: radiobuttongroups.buttons missing values")
 	}

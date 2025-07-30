@@ -27,16 +27,16 @@ import (
 	"strings"
 	"unicode/utf16"
 
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	pdffont "github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/format"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/matrix"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	pdffont "github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/format"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/matrix"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -1442,8 +1442,8 @@ func createResourcesForPageNr(
 	pageNr int,
 	fm map[string]types.IntSet,
 	ocgIndRef, extGStateIndRef *types.IndirectRef,
-	onTop bool, opacity float64) error {
-
+	onTop bool, opacity float64,
+) error {
 	wm.Ocg = ocgIndRef
 	wm.ExtGState = extGStateIndRef
 	wm.OnTop = onTop
@@ -1479,8 +1479,8 @@ func createResourcesForWMMap(
 	m map[int]*model.Watermark,
 	ocgIndRef, extGStateIndRef *types.IndirectRef,
 	onTop bool,
-	opacity float64) (map[string]types.IntSet, error) {
-
+	opacity float64,
+) (map[string]types.IntSet, error) {
 	fm := map[string]types.IntSet{}
 	for pageNr, wm := range m {
 		if err := createResourcesForPageNr(ctx, wm, pageNr, fm, ocgIndRef, extGStateIndRef, onTop, opacity); err != nil {
@@ -1496,8 +1496,8 @@ func createResourcesForWMSliceMap(
 	m map[int][]*model.Watermark,
 	ocgIndRef, extGStateIndRef *types.IndirectRef,
 	onTop bool,
-	opacity float64) (map[string]types.IntSet, error) {
-
+	opacity float64,
+) (map[string]types.IntSet, error) {
 	fm := map[string]types.IntSet{}
 	for pageNr, wms := range m {
 		for _, wm := range wms {

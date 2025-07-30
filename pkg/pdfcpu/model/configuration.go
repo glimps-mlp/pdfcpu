@@ -25,9 +25,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 const (
@@ -385,7 +385,7 @@ func initCertificates() error {
 	}
 
 	for _, file := range files {
-		//fmt.Println("Embedded file:", file.Name())
+		// fmt.Println("Embedded file:", file.Name())
 
 		content, err := certFilesEU.ReadFile("resources/certs/" + file.Name())
 		if err != nil {
@@ -393,7 +393,7 @@ func initCertificates() error {
 		}
 
 		path := filepath.Join(euDir, file.Name())
-		//fmt.Printf("writing to %s\n", path)
+		// fmt.Printf("writing to %s\n", path)
 
 		destFile, err := os.Create(path)
 		if err != nil {
@@ -437,7 +437,7 @@ func EnsureDefaultConfigAt(path string, override bool) error {
 		return err
 	}
 
-	//fmt.Println(loadedDefaultConfig)
+	// fmt.Println(loadedDefaultConfig)
 
 	return nil
 }

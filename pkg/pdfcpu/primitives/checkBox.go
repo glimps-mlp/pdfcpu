@@ -20,10 +20,10 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	pdffont "github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	pdffont "github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -122,7 +122,6 @@ func (cb *CheckBox) validateTab() error {
 }
 
 func (cb *CheckBox) validate() error {
-
 	if err := cb.validateID(); err != nil {
 		return err
 	}
@@ -180,7 +179,6 @@ func (cb *CheckBox) calcMargin() (float64, float64, float64, float64, error) {
 }
 
 func (cb *CheckBox) labelPos(labelHeight, w, g float64) (float64, float64) {
-
 	var x, y float64
 	bb, horAlign := cb.boundingBox, cb.Label.HorAlign
 
@@ -251,9 +249,9 @@ func (cb *CheckBox) ensureZapfDingbats(fonts model.FontMap) (*types.IndirectRef,
 	if pdf.Update() {
 
 		for objNr, fo := range pdf.Optimize.FormFontObjects {
-			//fmt.Printf("searching for %s - obj:%d fontName:%s prefix:%s\n", fontName, objNr, fo.FontName, fo.Prefix)
+			// fmt.Printf("searching for %s - obj:%d fontName:%s prefix:%s\n", fontName, objNr, fo.FontName, fo.Prefix)
 			if fontName == fo.FontName {
-				//fmt.Println("Match!")
+				// fmt.Println("Match!")
 				indRef = types.NewIndirectRef(objNr, 0)
 				break
 			}
@@ -284,7 +282,6 @@ func (cb *CheckBox) ensureZapfDingbats(fonts model.FontMap) (*types.IndirectRef,
 }
 
 func (cb *CheckBox) calcFont() error {
-
 	if cb.Label != nil {
 		f, err := cb.content.calcLabelFont(cb.Label.Font)
 		if err != nil {
@@ -297,7 +294,6 @@ func (cb *CheckBox) calcFont() error {
 }
 
 func (cb *CheckBox) irNOff(bgCol *color.SimpleColor) (*types.IndirectRef, error) {
-
 	pdf := cb.pdf
 
 	ap, found := pdf.CheckBoxAPs[cb.Width]
@@ -346,7 +342,6 @@ func (cb *CheckBox) irNOff(bgCol *color.SimpleColor) (*types.IndirectRef, error)
 }
 
 func (cb *CheckBox) irNYes(fonts model.FontMap, bgCol *color.SimpleColor) (*types.IndirectRef, error) {
-
 	pdf := cb.pdf
 
 	ap, found := pdf.CheckBoxAPs[cb.Width]
@@ -413,7 +408,6 @@ func (cb *CheckBox) irNYes(fonts model.FontMap, bgCol *color.SimpleColor) (*type
 }
 
 func (cb *CheckBox) irDOff(bgCol *color.SimpleColor) (*types.IndirectRef, error) {
-
 	pdf := cb.pdf
 
 	ap, found := cb.pdf.CheckBoxAPs[cb.Width]
@@ -452,7 +446,6 @@ func (cb *CheckBox) irDOff(bgCol *color.SimpleColor) (*types.IndirectRef, error)
 }
 
 func (cb *CheckBox) irDYes(fonts model.FontMap, bgCol *color.SimpleColor) (*types.IndirectRef, error) {
-
 	pdf := cb.pdf
 
 	ap, found := pdf.CheckBoxAPs[cb.Width]
@@ -506,8 +499,8 @@ func (cb *CheckBox) irDYes(fonts model.FontMap, bgCol *color.SimpleColor) (*type
 }
 
 func (cb *CheckBox) appearanceIndRefs(fonts model.FontMap, bgCol *color.SimpleColor) (
-	*types.IndirectRef, *types.IndirectRef, *types.IndirectRef, *types.IndirectRef, error) {
-
+	*types.IndirectRef, *types.IndirectRef, *types.IndirectRef, *types.IndirectRef, error,
+) {
 	irDOff, err := cb.irDOff(bgCol)
 	if err != nil {
 		return nil, nil, nil, nil, err
@@ -532,7 +525,6 @@ func (cb *CheckBox) appearanceIndRefs(fonts model.FontMap, bgCol *color.SimpleCo
 }
 
 func (cb *CheckBox) prepareDict(fonts model.FontMap) (types.Dict, error) {
-
 	id, err := types.EscapedUTF16String(cb.ID)
 	if err != nil {
 		return nil, err
@@ -647,7 +639,6 @@ func (cb *CheckBox) prepareRectLL(mTop, mRight, mBottom, mLeft float64) (float64
 }
 
 func (cb *CheckBox) prepLabel(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	if cb.Label == nil {
 		return nil
 	}
@@ -710,7 +701,6 @@ func (cb *CheckBox) prepLabel(p *model.Page, pageNr int, fonts model.FontMap) er
 }
 
 func (cb *CheckBox) prepForRender(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	mTop, mRight, mBottom, mLeft, err := cb.calcMargin()
 	if err != nil {
 		return err
@@ -728,7 +718,6 @@ func (cb *CheckBox) prepForRender(p *model.Page, pageNr int, fonts model.FontMap
 }
 
 func (cb *CheckBox) doRender(p *model.Page, fonts model.FontMap) error {
-
 	d, err := cb.prepareDict(fonts)
 	if err != nil {
 		return err
@@ -753,7 +742,6 @@ func (cb *CheckBox) doRender(p *model.Page, fonts model.FontMap) error {
 }
 
 func (cb *CheckBox) render(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	if err := cb.prepForRender(p, pageNr, fonts); err != nil {
 		return err
 	}

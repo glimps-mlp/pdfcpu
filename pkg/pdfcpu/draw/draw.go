@@ -21,8 +21,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 // RenderMode represents the text rendering mode (see 9.3.6)
@@ -143,7 +143,6 @@ func FillRectNoBorder(w io.Writer, r *types.Rectangle, fillCol color.SimpleColor
 
 // DrawGrid draws an x * y grid on r using strokeCol and fillCol.
 func DrawGrid(w io.Writer, x, y int, r *types.Rectangle, strokeCol color.SimpleColor, fillCol *color.SimpleColor) {
-
 	if fillCol != nil {
 		FillRectNoBorder(w, r, *fillCol)
 	}

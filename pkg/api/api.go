@@ -39,10 +39,10 @@ import (
 	"os"
 	"sync"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/validate"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/validate"
 	"github.com/pkg/errors"
 )
 
@@ -244,11 +244,9 @@ func EnsureDefaultConfigAt(path string) error {
 	return model.EnsureDefaultConfigAt(path, false)
 }
 
-var (
-	// mutexDisableConfigDir protects DisableConfigDir from concurrent access.
-	// NOTE Not a guard for model.ConfigPath!
-	mutexDisableConfigDir sync.Mutex
-)
+// mutexDisableConfigDir protects DisableConfigDir from concurrent access.
+// NOTE Not a guard for model.ConfigPath!
+var mutexDisableConfigDir sync.Mutex
 
 // DisableConfigDir disables the configuration directory.
 // Any needed default configuration will be loaded from configuration.go

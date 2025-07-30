@@ -17,13 +17,12 @@ limitations under the License.
 package validate
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 func validateDestsNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// Version check
 	err := xRefTable.ValidateVersion("DestsNameTreeValue", sinceVersion)
 	if err != nil {
@@ -35,7 +34,6 @@ func validateDestsNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinc
 }
 
 func validateAPNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// Version check
 	err := xRefTable.ValidateVersion("APNameTreeValue", sinceVersion)
 	if err != nil {
@@ -46,7 +44,6 @@ func validateAPNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVe
 }
 
 func validateJavaScriptNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// Version check
 	err := xRefTable.ValidateVersion("JavaScriptNameTreeValue", sinceVersion)
 	if err != nil {
@@ -63,7 +60,6 @@ func validateJavaScriptNameTreeValue(xRefTable *model.XRefTable, o types.Object,
 }
 
 func validatePagesNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// see 12.7.6
 
 	// Version check
@@ -89,7 +85,6 @@ func validatePagesNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinc
 }
 
 func validateTemplatesNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// see 12.7.6
 
 	// Version check
@@ -114,7 +109,6 @@ func validateTemplatesNameTreeValue(xRefTable *model.XRefTable, o types.Object, 
 }
 
 func validateURLAliasDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	dictName := "urlAliasDict"
 
 	// U, required, ASCII string
@@ -130,7 +124,6 @@ func validateURLAliasDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateCommandSettingsDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// see 14.10.5.4
 
 	dictName := "cmdSettingsDict"
@@ -148,7 +141,6 @@ func validateCommandSettingsDict(xRefTable *model.XRefTable, d types.Dict) error
 }
 
 func validateCaptureCommandDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	dictName := "captureCommandDict"
 
 	// URL, required, string
@@ -200,7 +192,6 @@ func validateCaptureCommandDict(xRefTable *model.XRefTable, d types.Dict) error 
 }
 
 func validateSourceInfoDictEntryAU(xRefTable *model.XRefTable, d types.Dict, dictName, entryName string, required bool, sinceVersion model.Version) error {
-
 	o, err := validateEntry(xRefTable, d, dictName, entryName, required, sinceVersion)
 	if err != nil || o == nil {
 		return err
@@ -226,7 +217,6 @@ func validateSourceInfoDictEntryAU(xRefTable *model.XRefTable, d types.Dict, dic
 }
 
 func validateSourceInfoDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	dictName := "sourceInfoDict"
 
 	// AU, required, ASCII string or dict
@@ -268,7 +258,6 @@ func validateSourceInfoDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateEntrySI(xRefTable *model.XRefTable, d types.Dict, dictName, entryName string, required bool, sinceVersion model.Version) error {
-
 	// see 14.10.5, table 355, source information dictionary
 
 	o, err := validateEntry(xRefTable, d, dictName, entryName, required, sinceVersion)
@@ -310,7 +299,6 @@ func validateEntrySI(xRefTable *model.XRefTable, d types.Dict, dictName, entryNa
 }
 
 func validateWebCaptureContentSetDict(XRefTable *model.XRefTable, d types.Dict) error {
-
 	// see 14.10.4
 
 	dictName := "webCaptureContentSetDict"
@@ -375,17 +363,14 @@ func validateWebCaptureContentSetDict(XRefTable *model.XRefTable, d types.Dict) 
 
 	// spider image set
 	if *s == "SIS" {
-
 		// R, required, integer or array of integers
 		err = validateIntegerOrArrayOfIntegerEntry(XRefTable, d, dictName, "R", REQUIRED, model.V10)
-
 	}
 
 	return err
 }
 
 func validateIDSNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// see 14.10.4
 
 	// Version check
@@ -404,7 +389,6 @@ func validateIDSNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceV
 }
 
 func validateURLSNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// see 14.10.4
 
 	// Version check
@@ -423,7 +407,6 @@ func validateURLSNameTreeValue(xRefTable *model.XRefTable, o types.Object, since
 }
 
 func validateEmbeddedFilesNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// see 7.11.4
 
 	// Value is a file specification for an embedded file stream.
@@ -447,7 +430,6 @@ func validateEmbeddedFilesNameTreeValue(xRefTable *model.XRefTable, o types.Obje
 }
 
 func validateSlideShowDict(XRefTable *model.XRefTable, d types.Dict) error {
-
 	// see 13.5, table 297
 
 	dictName := "slideShowDict"
@@ -478,7 +460,6 @@ func validateSlideShowDict(XRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateAlternatePresentationsNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// see 13.5
 
 	// Value is a slide show dict.
@@ -502,7 +483,6 @@ func validateAlternatePresentationsNameTreeValue(xRefTable *model.XRefTable, o t
 }
 
 func validateRenditionsNameTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// see 13.2.3
 
 	// Value is a rendition object.
@@ -526,7 +506,6 @@ func validateRenditionsNameTreeValue(xRefTable *model.XRefTable, o types.Object,
 }
 
 func validateIDTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// Version check
 	err := xRefTable.ValidateVersion("IDTreeValue", sinceVersion)
 	if err != nil {
@@ -552,7 +531,6 @@ func validateIDTreeValue(xRefTable *model.XRefTable, o types.Object, sinceVersio
 }
 
 func validateNameTreeValue(name string, xRefTable *model.XRefTable, o types.Object) (err error) {
-
 	// The values associated with the keys may be objects of any type.
 	// Stream objects shall be specified by indirect object references.
 	// Dictionary, array, and string objects should be specified by indirect object references.
@@ -588,8 +566,7 @@ func validateNameTreeValue(name string, xRefTable *model.XRefTable, o types.Obje
 }
 
 func validateNameTreeDictNamesEntry(xRefTable *model.XRefTable, d types.Dict, name string, node *model.Node) (string, string, error) {
-
-	//fmt.Printf("validateNameTreeDictNamesEntry begin %s\n", d)
+	// fmt.Printf("validateNameTreeDictNamesEntry begin %s\n", d)
 
 	// Names: array of the form [key1 value1 key2 value2 ... key n value n]
 	o, found := d.Find("Names")
@@ -652,7 +629,6 @@ func validateNameTreeDictNamesEntry(xRefTable *model.XRefTable, d types.Dict, na
 }
 
 func validateNameTreeDictLimitsEntry(xRefTable *model.XRefTable, d types.Dict, firstKey, lastKey string) error {
-
 	a, err := validateStringArrayEntry(xRefTable, d, "nameTreeDict", "Limits", REQUIRED, model.V10, func(a types.Array) bool { return len(a) == 2 })
 	if err != nil {
 		return err
@@ -700,14 +676,13 @@ func validateNameTreeDictLimitsEntry(xRefTable *model.XRefTable, d types.Dict, f
 }
 
 func validateNameTree(xRefTable *model.XRefTable, name string, d types.Dict, root bool) (string, string, *model.Node, error) {
-
-	//fmt.Printf("validateNameTree begin %s\n", d)
+	// fmt.Printf("validateNameTree begin %s\n", d)
 
 	// see 7.7.4
 
 	// A node has "Kids" or "Names" entry.
 
-	//fmt.Printf("validateNameTree %s\n", name)
+	// fmt.Printf("validateNameTree %s\n", name)
 
 	node := &model.Node{D: d}
 	var kmin, kmax string
@@ -776,7 +751,7 @@ func validateNameTree(xRefTable *model.XRefTable, name string, d types.Dict, roo
 	node.Kmin = kmin
 	node.Kmax = kmax
 
-	//fmt.Println("validateNameTree end")
+	// fmt.Println("validateNameTree end")
 
 	return kmin, kmax, node, nil
 }

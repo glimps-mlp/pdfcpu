@@ -21,8 +21,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -42,7 +42,6 @@ import (
 // }
 
 func validateAppearanceSubDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// dict of xobjects
 	for _, o := range d {
 
@@ -63,7 +62,6 @@ func validateAppearanceSubDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateAppearanceDictEntry(xRefTable *model.XRefTable, o types.Object) error {
-
 	// stream or dict
 	// single appearance stream or subdict
 
@@ -89,7 +87,6 @@ func validateAppearanceDictEntry(xRefTable *model.XRefTable, o types.Object) err
 }
 
 func validateAppearanceDict(xRefTable *model.XRefTable, o types.Object) error {
-
 	// see 12.5.5 Appearance Streams
 
 	d, err := xRefTable.DereferenceDict(o)
@@ -189,7 +186,7 @@ func validateDARelaxed(s string) bool {
 			if da[i-2][0] != '/' {
 				return false
 			}
-			//fontID := da[i-2][1:]
+			// fontID := da[i-2][1:]
 			// if len(fontID) == 0 {
 			// 	return false
 			// }
@@ -232,7 +229,7 @@ func validateFormFieldDA(xRefTable *model.XRefTable, d types.Dict, dictName stri
 	}
 
 	if outFieldType == nil || (*outFieldType).Value() == "Tx" {
-		//if (*outFieldType).Value() == "Tx" {
+		// if (*outFieldType).Value() == "Tx" {
 		da, err := validateStringEntry(xRefTable, d, dictName, "DA", requiresDA, model.V10, validate)
 		if err != nil {
 			if !terminalNode && requiresDA {
@@ -329,7 +326,6 @@ func validateDV(xRefTable *model.XRefTable, d types.Dict, dictName string, termi
 }
 
 func validateFormFieldDictEntries(xRefTable *model.XRefTable, objNr, incr int, d types.Dict, terminalNode, oneKid bool, inFieldType *types.Name, requiresDA bool) (outFieldType *types.Name, hasDA bool, err error) {
-
 	dictName := "formFieldDict"
 
 	// FT: name, Btn,Tx,Ch,Sig
@@ -494,7 +490,6 @@ func validateFormFieldDict(xRefTable *model.XRefTable, ir types.IndirectRef, inF
 }
 
 func validateFormFields(xRefTable *model.XRefTable, arr types.Array, requiresDA bool) error {
-
 	for _, value := range arr {
 
 		ir, ok := value.(types.IndirectRef)
@@ -523,7 +518,6 @@ func validateFormFields(xRefTable *model.XRefTable, arr types.Array, requiresDA 
 }
 
 func validateFormCO(xRefTable *model.XRefTable, arr types.Array, sinceVersion model.Version, requiresDA bool) error {
-
 	// see 12.6.3 Trigger Events
 	// Array of indRefs to field dicts with calculation actions, since V1.3
 
@@ -537,7 +531,6 @@ func validateFormCO(xRefTable *model.XRefTable, arr types.Array, sinceVersion mo
 }
 
 func validateFormXFA(xRefTable *model.XRefTable, d types.Dict, sinceVersion model.Version) error {
-
 	// see 12.7.8
 
 	o, ok := d.Find("XFA")
@@ -601,7 +594,6 @@ func validateFormXFA(xRefTable *model.XRefTable, d types.Dict, sinceVersion mode
 func validateQ(i int) bool { return i >= 0 && i <= 2 }
 
 func validateFormEntryCO(xRefTable *model.XRefTable, d types.Dict, sinceVersion model.Version, requiresDA bool) error {
-
 	o, ok := d.Find("CO")
 	if !ok {
 		return nil
@@ -616,7 +608,6 @@ func validateFormEntryCO(xRefTable *model.XRefTable, d types.Dict, sinceVersion 
 }
 
 func validateFormEntryDR(xRefTable *model.XRefTable, d types.Dict) error {
-
 	o, ok := d.Find("DR")
 	if !ok {
 		return nil
@@ -672,7 +663,6 @@ func validateFormEntries(xRefTable *model.XRefTable, d types.Dict, dictName stri
 }
 
 func validateForm(xRefTable *model.XRefTable, rootDict types.Dict, required bool, sinceVersion model.Version) error {
-
 	// => 12.7.2 Interactive Form Dictionary
 
 	d, err := validateDictEntry(xRefTable, rootDict, "rootDict", "AcroForm", OPTIONAL, sinceVersion, nil)
@@ -751,7 +741,6 @@ func locateAnnForAPAndRect(d types.Dict, r *types.Rectangle, pageAnnots map[int]
 }
 
 func pageAnnotIndRefForAcroField(xRefTable *model.XRefTable, indRef types.IndirectRef) (*types.IndirectRef, error) {
-
 	// indRef should be part of a page annotation dict.
 
 	for _, m := range xRefTable.PageAnnots {
@@ -804,7 +793,7 @@ func pageAnnotIndRefForAcroField(xRefTable *model.XRefTable, indRef types.Indire
 	}
 
 	return &indRef, nil
-	//return nil, errors.Errorf("pdfcpu: can't repair form field: %d\n", indRef.ObjectNumber.Value())
+	// return nil, errors.Errorf("pdfcpu: can't repair form field: %d\n", indRef.ObjectNumber.Value())
 }
 
 func fixFormFieldsArray(xRefTable *model.XRefTable, arr types.Array) (types.Array, error) {

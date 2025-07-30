@@ -1,4 +1,4 @@
-module github.com/pdfcpu/pdfcpu
+module github.com/glimps-mlp/pdfcpu
 
 go 1.23.0
 

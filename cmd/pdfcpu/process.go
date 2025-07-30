@@ -31,13 +31,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/validate"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/validate"
 	"github.com/pkg/errors"
 )
 
@@ -227,7 +227,7 @@ func process(cmd *cli.Command) {
 			fmt.Fprintln(os.Stdout, s)
 		}
 	}
-	//os.Exit(0)
+	// os.Exit(0)
 }
 
 func getBaseDir(path string) string {
@@ -460,7 +460,6 @@ func processSplitCommand(conf *model.Configuration) {
 }
 
 func sortFiles(inFiles []string) {
-
 	// See PR #631
 
 	re := regexp.MustCompile(`\d+`)
@@ -937,7 +936,6 @@ func validateEncryptModeFlag() {
 			os.Exit(1)
 		}
 	}
-
 }
 
 func validateEncryptFlags() {
@@ -2160,7 +2158,7 @@ func processUpdateImagesCommand(conf *model.Configuration) {
 		}
 	}
 
-	//fmt.Printf("inFile:%s imgFile:%s outFile:%s, objPageNr:%d, id:%s\n", inFile, imageFile, outFile, objNrOrPageNr, id)
+	// fmt.Printf("inFile:%s imgFile:%s outFile:%s, objPageNr:%d, id:%s\n", inFile, imageFile, outFile, objNrOrPageNr, id)
 
 	process(cli.UpdateImagesCommand(inFile, imageFile, outFile, objNrOrPageNr, id, conf))
 }

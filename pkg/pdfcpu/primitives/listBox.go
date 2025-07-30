@@ -22,10 +22,10 @@ import (
 	"io"
 	"unicode/utf8"
 
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -249,7 +249,6 @@ func (lb *ListBox) validateTab() error {
 }
 
 func (lb *ListBox) validate() error {
-
 	if err := lb.validateID(); err != nil {
 		return err
 	}
@@ -365,7 +364,6 @@ func (lb *ListBox) calcMargin() (float64, float64, float64, float64, error) {
 }
 
 func (lb *ListBox) labelPos(labelHeight, w, g float64) (float64, float64) {
-
 	var x, y float64
 	bb, horAlign := lb.BoundingBox, lb.Label.HorAlign
 
@@ -729,7 +727,6 @@ func (lb *ListBox) prepareRectLL(mTop, mRight, mBottom, mLeft float64) (float64,
 }
 
 func (lb *ListBox) prepLabel(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	if lb.Label == nil {
 		return nil
 	}
@@ -782,7 +779,6 @@ func (lb *ListBox) prepLabel(p *model.Page, pageNr int, fonts model.FontMap) err
 }
 
 func (lb *ListBox) prepForRender(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	mTop, mRight, mBottom, mLeft, err := lb.calcMargin()
 	if err != nil {
 		return err
@@ -811,7 +807,6 @@ func (lb *ListBox) prepForRender(p *model.Page, pageNr int, fonts model.FontMap)
 }
 
 func (lb *ListBox) doRender(p *model.Page, fonts model.FontMap) error {
-
 	d, err := lb.prepareDict(fonts)
 	if err != nil {
 		return err
@@ -836,7 +831,6 @@ func (lb *ListBox) doRender(p *model.Page, fonts model.FontMap) error {
 }
 
 func (lb *ListBox) render(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	if err := lb.prepForRender(p, pageNr, fonts); err != nil {
 		return err
 	}
@@ -851,8 +845,8 @@ func NewListBox(
 	opts []string,
 	ind types.Array,
 	da *string,
-	fonts map[string]types.IndirectRef) (*ListBox, *types.IndirectRef, error) {
-
+	fonts map[string]types.IndirectRef,
+) (*ListBox, *types.IndirectRef, error) {
 	lb := &ListBox{Options: opts, Ind: ind}
 
 	obj, _ := d.Find("Rect")
@@ -896,8 +890,8 @@ func NewForm(
 	bb []byte,
 	fontID string,
 	fontIndRef *types.IndirectRef,
-	boundingBox *types.Rectangle) (*types.IndirectRef, error) {
-
+	boundingBox *types.Rectangle,
+) (*types.IndirectRef, error) {
 	sd, err := xRefTable.NewStreamDictForBuf(bb)
 	if err != nil {
 		return nil, err
@@ -929,7 +923,6 @@ func NewForm(
 }
 
 func updateForm(xRefTable *model.XRefTable, bb []byte, indRef *types.IndirectRef) error {
-
 	entry, _ := xRefTable.FindTableEntryForIndRef(indRef)
 
 	sd := entry.Object.(types.StreamDict)
@@ -945,7 +938,6 @@ func updateForm(xRefTable *model.XRefTable, bb []byte, indRef *types.IndirectRef
 }
 
 func renderListBoxAP(ctx *model.Context, d types.Dict, opts []string, ind types.Array, da *string, fonts map[string]types.IndirectRef) error {
-
 	lb, fontIndRef, err := NewListBox(ctx, d, opts, ind, da, fonts)
 	if err != nil {
 		return err
@@ -967,7 +959,6 @@ func renderListBoxAP(ctx *model.Context, d types.Dict, opts []string, ind types.
 }
 
 func refreshListBoxAP(ctx *model.Context, d types.Dict, opts []string, ind types.Array, da *string, fonts map[string]types.IndirectRef, irN *types.IndirectRef) error {
-
 	lb, _, err := NewListBox(ctx, d, opts, ind, da, fonts)
 	if err != nil {
 		return err
@@ -982,7 +973,6 @@ func refreshListBoxAP(ctx *model.Context, d types.Dict, opts []string, ind types
 }
 
 func EnsureListBoxAP(ctx *model.Context, d types.Dict, opts []string, ind types.Array, da *string, fonts map[string]types.IndirectRef) error {
-
 	apd := d.DictEntry("AP")
 	if apd == nil {
 		return renderListBoxAP(ctx, d, opts, ind, da, fonts)

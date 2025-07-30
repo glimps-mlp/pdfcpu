@@ -20,8 +20,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -41,7 +41,6 @@ func (r Resize) EnforceOrientation() bool {
 }
 
 func parsePageDimRes(v string, u types.DisplayUnit) (*types.Dim, string, error) {
-
 	ss := strings.Split(v, " ")
 	if len(ss) != 2 {
 		return nil, v, errors.Errorf("pdfcpu: illegal dimension string: need 2 values one may be 0, %s\n", v)
@@ -82,7 +81,6 @@ func parseEnforceOrientation(s string, res *Resize) error {
 }
 
 func parsePageFormatRes(s string, res *Resize) error {
-
 	// Optional: appended last letter L indicates landscape mode.
 	// Optional: appended last letter P indicates portrait mode.
 	// eg. A4L means A4 in landscape mode whereas A4 defaults to A4P
@@ -116,7 +114,6 @@ func parsePageFormatRes(s string, res *Resize) error {
 }
 
 func parseScaleFactorSimple(s string) (float64, error) {
-
 	sc, err := strconv.ParseFloat(s, 64)
 	if err != nil {
 		return 0, errors.Errorf("pdfcpu: scale factor must be a float value: %s\n", s)
@@ -170,7 +167,6 @@ var ResizeParamMap = resizeParameterMap{
 
 // Handle applies parameter completion and on success parse parameter values into resize.
 func (m resizeParameterMap) Handle(paramPrefix, paramValueStr string, res *Resize) error {
-
 	var param string
 
 	// Completion support

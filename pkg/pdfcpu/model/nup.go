@@ -22,12 +22,12 @@ import (
 	"io"
 	"math"
 
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/matrix"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/matrix"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -200,7 +200,6 @@ func createNUpFormForPDF(xRefTable *XRefTable, resDict *types.IndirectRef, conte
 
 // NUpTilePDFBytesForPDF applies nup tiles to content bytes.
 func NUpTilePDFBytes(wr io.Writer, rSrc, rDest *types.Rectangle, formResID string, nup *NUp, rotate bool) {
-
 	// rScr is a rectangular region represented by form formResID in form space.
 
 	// rDest is an arbitrary rectangular region in dest space.
@@ -309,8 +308,8 @@ func (ctx *Context) NUpTilePDFBytesForPDF(
 	buf *bytes.Buffer,
 	rDest *types.Rectangle,
 	nup *NUp,
-	rotate bool) error {
-
+	rotate bool,
+) error {
 	consolidateRes := true
 	d, _, inhPAttrs, err := ctx.PageDict(pageNr, consolidateRes)
 	if err != nil {

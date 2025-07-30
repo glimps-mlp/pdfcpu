@@ -17,8 +17,8 @@ limitations under the License.
 package validate
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -123,7 +123,6 @@ func validateShadingPatternDict(xRefTable *model.XRefTable, d types.Dict, sinceV
 }
 
 func validatePattern(xRefTable *model.XRefTable, o types.Object) error {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return err
@@ -146,7 +145,6 @@ func validatePattern(xRefTable *model.XRefTable, o types.Object) error {
 }
 
 func validatePatternResourceDict(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// see 8.7 Patterns
 
 	// Version check
@@ -161,12 +159,10 @@ func validatePatternResourceDict(xRefTable *model.XRefTable, o types.Object, sin
 
 	// Iterate over pattern resource dictionary
 	for _, o := range d {
-
 		// Process pattern
 		if err = validatePattern(xRefTable, o); err != nil {
 			return err
 		}
-
 	}
 
 	return nil

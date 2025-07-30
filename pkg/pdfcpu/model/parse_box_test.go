@@ -19,7 +19,7 @@ package model
 import (
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func doTestParseBoxListOK(s string, t *testing.T) {
@@ -51,7 +51,6 @@ func TestParseBoxList(t *testing.T) {
 	doTestParseBoxListFail("crap", t)
 	doTestParseBoxListFail("c t b a ", t)
 	doTestParseBoxListFail("media;crop;bleed;trim;art", t)
-
 }
 
 func doTestParseBoxOK(s string, t *testing.T) {
@@ -73,7 +72,6 @@ func doTestParseBoxFail(s string, t *testing.T) {
 }
 
 func TestParseBox(t *testing.T) {
-
 	// Box by rectangle.
 	doTestParseBoxOK("[0 0 200 400]", t)
 	doTestParseBoxOK("[200 400 0 0]", t)

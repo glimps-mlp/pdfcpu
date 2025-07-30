@@ -24,10 +24,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -267,7 +267,6 @@ func BookmarksForOutlineItem(ctx *model.Context, item *types.IndirectRef, parent
 
 // Bookmarks returns all ctx bookmark information recursively.
 func Bookmarks(ctx *model.Context) ([]Bookmark, error) {
-
 	if err := ctx.LocateNameTree("Dests", false); err != nil {
 		return nil, err
 	}
@@ -300,7 +299,6 @@ func bookmarkList(bms []Bookmark, level int) ([]string, error) {
 }
 
 func BookmarkList(ctx *model.Context) ([]string, error) {
-
 	bms, err := Bookmarks(ctx)
 	if err != nil {
 		return nil, err
@@ -346,7 +344,6 @@ func ExportBookmarksJSON(ctx *model.Context, source string, w io.Writer) (bool, 
 }
 
 func bmDict(ctx *model.Context, bm Bookmark, parent types.IndirectRef) (types.Dict, error) {
-
 	_, pageIndRef, _, err := ctx.PageDict(bm.PageFrom, false)
 	if err != nil {
 		return nil, err
@@ -368,7 +365,8 @@ func bmDict(ctx *model.Context, bm Bookmark, parent types.IndirectRef) (types.Di
 	d := types.Dict(map[string]types.Object{
 		"Dest":   types.NewHexLiteral([]byte(bm.Title)),
 		"Title":  types.StringLiteral(*s),
-		"Parent": parent},
+		"Parent": parent,
+	},
 	)
 
 	m := model.NameMap{bm.Title: []types.Dict{d}}
@@ -578,7 +576,6 @@ func RemoveBookmarks(ctx *model.Context) (bool, error) {
 
 // AddBookmarks adds bms to ctx.
 func AddBookmarks(ctx *model.Context, bms []Bookmark, replace bool) error {
-
 	rootDict, err := ctx.Catalog()
 	if err != nil {
 		return err
@@ -623,7 +620,6 @@ func addBookmarkTree(ctx *model.Context, bmTree *BookmarkTree, replace bool) err
 }
 
 func parseBookmarksFromJSON(bb []byte) (*BookmarkTree, error) {
-
 	if !json.Valid(bb) {
 		return nil, errors.Errorf("pdfcpu: invalid JSON encoding detected.")
 	}
@@ -639,7 +635,6 @@ func parseBookmarksFromJSON(bb []byte) (*BookmarkTree, error) {
 
 // ImportBookmarks creates/replaces outlines in ctx as provided by rd.
 func ImportBookmarks(ctx *model.Context, rd io.Reader, replace bool) (bool, error) {
-
 	var buf bytes.Buffer
 	if _, err := io.Copy(&buf, rd); err != nil {
 		return false, err

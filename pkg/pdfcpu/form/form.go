@@ -22,13 +22,13 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	pdffont "github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/primitives"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/mattn/go-runewidth"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	pdffont "github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/primitives"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -94,7 +94,6 @@ type FieldMeta struct {
 }
 
 func fields(xRefTable *model.XRefTable) (types.Array, error) {
-
 	if xRefTable.Form == nil {
 		return nil, errors.New("pdfcpu: no form available")
 	}
@@ -117,7 +116,6 @@ func fields(xRefTable *model.XRefTable) (types.Array, error) {
 }
 
 func fullyQualifiedFieldName(xRefTable *model.XRefTable, indRef types.IndirectRef, fields types.Array, id, name *string) (bool, error) {
-
 	d, err := xRefTable.DereferenceDict(indRef)
 	if err != nil {
 		return false, err
@@ -171,7 +169,6 @@ type fieldInfo struct {
 }
 
 func isField(xRefTable *model.XRefTable, indRef types.IndirectRef, fields types.Array) (bool, *fieldInfo, error) {
-
 	d, err := xRefTable.DereferenceDict(indRef)
 	if err != nil {
 		return false, nil, err
@@ -293,7 +290,6 @@ func parseStringLiteralArray(xRefTable *model.XRefTable, d types.Dict, key strin
 }
 
 func collectRadioButtonGroupOptions(xRefTable *model.XRefTable, d types.Dict) ([]string, error) {
-
 	vv, err := parseOptions(xRefTable, d, OPTIONAL)
 	if err != nil {
 		return nil, err
@@ -339,7 +335,6 @@ func collectRadioButtonGroupOptions(xRefTable *model.XRefTable, d types.Dict) ([
 }
 
 func collectRadioButtonGroup(xRefTable *model.XRefTable, d types.Dict, f *Field, fm *FieldMeta) error {
-
 	f.Typ = FTRadioButtonGroup
 
 	opts, err := collectRadioButtonGroupOptions(xRefTable, d)
@@ -381,7 +376,6 @@ func collectRadioButtonGroup(xRefTable *model.XRefTable, d types.Dict, f *Field,
 }
 
 func collectBtn(xRefTable *model.XRefTable, d types.Dict, f *Field, fm *FieldMeta) error {
-
 	ff := d.IntEntry("Ff")
 	if ff != nil && primitives.FieldFlags(*ff)&primitives.FieldPushbutton > 0 {
 		return nil
@@ -659,8 +653,8 @@ func collectPageField(
 	pageNr int,
 	fi *fieldInfo,
 	fm *FieldMeta,
-	fs *[]Field) error {
-
+	fs *[]Field,
+) error {
 	foundField := locateField(fs, fi, fm, pageNr)
 
 	f := Field{Pages: []int{pageNr}}
@@ -728,8 +722,8 @@ func collectPageFields(
 	fields types.Array,
 	p int,
 	fm *FieldMeta,
-	fs *[]Field) error {
-
+	fs *[]Field,
+) error {
 	indRefs := map[types.IndirectRef]bool{}
 
 	for _, ir := range *(wAnnots.IndRefs) {
@@ -852,7 +846,6 @@ func calcListHeader(fm *FieldMeta) (string, []int) {
 }
 
 func multiPageFieldsMap(fs []Field) map[string][]Field {
-
 	m := map[string][]Field{}
 
 	for _, f := range fs {
@@ -873,7 +866,6 @@ func multiPageFieldsMap(fs []Field) map[string][]Field {
 }
 
 func renderMultiPageFields(m map[string][]Field, fm *FieldMeta) ([]string, error) {
-
 	var ss []string
 
 	s, horSep := calcListHeader(fm)
@@ -936,7 +928,6 @@ func renderMultiPageFields(m map[string][]Field, fm *FieldMeta) ([]string, error
 }
 
 func renderFields(ctx *model.Context, fs []Field, fm *FieldMeta) ([]string, error) {
-
 	ss := []string{}
 
 	m := multiPageFieldsMap(fs)
@@ -1010,7 +1001,6 @@ func renderFields(ctx *model.Context, fs []Field, fm *FieldMeta) ([]string, erro
 
 // FormFields returns all form fields present in ctx.
 func FormFields(ctx *model.Context) ([]Field, *FieldMeta, error) {
-
 	xRefTable := ctx.XRefTable
 
 	fields, err := fields(xRefTable)
@@ -1030,7 +1020,6 @@ func FormFields(ctx *model.Context) ([]Field, *FieldMeta, error) {
 
 // ListFormFields returns a list of all form fields present in ctx.
 func ListFormFields(ctx *model.Context) ([]string, error) {
-
 	// TODO Align output for Bangla, Hindi, Marathi.
 
 	fs, fm, err := FormFields(ctx)
@@ -1264,7 +1253,6 @@ func deletePageAnnots(xRefTable *model.XRefTable, m map[types.IndirectRef]bool, 
 
 // RemoveFormFields deletes all form fields with given ID or name from the form represented by xRefTable.
 func RemoveFormFields(ctx *model.Context, fieldIDsOrNames []string) (bool, error) {
-
 	xRefTable := ctx.XRefTable
 
 	fields, err := fields(xRefTable)
@@ -1336,7 +1324,6 @@ func RemoveFormFields(ctx *model.Context, fieldIDsOrNames []string) (bool, error
 }
 
 func resetBtn(xRefTable *model.XRefTable, d types.Dict) error {
-
 	ff := d.IntEntry("Ff")
 	if ff != nil && primitives.FieldFlags(*ff)&primitives.FieldPushbutton > 0 {
 		return nil
@@ -1563,8 +1550,8 @@ func resetPageFields(
 	wAnnots model.Annot,
 	fields types.Array,
 	fonts map[string]types.IndirectRef,
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	indRefs := map[types.IndirectRef]bool{}
 
 	for _, ir := range *(wAnnots.IndRefs) {
@@ -1627,7 +1614,6 @@ func resetPageFields(
 
 // ResetFormFields clears or resets all form fields contained in fieldIDsOrNames to its default.
 func ResetFormFields(ctx *model.Context, fieldIDsOrNames []string) (bool, error) {
-
 	xRefTable := ctx.XRefTable
 
 	fields, err := fields(xRefTable)
@@ -1736,8 +1722,8 @@ func lockPageFields(
 	fields types.Array,
 	wAnnots model.Annot,
 	fonts map[string]types.IndirectRef,
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	indRefs := map[types.IndirectRef]bool{}
 
 	for _, ir := range *(wAnnots.IndRefs) {
@@ -1791,7 +1777,6 @@ func lockPageFields(
 
 // LockFormFields turns all form fields contained in fieldIDsOrNames into read-only.
 func LockFormFields(ctx *model.Context, fieldIDsOrNames []string) (bool, error) {
-
 	// Note: Not honoured by Apple Preview for Checkboxes, RadiobuttonGroups and ComboBoxes.
 
 	xRefTable := ctx.XRefTable
@@ -1881,8 +1866,8 @@ func unlockPageFields(
 	fieldIDsOrNames []string,
 	fields types.Array,
 	wAnnots model.Annot,
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	indRefs := map[types.IndirectRef]bool{}
 
 	for _, ir := range *(wAnnots.IndRefs) {
@@ -1938,7 +1923,6 @@ func unlockPageFields(
 
 // UnlockFields turns all form fields contained in fieldIDsOrNames writeable.
 func UnlockFormFields(ctx *model.Context, fieldIDsOrNames []string) (bool, error) {
-
 	xRefTable := ctx.XRefTable
 
 	fields, err := fields(xRefTable)

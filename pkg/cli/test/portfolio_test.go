@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
 )
 
 func TestPortfolioCommand(t *testing.T) {
@@ -40,7 +40,8 @@ func TestPortfolioCommand(t *testing.T) {
 		filepath.Join(outDir, "golang.pdf"),
 		filepath.Join(outDir, "T4.pdf") + ", CCITT spec",
 		filepath.Join(outDir, "go-lecture.pdf"),
-		filepath.Join(outDir, "test.wav") + ", test audio file"}
+		filepath.Join(outDir, "test.wav") + ", test audio file",
+	}
 
 	cmd := cli.AddAttachmentsPortfolioCommand(fileName, "", files, conf)
 	if _, err := cli.Process(cmd); err != nil {

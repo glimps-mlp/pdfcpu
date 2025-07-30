@@ -22,11 +22,11 @@ import (
 	"io"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -247,8 +247,8 @@ func imageStub(
 	resourceId, filters, lastFilter string,
 	decodeParms types.Dict,
 	thumb, imgMask bool,
-	objNr int) (*model.Image, error) {
-
+	objNr int,
+) (*model.Image, error) {
 	w, err := imageWidth(ctx, sd, objNr)
 	if err != nil {
 		return nil, err
@@ -354,6 +354,7 @@ func prepareExtractImage(sd *types.StreamDict) (string, string, types.Dict, bool
 
 	return filters, lastFilter, d, imgMask
 }
+
 func decodeImage(ctx *model.Context, sd *types.StreamDict, filters, lastFilter string, objNr int) error {
 	// CCITTDecoded images / (bit) masks don't have a ColorSpace attribute, but we render image files.
 	if lastFilter == filter.CCITTFax {
@@ -396,8 +397,8 @@ func img(
 	sd *types.StreamDict,
 	thumb bool,
 	resourceID, filters, lastFilter string,
-	objNr int) (*model.Image, error) {
-
+	objNr int,
+) (*model.Image, error) {
 	if sd.FilterPipeline == nil {
 		sd.Content = sd.Raw
 	} else {

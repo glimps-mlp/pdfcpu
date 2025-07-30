@@ -21,9 +21,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -164,7 +164,6 @@ func (rbg *RadioButtonGroup) validateTab() error {
 }
 
 func (rbg *RadioButtonGroup) validate() error {
-
 	if err := rbg.validateID(); err != nil {
 		return err
 	}
@@ -197,7 +196,6 @@ func (rbg *RadioButtonGroup) validate() error {
 }
 
 func (rbg *RadioButtonGroup) calcFont() error {
-
 	if rbg.Label != nil {
 		f, err := rbg.content.calcLabelFont(rbg.Label.Font)
 		if err != nil {
@@ -373,8 +371,8 @@ func labelPos(
 	relPos types.RelPosition,
 	horAlign types.HAlignment,
 	boundingBox *types.Rectangle,
-	labelHeight, w, g float64, multiline bool) (float64, float64) {
-
+	labelHeight, w, g float64, multiline bool,
+) (float64, float64) {
 	var x, y float64
 
 	switch relPos {
@@ -461,7 +459,6 @@ func (rbg *RadioButtonGroup) rect(i int) *types.Rectangle {
 }
 
 func (rbg *RadioButtonGroup) irDOff(asWidth float64, flip bool) (*types.IndirectRef, error) {
-
 	w := rbg.Width
 
 	ap, found := rbg.pdf.RadioBtnAPs[asWidth]
@@ -531,7 +528,6 @@ func (rbg *RadioButtonGroup) irDOff(asWidth float64, flip bool) (*types.Indirect
 }
 
 func (rbg *RadioButtonGroup) irDYes(asWidth float64, flip bool) (*types.IndirectRef, error) {
-
 	w := rbg.Width
 
 	ap, found := rbg.pdf.RadioBtnAPs[asWidth]
@@ -607,7 +603,6 @@ func (rbg *RadioButtonGroup) irDYes(asWidth float64, flip bool) (*types.Indirect
 }
 
 func (rbg *RadioButtonGroup) irNOff(asWidth float64, flip bool, bgCol *color.SimpleColor) (*types.IndirectRef, error) {
-
 	w := rbg.Width
 
 	ap, found := rbg.pdf.RadioBtnAPs[asWidth]
@@ -684,7 +679,6 @@ func (rbg *RadioButtonGroup) irNOff(asWidth float64, flip bool, bgCol *color.Sim
 }
 
 func (rbg *RadioButtonGroup) irNYes(asWidth float64, flip bool, bgCol *color.SimpleColor) (*types.IndirectRef, error) {
-
 	w := rbg.Width
 
 	ap, found := rbg.pdf.RadioBtnAPs[asWidth]
@@ -767,8 +761,8 @@ func (rbg *RadioButtonGroup) irNYes(asWidth float64, flip bool, bgCol *color.Sim
 }
 
 func (rbg *RadioButtonGroup) appearanceIndRefs(flip bool, bgCol *color.SimpleColor) (
-	*types.IndirectRef, *types.IndirectRef, *types.IndirectRef, *types.IndirectRef, error) {
-
+	*types.IndirectRef, *types.IndirectRef, *types.IndirectRef, *types.IndirectRef, error,
+) {
 	w := rbg.Width
 
 	irDOff, err := rbg.irDOff(w, flip)
@@ -795,7 +789,6 @@ func (rbg *RadioButtonGroup) appearanceIndRefs(flip bool, bgCol *color.SimpleCol
 }
 
 func (rbg *RadioButtonGroup) prepareButtonDict(r *types.Rectangle, v string, parent types.IndirectRef, irDOff, irDYes, irNOff, irNYes *types.IndirectRef) (*types.IndirectRef, types.Dict, error) {
-
 	/*	Note: Mac Preview seems to have a problem saving radio buttons.
 		1) Once saved in Mac Preview selected radio buttons don't get rendered in Mac Preview whereas Adobe Reader renders them w/o problem.
 		2) Preselected radio buttons remain sticky after saving across Mac Preview and Adobe Reader.
@@ -912,7 +905,6 @@ func (rbg *RadioButtonGroup) prepareRectLL(mTop, mRight, mBottom, mLeft float64)
 }
 
 func (rbg *RadioButtonGroup) prepLabel(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	if rbg.Label == nil {
 		return nil
 	}
@@ -970,7 +962,6 @@ func (rbg *RadioButtonGroup) prepLabel(p *model.Page, pageNr int, fonts model.Fo
 }
 
 func (rbg *RadioButtonGroup) prepForRender(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	if err := rbg.calcFont(); err != nil {
 		return err
 	}
@@ -992,7 +983,6 @@ func (rbg *RadioButtonGroup) prepForRender(p *model.Page, pageNr int, fonts mode
 }
 
 func (rbg *RadioButtonGroup) prepareDict(p *model.Page, pageNr int, fonts model.FontMap) (*types.IndirectRef, types.Array, error) {
-
 	rbg.renderButtonLabels(p, pageNr, fonts)
 
 	id, err := types.EscapedUTF16String(rbg.ID)
@@ -1054,7 +1044,6 @@ func (rbg *RadioButtonGroup) prepareDict(p *model.Page, pageNr int, fonts model.
 }
 
 func (rbg *RadioButtonGroup) doRender(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	ir, kids, err := rbg.prepareDict(p, pageNr, fonts)
 	if err != nil {
 		return err
@@ -1079,7 +1068,6 @@ func (rbg *RadioButtonGroup) doRender(p *model.Page, pageNr int, fonts model.Fon
 }
 
 func (rbg *RadioButtonGroup) render(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	if err := rbg.prepForRender(p, pageNr, fonts); err != nil {
 		return err
 	}

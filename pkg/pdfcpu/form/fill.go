@@ -22,11 +22,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	pdffont "github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/primitives"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	pdffont "github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/primitives"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -55,7 +55,6 @@ func cacheResIDs(ctx *model.Context, pdf *primitives.PDF) error {
 }
 
 func addImages(ctx *model.Context, pages map[string]*Page) ([]*model.Page, error) {
-
 	pdf := &primitives.PDF{
 		FieldIDs:      types.StringSet{},
 		Fields:        types.Array{},
@@ -226,7 +225,6 @@ func parseImgBackgroundColor(s string, ib *primitives.ImageBox) error {
 }
 
 func parseImgBorder(s string, ib *primitives.ImageBox) error {
-
 	var err error
 
 	b := strings.Split(s, " ")
@@ -276,7 +274,6 @@ var imgParamMap = imageBoxParamMap{
 }
 
 func (m imageBoxParamMap) processImageBoxArg(paramPrefix, paramValueStr string, ib *primitives.ImageBox) error {
-
 	var param string
 
 	// Completion support
@@ -298,7 +295,6 @@ func (m imageBoxParamMap) processImageBoxArg(paramPrefix, paramValueStr string, 
 }
 
 func imageBox(s, src, url string) (*primitives.ImageBox, string, error) {
-
 	if !strings.HasPrefix(s, "@img") || len(s) < 6 {
 		return nil, "", errors.Errorf("pdfcpu: parsing cvs fieldNames: missing @img: <%s>", s)
 	}
@@ -407,7 +403,6 @@ func FillDetails(form *Form, fieldMap map[string]CSVFieldAttributes) func(id, na
 	fm := fieldMap
 
 	return func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool) {
-
 		if format == CSV {
 			fa, ok := fm[id]
 			if ok {
@@ -454,7 +449,6 @@ func FillDetails(form *Form, fieldMap map[string]CSVFieldAttributes) func(id, na
 }
 
 func fillRadioButtons(ctx *model.Context, d types.Dict, vNew string, v types.Name) error {
-
 	for _, o := range d.ArrayEntry("Kids") {
 
 		d, err := ctx.DereferenceDict(o)
@@ -493,8 +487,8 @@ func fillRadioButtonGroup(
 	locked bool,
 	format DataFormat,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	vv, lock, found := fillDetails(id, name, FTRadioButtonGroup, format)
 	if !found {
 		return nil
@@ -585,8 +579,8 @@ func fillCheckBox(
 	locked bool,
 	format DataFormat,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	vv, lock, found := fillDetails(id, name, FTCheckBox, format)
 	if !found {
 		return nil
@@ -637,7 +631,7 @@ func fillCheckBox(
 		if err != nil {
 			return err
 		}
-		//fmt.Printf("off:<%s> yes:<%s>\n", offName, yesName)
+		// fmt.Printf("off:<%s> yes:<%s>\n", offName, yesName)
 		asName := yesName
 		if v == "Off" {
 			asName = offName
@@ -656,8 +650,8 @@ func fillBtn(
 	locked bool,
 	format DataFormat,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	ff := d.IntEntry("Ff")
 	if ff != nil && primitives.FieldFlags(*ff)&primitives.FieldPushbutton > 0 {
 		return nil
@@ -690,8 +684,8 @@ func fillComboBox(
 	format DataFormat,
 	fonts map[string]types.IndirectRef,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	vv, lock, found := fillDetails(id, name, FTComboBox, format)
 	if !found {
 		return nil
@@ -808,8 +802,8 @@ func fillListBox(
 	fonts map[string]types.IndirectRef,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
 	ff *int,
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	vNew, lock, found := fillDetails(id, name, FTListBox, format)
 	if !found {
 		return nil
@@ -875,8 +869,8 @@ func fillCh(
 	fonts map[string]types.IndirectRef,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
 	ff *int,
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	if ff == nil {
 		return errors.New("pdfcpu: corrupt form field: missing entry Ff")
 	}
@@ -905,8 +899,8 @@ func fillDateField(
 	format DataFormat,
 	fonts map[string]types.IndirectRef,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	vv, lock, found := fillDetails(id, name, FTDate, format)
 	if !found {
 		return nil
@@ -975,8 +969,8 @@ func fillTextField(
 	fonts map[string]types.IndirectRef,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
 	ff *int,
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	vv, lock, found := fillDetails(id, name, FTText, format)
 	if !found {
 		return nil
@@ -1055,8 +1049,8 @@ func fillTx(
 	fonts map[string]types.IndirectRef,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
 	ff *int,
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	df, err := extractDateFormat(ctx.XRefTable, d)
 	if err != nil {
 		return err
@@ -1082,8 +1076,8 @@ func fillWidgetAnnots(
 	format DataFormat,
 	fonts map[string]types.IndirectRef,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	for _, indRef := range *(wAnnots.IndRefs) {
 
 		found, fi, err := isField(ctx.XRefTable, indRef, fields)
@@ -1178,8 +1172,8 @@ func FillForm(
 	ctx *model.Context,
 	fillDetails func(id, name string, fieldType FieldType, format DataFormat) ([]string, bool, bool),
 	imgs map[string]*Page,
-	format DataFormat) (bool, []*model.Page, error) {
-
+	format DataFormat,
+) (bool, []*model.Page, error) {
 	xRefTable := ctx.XRefTable
 
 	fields, err := fields(xRefTable)

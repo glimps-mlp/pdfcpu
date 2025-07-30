@@ -20,7 +20,7 @@ import (
 	"context"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -128,7 +128,6 @@ func (xRefTable *XRefTable) DereferenceForWrite(o types.Object) (types.Object, e
 
 // DereferenceBoolean resolves and validates a boolean object, which may be an indirect reference.
 func (xRefTable *XRefTable) DereferenceBoolean(o types.Object, sinceVersion Version) (*types.Boolean, error) {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return nil, err
@@ -149,7 +148,6 @@ func (xRefTable *XRefTable) DereferenceBoolean(o types.Object, sinceVersion Vers
 
 // DereferenceInteger resolves and validates an integer object, which may be an indirect reference.
 func (xRefTable *XRefTable) DereferenceInteger(o types.Object) (*types.Integer, error) {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return nil, err
@@ -165,7 +163,6 @@ func (xRefTable *XRefTable) DereferenceInteger(o types.Object) (*types.Integer, 
 
 // DereferenceNumber resolves a number object, which may be an indirect reference and returns a float64.
 func (xRefTable *XRefTable) DereferenceNumber(o types.Object) (float64, error) {
-
 	var (
 		f   float64
 		err error
@@ -191,7 +188,6 @@ func (xRefTable *XRefTable) DereferenceNumber(o types.Object) (float64, error) {
 
 // DereferenceName resolves and validates a name object, which may be an indirect reference.
 func (xRefTable *XRefTable) DereferenceName(o types.Object, sinceVersion Version, validate func(string) bool) (n types.Name, err error) {
-
 	o, err = xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return n, err
@@ -217,7 +213,6 @@ func (xRefTable *XRefTable) DereferenceName(o types.Object, sinceVersion Version
 
 // DereferenceStringLiteral resolves and validates a string literal object, which may be an indirect reference.
 func (xRefTable *XRefTable) DereferenceStringLiteral(o types.Object, sinceVersion Version, validate func(string) bool) (s types.StringLiteral, err error) {
-
 	o, err = xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return s, err
@@ -249,7 +244,6 @@ func (xRefTable *XRefTable) DereferenceStringLiteral(o types.Object, sinceVersio
 
 // DereferenceStringOrHexLiteral resolves and validates a string or hex literal object, which may be an indirect reference.
 func (xRefTable *XRefTable) DereferenceStringOrHexLiteral(obj types.Object, sinceVersion Version, validate func(string) bool) (s string, err error) {
-
 	o, err := xRefTable.Dereference(obj)
 	if err != nil || o == nil {
 		return "", err
@@ -323,7 +317,6 @@ func (xRefTable *XRefTable) DereferenceCSVSafeText(o types.Object) (string, erro
 
 // DereferenceArray resolves and validates an array object, which may be an indirect reference.
 func (xRefTable *XRefTable) DereferenceArray(o types.Object) (types.Array, error) {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return nil, err
@@ -339,7 +332,6 @@ func (xRefTable *XRefTable) DereferenceArray(o types.Object) (types.Array, error
 
 // DereferenceDict resolves and validates a dictionary object, which may be an indirect reference.
 func (xRefTable *XRefTable) DereferenceDict(o types.Object) (types.Dict, error) {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return nil, err
@@ -357,7 +349,6 @@ func (xRefTable *XRefTable) DereferenceDict(o types.Object) (types.Dict, error) 
 // It also returns the number of the written PDF Increment this object is part of.
 // The higher the increment number the older the object.
 func (xRefTable *XRefTable) DereferenceDictWithIncr(o types.Object) (types.Dict, int, error) {
-
 	o, incr, err := xRefTable.DereferenceWithIncr(o)
 	if err != nil || o == nil {
 		return nil, 0, err

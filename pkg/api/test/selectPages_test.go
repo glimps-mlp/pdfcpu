@@ -18,12 +18,11 @@ package test
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
-	"strings"
-
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func testPageSelectionSyntaxOk(t *testing.T, s string) {
@@ -45,8 +44,10 @@ func testPageSelectionSyntaxFail(t *testing.T, s string) {
 // Test the pageSelection string.
 // This is used to select specific pages for extraction and trimming.
 func TestPageSelectionSyntax(t *testing.T) {
-	psOk := []string{"1", "!1", "n1", "1-", "!1-", "n1-", "-5", "!-5", "n-5", "3-5", "!3-5", "n3-5",
-		"1,2,3", "!-5,10-15,30-", "1-,n4", "odd", "even", " 1"}
+	psOk := []string{
+		"1", "!1", "n1", "1-", "!1-", "n1-", "-5", "!-5", "n-5", "3-5", "!3-5", "n3-5",
+		"1,2,3", "!-5,10-15,30-", "1-,n4", "odd", "even", " 1",
+	}
 
 	for _, s := range psOk {
 		testPageSelectionSyntaxOk(t, s)
@@ -163,7 +164,7 @@ func testCollectedPages(s string, pageCount int, want string, t *testing.T) {
 	}
 
 	got := collectedPagesString(collectedPages)
-	//fmt.Printf("%s\n", resultString)
+	// fmt.Printf("%s\n", resultString)
 
 	if got != want {
 		t.Fatalf("testCollectedPages(%s) want:%s got%s\n", s, want, got)

@@ -25,8 +25,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -40,8 +40,8 @@ func ValidateX509RSASHA1Signature(
 	perms int,
 	rootCerts *x509.CertPool,
 	result *model.SignatureValidationResult,
-	ctx *model.Context) error {
-
+	ctx *model.Context,
+) error {
 	if ctx.Configuration.Offline {
 		result.AddProblem("pdfcpu is offline, unable to perform certificate revocation checking")
 	}
@@ -216,8 +216,8 @@ func buildP1CertChains(
 	cert *x509.Certificate,
 	rootCerts *x509.CertPool,
 	signer *model.Signer,
-	result *model.SignatureValidationResult) [][]*x509.Certificate {
-
+	result *model.SignatureValidationResult,
+) [][]*x509.Certificate {
 	chains, err := cert.Verify(x509.VerifyOptions{Roots: rootCerts})
 	if err != nil {
 		handleCertVerifyErr(err, cert, signer, result)

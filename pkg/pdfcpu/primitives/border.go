@@ -17,8 +17,8 @@
 package primitives
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -33,7 +33,6 @@ type Border struct {
 }
 
 func (b *Border) validate() error {
-
 	if b.Name == "$" {
 		return errors.New("pdfcpu: invalid border reference $")
 	}

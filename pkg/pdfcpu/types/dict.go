@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
 	"github.com/pkg/errors"
 )
 
@@ -153,7 +153,6 @@ func (d Dict) Entry(dictName, key string, required bool) (Object, bool, error) {
 
 // BooleanEntry expects and returns a BooleanEntry for given key.
 func (d Dict) BooleanEntry(key string) *bool {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -170,7 +169,6 @@ func (d Dict) BooleanEntry(key string) *bool {
 
 // StringEntry expects and returns a StringLiteral entry for given key.
 func (d Dict) StringEntry(key string) *string {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -187,7 +185,6 @@ func (d Dict) StringEntry(key string) *string {
 
 // NameEntry expects and returns a Name entry for given key.
 func (d Dict) NameEntry(key string) *string {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -204,7 +201,6 @@ func (d Dict) NameEntry(key string) *string {
 
 // IntEntry expects and returns a Integer entry for given key.
 func (d Dict) IntEntry(key string) *int {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -221,7 +217,6 @@ func (d Dict) IntEntry(key string) *int {
 
 // Int64Entry expects and returns a Integer entry representing an int64 value for given key.
 func (d Dict) Int64Entry(key string) *int64 {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -238,7 +233,6 @@ func (d Dict) Int64Entry(key string) *int64 {
 
 // IndirectRefEntry returns an indirectRefEntry for given key for this dictionary.
 func (d Dict) IndirectRefEntry(key string) *IndirectRef {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -255,7 +249,6 @@ func (d Dict) IndirectRefEntry(key string) *IndirectRef {
 
 // DictEntry expects and returns a PDFDict entry for given key.
 func (d Dict) DictEntry(key string) Dict {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -274,7 +267,6 @@ func (d Dict) DictEntry(key string) Dict {
 // StreamDictEntry expects and returns a StreamDict entry for given key.
 // unused.
 func (d Dict) StreamDictEntry(key string) *StreamDict {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -290,7 +282,6 @@ func (d Dict) StreamDictEntry(key string) *StreamDict {
 
 // ArrayEntry expects and returns a Array entry for given key.
 func (d Dict) ArrayEntry(key string) Array {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -306,7 +297,6 @@ func (d Dict) ArrayEntry(key string) Array {
 
 // StringLiteralEntry returns a StringLiteral object for given key.
 func (d Dict) StringLiteralEntry(key string) *StringLiteral {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -322,7 +312,6 @@ func (d Dict) StringLiteralEntry(key string) *StringLiteral {
 
 // HexLiteralEntry returns a HexLiteral object for given key.
 func (d Dict) HexLiteralEntry(key string) *HexLiteral {
-
 	value, found := d.Find(key)
 	if !found {
 		return nil
@@ -346,7 +335,6 @@ func (d Dict) StringOrHexLiteralEntry(key string) (*string, error) {
 // Length returns a *int64 for entry with key "Length".
 // Stream length may be referring to an indirect object.
 func (d Dict) Length() (*int64, *int) {
-
 	val := d.Int64Entry("Length")
 	if val != nil {
 		return val, nil
@@ -433,7 +421,6 @@ func (d *Dict) Increment(key string) error {
 }
 
 func (d Dict) indentedString(level int) string {
-
 	logstr := []string{"<<\n"}
 	tabstr := strings.Repeat("\t", level)
 
@@ -474,8 +461,7 @@ func (d Dict) indentedString(level int) string {
 
 // PDFString returns a string representation as found in and written to a PDF file.
 func (d Dict) PDFString() string {
-
-	logstr := []string{} //make([]string, 20)
+	logstr := []string{} // make([]string, 20)
 	logstr = append(logstr, "<<")
 
 	var keys []string
@@ -527,7 +513,6 @@ func (d Dict) String() string {
 
 // StringEntryBytes returns the byte slice representing the string value for key.
 func (d Dict) StringEntryBytes(key string) ([]byte, error) {
-
 	s := d.StringLiteralEntry(key)
 	if s != nil {
 		bb, err := Unescape(s.Value())

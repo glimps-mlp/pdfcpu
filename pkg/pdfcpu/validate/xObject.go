@@ -17,9 +17,9 @@ limitations under the License.
 package validate
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -36,7 +36,6 @@ const (
 )
 
 func validateReferenceDictPageEntry(xRefTable *model.XRefTable, o types.Object) error {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return err
@@ -56,7 +55,6 @@ func validateReferenceDictPageEntry(xRefTable *model.XRefTable, o types.Object) 
 }
 
 func validateReferenceDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// see 8.10.4 Reference XObjects
 
 	dictName := "refDict"
@@ -85,7 +83,6 @@ func validateReferenceDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateOPIDictV13Part1(xRefTable *model.XRefTable, d types.Dict, dictName string) error {
-
 	// Type, optional, name
 	_, err := validateNameEntry(xRefTable, d, dictName, "Type", OPTIONAL, model.V10, func(s string) bool { return s == "OPI" })
 	if err != nil {
@@ -124,7 +121,6 @@ func validateOPIDictV13Part1(xRefTable *model.XRefTable, d types.Dict, dictName 
 
 	// CropRect, required, array of integers, len 4
 	_, err = validateRectangleEntry(xRefTable, d, dictName, "CropRect", REQUIRED, model.V10, nil)
-
 	if err != nil {
 		return err
 	}
@@ -142,7 +138,6 @@ func validateOPIDictV13Part1(xRefTable *model.XRefTable, d types.Dict, dictName 
 }
 
 func validateOPIDictV13Part2(xRefTable *model.XRefTable, d types.Dict, dictName string) error {
-
 	// Resolution, optional, array of numbers, len 2
 	_, err := validateNumberArrayEntry(xRefTable, d, dictName, "Resolution", OPTIONAL, model.V10, func(a types.Array) bool { return len(a) == 2 })
 	if err != nil {
@@ -198,7 +193,6 @@ func validateOPIDictV13Part2(xRefTable *model.XRefTable, d types.Dict, dictName 
 }
 
 func validateOPIDictV13(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// 14.11.7 Open Prepresse interface (OPI)
 
 	dictName := "opiDictV13"
@@ -212,7 +206,6 @@ func validateOPIDictV13(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateOPIDictInks(xRefTable *model.XRefTable, o types.Object) error {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return err
@@ -237,7 +230,6 @@ func validateOPIDictInks(xRefTable *model.XRefTable, o types.Object) error {
 }
 
 func validateOPIDictV20(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// 14.11.7 Open Prepresse interface (OPI)
 
 	dictName := "opiDictV20"
@@ -300,7 +292,6 @@ func validateOPIDictV20(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateOPIVersionDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// 14.11.7 Open Prepresse interface (OPI)
 
 	if d.Len() != 1 {
@@ -336,7 +327,6 @@ func validateOPIVersionDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateMaskStreamDict(xRefTable *model.XRefTable, sd *types.StreamDict) error {
-
 	if sd.Type() != nil && *sd.Type() != "XObject" {
 		return errors.New("pdfcpu: validateMaskStreamDict: corrupt imageStreamDict type")
 	}
@@ -349,7 +339,6 @@ func validateMaskStreamDict(xRefTable *model.XRefTable, sd *types.StreamDict) er
 }
 
 func validateMaskEntry(xRefTable *model.XRefTable, d types.Dict, dictName, entryName string, required bool, sinceVersion model.Version) error {
-
 	// stream ("explicit masking", another Image XObject) or array of colors ("color key masking")
 
 	o, err := validateEntry(xRefTable, d, dictName, entryName, required, sinceVersion)
@@ -378,7 +367,6 @@ func validateMaskEntry(xRefTable *model.XRefTable, d types.Dict, dictName, entry
 }
 
 func validateAlternateImageStreamDicts(xRefTable *model.XRefTable, d types.Dict, dictName string, entryName string, required bool, sinceVersion model.Version) error {
-
 	a, err := validateArrayEntry(xRefTable, d, dictName, entryName, required, sinceVersion, nil)
 	if err != nil {
 		return err
@@ -411,7 +399,6 @@ func validateAlternateImageStreamDicts(xRefTable *model.XRefTable, d types.Dict,
 }
 
 func validateImageStreamDictPart1(xRefTable *model.XRefTable, sd *types.StreamDict, dictName string) (isImageMask bool, err error) {
-
 	// Width, integer, required
 	_, err = validateIntegerEntry(xRefTable, sd.Dict, dictName, "Width", REQUIRED, model.V10, nil)
 	if err != nil {
@@ -456,7 +443,6 @@ func validateImageStreamDictPart1(xRefTable *model.XRefTable, sd *types.StreamDi
 }
 
 func validateImageStreamDictPart2(xRefTable *model.XRefTable, sd *types.StreamDict, dictName string, isImageMask, isAlternate bool) error {
-
 	// BitsPerComponent, integer
 	required := REQUIRED
 	if sd.HasSoleFilterNamed(filter.JPX) || isImageMask {
@@ -632,7 +618,6 @@ func validateFormStreamDictPart1(xRefTable *model.XRefTable, sd *types.StreamDic
 }
 
 func validateEntryOC(xRefTable *model.XRefTable, d types.Dict, dictName, entryName string, required bool, sinceVersion model.Version) error {
-
 	d1, err := validateDictEntry(xRefTable, d, dictName, entryName, required, sinceVersion, nil)
 	if err != nil {
 		return err
@@ -646,7 +631,6 @@ func validateEntryOC(xRefTable *model.XRefTable, d types.Dict, dictName, entryNa
 }
 
 func validateEntryOPI(xRefTable *model.XRefTable, d types.Dict, dictName, entryName string, required bool, sinceVersion model.Version) error {
-
 	d1, err := validateDictEntry(xRefTable, d, dictName, entryName, required, sinceVersion, nil)
 	if err != nil {
 		return err
@@ -660,7 +644,6 @@ func validateEntryOPI(xRefTable *model.XRefTable, d types.Dict, dictName, entryN
 }
 
 func validateFormStreamDictPart2(xRefTable *model.XRefTable, d types.Dict, dictName string) error {
-
 	// PieceInfo, dict, optional, since V1.3
 	if xRefTable.ValidationMode != model.ValidationRelaxed {
 		hasPieceInfo, err := validatePieceInfo(xRefTable, d, dictName, "PieceInfo", OPTIONAL, model.V13)
@@ -720,7 +703,6 @@ func validateFormStreamDictPart2(xRefTable *model.XRefTable, d types.Dict, dictN
 }
 
 func validateFormStreamDict(xRefTable *model.XRefTable, sd *types.StreamDict) error {
-
 	// 8.10 Form XObjects
 
 	dictName := "formStreamDict"
@@ -753,7 +735,6 @@ func validateXObjectType(xRefTable *model.XRefTable, sd *types.StreamDict) error
 }
 
 func validateXObjectStreamDict(xRefTable *model.XRefTable, o types.Object) error {
-
 	// see 8.8 External Objects
 
 	if o == nil {
@@ -816,7 +797,6 @@ func validateXObjectStreamDict(xRefTable *model.XRefTable, o types.Object) error
 }
 
 func validateGroupAttributesDict(xRefTable *model.XRefTable, o types.Object) error {
-
 	// see 11.6.6 Transparency Group XObjects
 
 	d, err := xRefTable.DereferenceDict(o)
@@ -851,7 +831,6 @@ func validateGroupAttributesDict(xRefTable *model.XRefTable, o types.Object) err
 }
 
 func validateXObjectResourceDict(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// Version check
 	err := xRefTable.ValidateVersion("XObjectResourceDict", sinceVersion)
 	if err != nil {
@@ -863,7 +842,7 @@ func validateXObjectResourceDict(xRefTable *model.XRefTable, o types.Object, sin
 		return err
 	}
 
-	//fmt.Printf("XObjResDict:\n%s\n", d)
+	// fmt.Printf("XObjResDict:\n%s\n", d)
 
 	// Iterate over XObject resource dictionary
 	for _, o := range d {

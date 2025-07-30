@@ -20,11 +20,11 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/matrix"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/matrix"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -50,7 +50,6 @@ type SimpleBox struct {
 }
 
 func (sb *SimpleBox) validate() error {
-
 	sb.x = sb.Position[0]
 	sb.y = sb.Position[1]
 
@@ -262,7 +261,6 @@ func (sb *SimpleBox) calcTransform(mLeft, mBottom, mRight, mTop, bWidth float64)
 }
 
 func (sb *SimpleBox) render(p *model.Page) error {
-
 	bWidth, bCol, bStyle, err := sb.calcBorder()
 	if err != nil {
 		return err

@@ -20,8 +20,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 )
 
 func testNUp(t *testing.T, msg string, inFiles []string, outFile string, selectedPages []string, desc string, n int, isImg bool, conf *model.Configuration) {
@@ -51,7 +51,6 @@ func testNUp(t *testing.T, msg string, inFiles []string, outFile string, selecte
 }
 
 func TestNUp(t *testing.T) {
-
 	outDir := filepath.Join(samplesDir, "nup")
 
 	for _, tt := range []struct {
@@ -65,44 +64,52 @@ func TestNUp(t *testing.T) {
 		isImg         bool
 	}{
 		// 4-Up a PDF
-		{"TestNUpFromPDF",
+		{
+			"TestNUpFromPDF",
 			[]string{filepath.Join(inDir, "WaldenFull.pdf")},
 			filepath.Join(outDir, "NUpFromPDF.pdf"),
 			nil,
 			"dim: 400 800, margin:10, bgcol:#f7e6c7",
 			"mm",
 			9,
-			false},
+			false,
+		},
 
 		// 2-Up a PDF with CropBox
-		{"TestNUpFromPdfWithCropBox",
+		{
+			"TestNUpFromPdfWithCropBox",
 			[]string{filepath.Join(inDir, "grid_example.pdf")},
 			filepath.Join(outDir, "NUpFromPDFWithCropBox.pdf"),
 			nil,
 			"form:A5L, border:on, margin:0, bgcol:#f7e6c7",
 			"points",
 			2,
-			false},
+			false,
+		},
 
 		// 16-Up an image
-		{"TestNUpFromSingleImage",
+		{
+			"TestNUpFromSingleImage",
 			[]string{filepath.Join(resDir, "logoSmall.png")},
 			filepath.Join(outDir, "NUpFromSingleImage.pdf"),
 			nil,
 			"form:A3P, ma:10, bgcol:#f7e6c7",
 			"points",
 			16,
-			true},
+			true,
+		},
 
 		// 6-Up a sequence of images.
-		{"TestNUpFromImages",
+		{
+			"TestNUpFromImages",
 			imageFileNames(t, resDir),
 			filepath.Join(outDir, "NUpFromImages.pdf"),
 			nil,
 			"form:Tabloid, border:on, ma:10, bgcol:#f7e6c7",
 			"points",
 			6,
-			true},
+			true,
+		},
 	} {
 		conf := model.NewDefaultConfiguration()
 		conf.SetUnit(tt.unit)

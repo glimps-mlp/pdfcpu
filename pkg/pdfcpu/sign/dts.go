@@ -23,9 +23,9 @@ import (
 	"io"
 	"time"
 
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/hhrutter/pkcs7"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -60,8 +60,8 @@ func ValidateDTS(
 	perms int,
 	rootCerts *x509.CertPool,
 	result *model.SignatureValidationResult,
-	ctx *model.Context) error {
-
+	ctx *model.Context,
+) error {
 	// The last increment contains the DocTimeStamp only.
 
 	// TODO if DocMDP ignore DTS.
@@ -157,8 +157,8 @@ func validateDTSCert(signingTime time.Time,
 	crls, ocsps [][]byte,
 	signer *model.Signer,
 	result *model.SignatureValidationResult,
-	ctx *model.Context) {
-
+	ctx *model.Context,
+) {
 	if signingTime.After(signerCert.NotAfter) || signingTime.Before(signerCert.NotBefore) {
 		signer.AddProblem(fmt.Sprintf("\"ETSI.RFC3161\": signing time %q is outside of certificate validity %q to %q",
 			signingTime.Format(time.RFC3339),
@@ -179,7 +179,6 @@ func validateDTSCert(signingTime time.Time,
 }
 
 func checkDTSDigest(tstInfo *TSTInfo, data []byte, signer *model.Signer) bool {
-
 	oidHashAlg := tstInfo.MessageImprint.HashAlgorithm.Algorithm
 	digest := tstInfo.MessageImprint.HashedMessage
 

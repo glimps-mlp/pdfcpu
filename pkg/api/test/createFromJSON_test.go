@@ -20,8 +20,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 )
 
 /**************************************************************
@@ -29,7 +29,6 @@ import (
  **************************************************************/
 
 func createPDF(t *testing.T, msg, inFile, inFileJSON, outFile string, conf *model.Configuration) {
-
 	t.Helper()
 
 	// inFile	inFileJSON 	outFile		action
@@ -49,11 +48,9 @@ func createPDF(t *testing.T, msg, inFile, inFileJSON, outFile string, conf *mode
 	if err := api.ValidateFile(outFile, nil); err != nil {
 		t.Fatalf("%s: %v\n", msg, err)
 	}
-
 }
 
 func TestCreateContentPrimitivesViaJson(t *testing.T) {
-
 	t.Helper()
 	inDir := filepath.Join(inDir, "json", "create")
 	outDir := filepath.Join(samplesDir, "create", "primitives")
@@ -96,11 +93,9 @@ func TestCreateContentPrimitivesViaJson(t *testing.T) {
 		outFile := filepath.Join(outDir, tt.outFile)
 		createPDF(t, tt.msg, "", inFileJSON, outFile, conf)
 	}
-
 }
 
 func TestCreateFormPrimitivesViaJson(t *testing.T) {
-
 	inDirForm := filepath.Join(inDir, "json", "form")
 	outDirForm := filepath.Join(samplesDir, "form", "primitives")
 
@@ -148,11 +143,9 @@ func TestCreateFormPrimitivesViaJson(t *testing.T) {
 		outFile := filepath.Join(outDirForm, tt.outFile)
 		createPDF(t, tt.msg, "", inFileJSON, outFile, conf)
 	}
-
 }
 
 func TestCreateSinglePageDemoFormsViaJson(t *testing.T) {
-
 	// Render single page demo forms for export, reset, lock, unlock and fill tests.
 
 	inDirFormDemo := filepath.Join(inDir, "json", "form", "demoSinglePage")
@@ -173,11 +166,9 @@ func TestCreateSinglePageDemoFormsViaJson(t *testing.T) {
 		outFile := filepath.Join(outDirFormDemo, tt.outFile)
 		createPDF(t, tt.msg, "", inFileJSON, outFile, conf)
 	}
-
 }
 
 func TestCreateDemoFormsViaJson(t *testing.T) {
-
 	inDirFormDemo := filepath.Join(inDir, "json", "form", "demo")
 	outDirFormDemo := filepath.Join(samplesDir, "form", "demo")
 
@@ -243,11 +234,9 @@ func TestCreateDemoFormsViaJson(t *testing.T) {
 		outFile := filepath.Join(outDirFormDemo, tt.outFile)
 		createPDF(t, tt.msg, "", inFileJSON, outFile, conf)
 	}
-
 }
 
 func TestCreateAndUpdatePageViaJson(t *testing.T) {
-
 	// CREATE PDF, UPDATE/ADD PAGE
 	// 1. Create PDF page
 	// 2. Add textbox and reuse corefont/userfont/cjkfont
@@ -272,7 +261,6 @@ func TestCreateAndUpdatePageViaJson(t *testing.T) {
 }
 
 func TestReadAndUpdatePageViaJson(t *testing.T) {
-
 	// READ PDF, UPDATE/ADD PAGE
 	// 1. Read any PDF
 	// 2. Add textbox and reuse corefont/userfont/cjkfont
@@ -294,7 +282,6 @@ func TestReadAndUpdatePageViaJson(t *testing.T) {
 }
 
 func TestCreateFormAndUpdatePageViaJson(t *testing.T) {
-
 	// CREATE FORM, UPDATE/ADD PAGE
 	// 1. Create PDF form
 	// 2. Add content
@@ -328,7 +315,6 @@ func TestCreateFormAndUpdatePageViaJson(t *testing.T) {
 }
 
 func TestReadFormAndUpdateFormViaJson(t *testing.T) {
-
 	// READ FORM, UPDATE FORM
 	// 1. Read PDF form
 	// 2. Add fields

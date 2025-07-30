@@ -30,7 +30,7 @@ import (
 	"strings"
 	"unicode/utf16"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
 	"github.com/pkg/errors"
 )
 
@@ -117,7 +117,7 @@ func (f myUint32) Swap(i, j int) {
 }
 
 func (fd ttf) PrintChars() string {
-	var min = uint16(0xFFFF)
+	min := uint16(0xFFFF)
 	var max uint16
 	var sb strings.Builder
 	sb.WriteByte(0x0a)
@@ -175,23 +175,23 @@ func (t table) parseFontHeaderTable(fd *ttf) error {
 	}
 
 	unitsPerEm := t.uint16(18)
-	//fmt.Printf("unitsPerEm: %d\n", unitsPerEm)
+	// fmt.Printf("unitsPerEm: %d\n", unitsPerEm)
 	fd.UnitsPerEm = int(unitsPerEm)
 
 	llx := t.int16(36)
-	//fmt.Printf("llx: %d\n", llx)
+	// fmt.Printf("llx: %d\n", llx)
 	fd.LLx = float64(fd.toPDFGlyphSpace(int(llx)))
 
 	lly := t.int16(38)
-	//fmt.Printf("lly: %d\n", lly)
+	// fmt.Printf("lly: %d\n", lly)
 	fd.LLy = float64(fd.toPDFGlyphSpace(int(lly)))
 
 	urx := t.int16(40)
-	//fmt.Printf("urx: %d\n", urx)
+	// fmt.Printf("urx: %d\n", urx)
 	fd.URx = float64(fd.toPDFGlyphSpace(int(urx)))
 
 	ury := t.int16(42)
-	//fmt.Printf("ury: %d\n", ury)
+	// fmt.Printf("ury: %d\n", ury)
 	fd.URy = float64(fd.toPDFGlyphSpace(int(ury)))
 
 	return nil
@@ -220,11 +220,11 @@ func utf16BEToString(bb []byte) string {
 func (t table) parsePostScriptTable(fd *ttf) error {
 	// table "post"
 	italicAngle := t.fixed32(4)
-	//fmt.Printf("italicAngle: %2.2f\n", italicAngle)
+	// fmt.Printf("italicAngle: %2.2f\n", italicAngle)
 	fd.ItalicAngle = italicAngle
 
 	isFixedPitch := t.uint16(16)
-	//fmt.Printf("isFixedPitch: %t\n", isFixedPitch != 0)
+	// fmt.Printf("isFixedPitch: %t\n", isFixedPitch != 0)
 	fd.FixedPitch = isFixedPitch != 0
 
 	return nil
@@ -244,22 +244,22 @@ func (t table) parseWindowsMetricsTable(fd *ttf) error {
 	version := t.uint16(0)
 	fsType := t.uint16(8)
 	fd.Protected = fsType&2 > 0
-	//fmt.Printf("protected: %t\n", fd.Protected)
+	// fmt.Printf("protected: %t\n", fd.Protected)
 
 	uniCodeRange1 := t.uint32(42)
-	//fmt.Printf("uniCodeRange1: %032b\n", uniCodeRange1)
+	// fmt.Printf("uniCodeRange1: %032b\n", uniCodeRange1)
 	fd.UnicodeRange[0] = uniCodeRange1
 
 	uniCodeRange2 := t.uint32(46)
-	//fmt.Printf("uniCodeRange2: %032b\n", uniCodeRange2)
+	// fmt.Printf("uniCodeRange2: %032b\n", uniCodeRange2)
 	fd.UnicodeRange[1] = uniCodeRange2
 
 	uniCodeRange3 := t.uint32(50)
-	//fmt.Printf("uniCodeRange3: %032b\n", uniCodeRange3)
+	// fmt.Printf("uniCodeRange3: %032b\n", uniCodeRange3)
 	fd.UnicodeRange[2] = uniCodeRange3
 
 	uniCodeRange4 := t.uint32(54)
-	//fmt.Printf("uniCodeRange4: %032b\n", uniCodeRange4)
+	// fmt.Printf("uniCodeRange4: %032b\n", uniCodeRange4)
 	fd.UnicodeRange[3] = uniCodeRange4
 
 	// printUnicodeRange(0, uniCodeRange1)
@@ -330,34 +330,34 @@ func (t table) parseNamingTable(fd *ttf) error {
 func (t table) parseHorizontalHeaderTable(fd *ttf) error {
 	// table "hhea"
 	ascent := t.int16(4)
-	//fmt.Printf("ascent: %d\n", ascent)
+	// fmt.Printf("ascent: %d\n", ascent)
 	if fd.Ascent == 0 {
 		fd.Ascent = fd.toPDFGlyphSpace(int(ascent))
 	}
 
 	descent := t.int16(6)
-	//fmt.Printf("descent: %d\n", descent)
+	// fmt.Printf("descent: %d\n", descent)
 	if fd.Descent == 0 {
 		fd.Descent = fd.toPDFGlyphSpace(int(descent))
 	}
 
-	//lineGap := t.int16(8)
-	//fmt.Printf("lineGap: %d\n", lineGap)
+	// lineGap := t.int16(8)
+	// fmt.Printf("lineGap: %d\n", lineGap)
 
-	//advanceWidthMax := t.uint16(10)
-	//fmt.Printf("advanceWidthMax: %d\n", advanceWidthMax)
+	// advanceWidthMax := t.uint16(10)
+	// fmt.Printf("advanceWidthMax: %d\n", advanceWidthMax)
 
-	//minLeftSideBearing := t.int16(12)
-	//fmt.Printf("minLeftSideBearing: %d\n", minLeftSideBearing)
+	// minLeftSideBearing := t.int16(12)
+	// fmt.Printf("minLeftSideBearing: %d\n", minLeftSideBearing)
 
-	//minRightSideBearing := t.int16(14)
-	//fmt.Printf("minRightSideBearing: %d\n", minRightSideBearing)
+	// minRightSideBearing := t.int16(14)
+	// fmt.Printf("minRightSideBearing: %d\n", minRightSideBearing)
 
-	//xMaxExtent := t.int16(16)
-	//fmt.Printf("xMaxExtent: %d\n", xMaxExtent)
+	// xMaxExtent := t.int16(16)
+	// fmt.Printf("xMaxExtent: %d\n", xMaxExtent)
 
 	numOfLongHorMetrics := t.uint16(34)
-	//fmt.Printf("numOfLongHorMetrics: %d\n", numOfLongHorMetrics)
+	// fmt.Printf("numOfLongHorMetrics: %d\n", numOfLongHorMetrics)
 	fd.HorMetricsCount = int(numOfLongHorMetrics)
 
 	return nil
@@ -650,7 +650,7 @@ func readGob(fileName string, fd *ttf) error {
 
 func installTrueTypeRep(fontDir, fontName string, header []byte, tables map[string]*table) error {
 	fd := ttf{}
-	//fmt.Println(fontName)
+	// fmt.Println(fontName)
 	for _, v := range []string{"head", "OS/2", "post", "name", "hhea", "maxp", "hmtx", "cmap"} {
 		if err := parse(tables, v, &fd); err != nil {
 			return err
@@ -821,7 +821,8 @@ func glyphOffsets(gid int, locaFull, glyfsFull *table, numGlyphs, indexToLocForm
 }
 
 func resolveCompoundGlyph(fontName string, bb []byte, usedGIDs map[uint16]bool,
-	locaFull, glyfsFull *table, numGlyphs, indexToLocFormat int) error {
+	locaFull, glyfsFull *table, numGlyphs, indexToLocFormat int,
+) error {
 	last := false
 	for off := 10; !last; {
 		flags := binary.BigEndian.Uint16(bb[off:])

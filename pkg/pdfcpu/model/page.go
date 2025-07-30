@@ -20,9 +20,9 @@ import (
 	"bytes"
 	"strconv"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 type Resource struct {
@@ -95,7 +95,8 @@ func NewPage(mediaBox, cropBox *types.Rectangle) Page {
 		Fm:        FontMap{},
 		Im:        ImageMap{},
 		AnnotTabs: map[int]FieldAnnotation{},
-		Buf:       new(bytes.Buffer)}
+		Buf:       new(bytes.Buffer),
+	}
 }
 
 // NewPageWithBg creates a page for a mediaBox.

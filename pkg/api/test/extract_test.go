@@ -24,9 +24,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func TestExtractImages(t *testing.T) {
@@ -47,7 +47,6 @@ func TestExtractImages(t *testing.T) {
 }
 
 func compare(t *testing.T, fn1, fn2 string) {
-
 	f1, err := os.Open(fn1)
 	if err != nil {
 		t.Errorf("%s: %v", fn1, err)
@@ -85,7 +84,6 @@ func compare(t *testing.T, fn1, fn2 string) {
 			return
 		}
 	}
-
 }
 
 func TestExtractImagesSoftMasks(t *testing.T) {
@@ -246,7 +244,6 @@ func TestExtractPagesLowLevel(t *testing.T) {
 	if err := api.WritePage(r, outDir, outFile, i); err != nil {
 		t.Fatalf("%s writePage(%d): %v\n", msg, i, err)
 	}
-
 }
 
 func TestExtractContent(t *testing.T) {

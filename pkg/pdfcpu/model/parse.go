@@ -26,8 +26,8 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 var (
@@ -232,7 +232,6 @@ func delimiter(b byte) bool {
 
 // ParseObjectAttributes parses object number and generation of the next object for given string buffer.
 func ParseObjectAttributes(line *string) (objectNumber *int, generationNumber *int, err error) {
-
 	if line == nil || len(*line) == 0 {
 		return nil, nil, errors.New("pdfcpu: ParseObjectAttributes: buf not available")
 	}
@@ -412,7 +411,7 @@ func parseStringLiteral(line *string) (types.Object, error) {
 	balParStr := l[1:i]
 
 	// Parse string literal, see 7.3.4.2
-	//str := stringLiteral(balParStr)
+	// str := stringLiteral(balParStr)
 
 	// position behind ')'
 	*line = forwardParseBuf(l[i:], 1)
@@ -1060,7 +1059,6 @@ func ParseXRefStreamDict(sd *types.StreamDict) (*types.XRefStreamDict, error) {
 		}
 		for i := 0; i < *sd.Size(); i++ {
 			objs = append(objs, i)
-
 		}
 	}
 
@@ -1090,7 +1088,8 @@ func ObjectStreamDict(sd *types.StreamDict) (*types.ObjectStreamDict, error) {
 		StreamDict:     *sd,
 		ObjCount:       *sd.N(),
 		FirstObjOffset: *sd.First(),
-		ObjArray:       nil}
+		ObjArray:       nil,
+	}
 
 	return &osd, nil
 }
@@ -1135,10 +1134,9 @@ func detectMarker(line, marker string) int {
 }
 
 func detectMarkers(line string, endInd, streamInd *int) {
-	//fmt.Printf("buflen=%d\n%s", len(line), hex.Dump([]byte(line)))
+	// fmt.Printf("buflen=%d\n%s", len(line), hex.Dump([]byte(line)))
 	if *endInd == 0 {
 		*endInd = detectMarker(line, "endobj")
-
 	}
 	if *streamInd == 0 {
 		*streamInd = detectMarker(line, "stream")

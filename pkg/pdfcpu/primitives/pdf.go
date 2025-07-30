@@ -24,12 +24,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	pdffont "github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	pdffont "github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -417,7 +417,6 @@ func (pdf *PDF) validateBordersMarginsPaddings() error {
 }
 
 func (pdf *PDF) Validate() error {
-
 	if err := pdf.validatePageBoundaries(); err != nil {
 		return err
 	}
@@ -546,7 +545,6 @@ func (pdf *PDF) newPageFontID(indRef *types.IndirectRef, nextInd, pageNr int) st
 }
 
 func (pdf *PDF) idForFontName(fontName, fontLang string, pageFonts, globalFonts model.FontMap, pageNr int) (string, error) {
-
 	// Used for textdescriptor configuration.
 
 	var (
@@ -575,7 +573,7 @@ func (pdf *PDF) idForFontName(fontName, fontLang string, pageFonts, globalFonts 
 	if pdf.Update() {
 
 		for objNr, fo := range pdf.Optimize.FormFontObjects {
-			//fmt.Printf("searching for %s - obj:%d fontName:%s prefix:%s\n", fontName, objNr, fo.FontName, fo.Prefix)
+			// fmt.Printf("searching for %s - obj:%d fontName:%s prefix:%s\n", fontName, objNr, fo.FontName, fo.Prefix)
 			if fontName == fo.FontName {
 				if font.IsCoreFont(fontName) {
 					indRef = types.NewIndirectRef(objNr, 0)
@@ -595,7 +593,7 @@ func (pdf *PDF) idForFontName(fontName, fontLang string, pageFonts, globalFonts 
 
 		if indRef == nil {
 			for objNr, fo := range pdf.Optimize.FontObjects {
-				//fmt.Printf("searching for %s - obj:%d fontName:%s prefix:%s\n", fontName, objNr, fo.FontName, fo.Prefix)
+				// fmt.Printf("searching for %s - obj:%d fontName:%s prefix:%s\n", fontName, objNr, fo.FontName, fo.Prefix)
 				if fontName == fo.FontName {
 					indRef = types.NewIndirectRef(objNr, 0)
 					if font.IsUserFont(fontName) {
@@ -633,7 +631,6 @@ func fontIndRef(xRefTable *model.XRefTable, fontName, fontLang string) (*types.I
 }
 
 func (pdf *PDF) ensureFont(fontID, fontName, fontLang string, fonts model.FontMap) (*types.IndirectRef, error) {
-
 	fr, ok := fonts[fontName]
 	if ok {
 		if fr.Res.IndRef != nil {
@@ -1053,7 +1050,6 @@ func (pdf *PDF) newModelPageforPDFPage(page *PDFPage) model.Page {
 
 // RenderPages renders page content into model.Pages
 func (pdf *PDF) RenderPages() ([]*model.Page, model.FontMap, error) {
-
 	pdf.calcInheritedAttrs()
 
 	pp := []*model.Page{}

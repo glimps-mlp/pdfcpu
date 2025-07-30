@@ -23,14 +23,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
-var (
-	selectedPagesRegExp *regexp.Regexp
-)
+var selectedPagesRegExp *regexp.Regexp
 
 func setupRegExpForPageSelection() *regexp.Regexp {
 	e := "(\\d+)?-l(-\\d+)?|l(-(\\d+)-?)?"
@@ -68,7 +66,7 @@ func ParsePageSelection(s string) ([]string, error) {
 		return nil, errors.Errorf("-pages \"%s\" => syntax error\n", s)
 	}
 
-	//log.CLI.Printf("pageSelection: %s\n", s)
+	// log.CLI.Printf("pageSelection: %s\n", s)
 
 	return strings.Split(s, ","), nil
 }
@@ -287,7 +285,7 @@ func logSelPages(selectedPages types.IntSet) {
 func calcSelPages(pageCount int, pageSelection []string, selectedPages types.IntSet) error {
 	for _, v := range pageSelection {
 
-		//log.Stats.Printf("pageExp: <%s>\n", v)
+		// log.Stats.Printf("pageExp: <%s>\n", v)
 
 		if v == "even" {
 			selectEvenPages(selectedPages, pageCount)
@@ -302,7 +300,7 @@ func calcSelPages(pageCount int, pageSelection []string, selectedPages types.Int
 		var negated bool
 		if negation(v[0]) {
 			negated = true
-			//logInfoAPI.Printf("is a negated exp\n")
+			// logInfoAPI.Printf("is a negated exp\n")
 			v = v[1:]
 		}
 
@@ -380,14 +378,14 @@ func PagesForPageSelection(pageCount int, pageSelection []string, ensureAllforNo
 		return selectedPages(pageCount, pageSelection, log)
 	}
 	if !ensureAllforNone {
-		//log.CLI.Printf("pages: none\n")
+		// log.CLI.Printf("pages: none\n")
 		return nil, nil
 	}
 	m := types.IntSet{}
 	for i := 1; i <= pageCount; i++ {
 		m[i] = true
 	}
-	//log.CLI.Printf("pages: all\n")
+	// log.CLI.Printf("pages: all\n")
 	return m, nil
 }
 
@@ -619,7 +617,7 @@ func calcPagesForPageCollection(pageCount int, pageSelection []string) ([]int, e
 		var negated bool
 		if negation(v[0]) {
 			negated = true
-			//logInfoAPI.Printf("is a negated exp\n")
+			// logInfoAPI.Printf("is a negated exp\n")
 			v = v[1:]
 		}
 

@@ -20,9 +20,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func TestInsertRemovePages(t *testing.T) {
@@ -96,5 +96,4 @@ func TestInsertCustomBlankPage(t *testing.T) {
 	if err := api.InsertPagesFile(inFile, outFile, selectedPages, before, pageConf, conf); err != nil {
 		t.Fatalf("%s %s: %v\n", msg, outFile, err)
 	}
-
 }

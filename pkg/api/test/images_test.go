@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
 )
 
 func testUpdateImages(t *testing.T, msg string, inFile, imgFile, outFile string, objNr, pageNr int, id string) {
@@ -35,7 +35,6 @@ func testUpdateImages(t *testing.T, msg string, inFile, imgFile, outFile string,
 }
 
 func TestUpdateImages(t *testing.T) {
-
 	outDir := filepath.Join(samplesDir, "images")
 	inDir := outDir
 
@@ -48,77 +47,95 @@ func TestUpdateImages(t *testing.T) {
 		pageNr  int // or by (pageNr, id)
 		id      string
 	}{
-		{"TestUpdateByObjNr",
+		{
+			"TestUpdateByObjNr",
 			"test.pdf",
 			"test_1_Im1.png",
 			"ImageUpdatedByObjNr.pdf",
 			8,
 			0,
-			""},
+			"",
+		},
 
-		{"TestUpdateByPageNrAndId",
+		{
+			"TestUpdateByPageNrAndId",
 			"test.pdf",
 			"test_1_Im1.png",
 			"imageUpdatedByPageNrAndIdPage1.pdf",
 			0,
 			1,
-			"Im1"},
+			"Im1",
+		},
 
-		{"TestUpdateByPageNrAndId",
+		{
+			"TestUpdateByPageNrAndId",
 			"test.pdf",
 			"test_1_Im1.png",
 			"imageUpdatedByPageNrAndIdPage2.pdf",
 			0,
 			2,
-			"Im1"},
+			"Im1",
+		},
 
-		{"TestUpdateByImageFileName",
+		{
+			"TestUpdateByImageFileName",
 			"test.pdf",
 			"test_1_Im1.png",
 			"imageUpdatedByFileName.pdf",
 			0,
 			0,
-			""},
+			"",
+		},
 
-		{"TestUpdateByPageNrAndId",
+		{
+			"TestUpdateByPageNrAndId",
 			"test.pdf",
 			"any.png",
 			"imageUpdatedByPageNrAndIdAny.pdf",
 			0,
 			1,
-			"Im1"},
+			"Im1",
+		},
 
-		{"TestUpdateByObjNrPNG",
+		{
+			"TestUpdateByObjNrPNG",
 			"test.pdf",
 			"any.png",
 			"imageUpdatedByObjNrPNG.pdf",
 			8,
 			0,
-			""},
+			"",
+		},
 
-		{"TestUpdateByObjNrJPG",
+		{
+			"TestUpdateByObjNrJPG",
 			"test.pdf",
 			"any.jpg",
 			"imageUpdatedByObjNrJPG.pdf",
 			8,
 			0,
-			""},
+			"",
+		},
 
-		{"TestUpdateByObjNrTIFF",
+		{
+			"TestUpdateByObjNrTIFF",
 			"test.pdf",
 			"any.tiff",
 			"imageUpdatedByObjNrTIFF.pdf",
 			8,
 			0,
-			""},
+			"",
+		},
 
-		{"TestUpdateByObjNrWEBP",
+		{
+			"TestUpdateByObjNrWEBP",
 			"test.pdf",
 			"any.webp",
 			"imageUpdatedByObjNrWEBP.pdf",
 			8,
 			0,
-			""},
+			"",
+		},
 	} {
 		testUpdateImages(t, tt.msg,
 			filepath.Join(inDir, tt.inFile),

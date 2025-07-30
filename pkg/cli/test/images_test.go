@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
 )
 
 func testUpdateImages(t *testing.T, msg string, inFile, imgFile, outFile string, objNrOrPageNr int, id string) {
@@ -47,68 +47,86 @@ func TestUpdateImages(t *testing.T) {
 		objNrOrPageNr int
 		id            string
 	}{
-		{"TestUpdateByObjNr",
+		{
+			"TestUpdateByObjNr",
 			"test.pdf",
 			"test_1_Im1.png",
 			"ImageUpdatedByObjNr.pdf",
 			8,
-			""},
+			"",
+		},
 
-		{"TestUpdateByPageNrAndId",
+		{
+			"TestUpdateByPageNrAndId",
 			"test.pdf",
 			"test_1_Im1.png",
 			"imageUpdatedByPageNrAndIdPage1.pdf",
 			1,
-			"Im1"},
+			"Im1",
+		},
 
-		{"TestUpdateByPageNrAndId",
+		{
+			"TestUpdateByPageNrAndId",
 			"test.pdf",
 			"test_1_Im1.png",
 			"imageUpdatedByPageNrAndIdPage2.pdf",
 			2,
-			"Im1"},
+			"Im1",
+		},
 
-		{"TestUpdateByImageFileName",
+		{
+			"TestUpdateByImageFileName",
 			"test.pdf",
 			"test_1_Im1.png",
 			"imageUpdatedByFileName.pdf",
 			0,
-			""},
+			"",
+		},
 
-		{"TestUpdateByPageNrAndId",
+		{
+			"TestUpdateByPageNrAndId",
 			"test.pdf",
 			"any.png",
 			"imageUpdatedByPageNrAndIdAny.pdf",
 			1,
-			"Im1"},
+			"Im1",
+		},
 
-		{"TestUpdateByObjNrPNG",
+		{
+			"TestUpdateByObjNrPNG",
 			"test.pdf",
 			"any.png",
 			"imageUpdatedByObjNrPNG.pdf",
 			8,
-			""},
+			"",
+		},
 
-		{"TestUpdateByObjNrJPG",
+		{
+			"TestUpdateByObjNrJPG",
 			"test.pdf",
 			"any.jpg",
 			"imageUpdatedByObjNrJPG.pdf",
 			8,
-			""},
+			"",
+		},
 
-		{"TestUpdateByObjNrTIFF",
+		{
+			"TestUpdateByObjNrTIFF",
 			"test.pdf",
 			"any.tiff",
 			"imageUpdatedByObjNrTIFF.pdf",
 			8,
-			""},
+			"",
+		},
 
-		{"TestUpdateByObjNrWEBP",
+		{
+			"TestUpdateByObjNrWEBP",
 			"test.pdf",
 			"any.webp",
 			"imageUpdatedByObjNrWEBP.pdf",
 			8,
-			""},
+			"",
+		},
 	} {
 		testUpdateImages(t, tt.msg,
 			filepath.Join(inDir, tt.inFile),

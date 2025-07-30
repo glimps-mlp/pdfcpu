@@ -23,9 +23,9 @@ import (
 	"fmt"
 	"path/filepath"
 
-	pdffont "github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	pdffont "github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 var (
@@ -35,7 +35,7 @@ var (
 
 func CreateXRefTableWithRootDict() (*model.XRefTable, error) {
 	// TODO
-	//xRefTable := model.NewXRefTable(nil)
+	// xRefTable := model.NewXRefTable(nil)
 	xRefTable := &model.XRefTable{
 		Table:             map[int]*model.XRefTableEntry{},
 		Names:             map[string]*model.Node{},
@@ -95,7 +95,6 @@ func CreateDemoXRef() (*model.XRefTable, error) {
 }
 
 func addPageTreeForResourceDictInheritanceDemo(xRefTable *model.XRefTable, rootDict types.Dict) error {
-
 	// Create root page node.
 
 	fIndRef, err := pdffont.EnsureFontDict(xRefTable, "Courier", "", "", false, nil)
@@ -892,7 +891,8 @@ func createPageWithAnnotations(xRefTable *model.XRefTable, parentPageIndRef type
 			"TrimBox":      mba,
 			"ArtBox":       mba,
 			"BoxColorInfo": createBoxColorDict(),
-			"UserUnit":     types.Float(1.5)}, // Note: not honoured by Apple Preview
+			"UserUnit":     types.Float(1.5),
+		}, // Note: not honoured by Apple Preview
 	)
 
 	err := addResources(xRefTable, pageDict, fontName)
@@ -1001,7 +1001,6 @@ func addPageTreeWithoutPage(xRefTable *model.XRefTable, rootDict types.Dict, d *
 }
 
 func AddPageTreeWithSamplePage(xRefTable *model.XRefTable, rootDict types.Dict, p model.Page) error {
-
 	// mediabox = physical page dimensions
 	mba := p.MediaBox.Array()
 
@@ -1970,7 +1969,6 @@ func createDemoContentStreamDict(xRefTable *model.XRefTable, b []byte) (*types.I
 }
 
 func createDemoPage(xRefTable *model.XRefTable, parentPageIndRef types.IndirectRef, p model.Page) (*types.IndirectRef, error) {
-
 	pageDict := types.Dict(
 		map[string]types.Object{
 			"Type":   types.Name("Page"),

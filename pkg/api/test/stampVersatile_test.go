@@ -23,10 +23,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func TestAlternatingPageNumbersViaWatermarkMap(t *testing.T) {
@@ -297,11 +297,13 @@ func TestPdfSingleStampVariations(t *testing.T) {
 		msg, outFile string
 		pageNrSrc    int
 	}{
-		{"TestPdfSingleStampDefault", // Use page 2 of stampFile to stamp inFile pages.
+		{
+			"TestPdfSingleStampDefault", // Use page 2 of stampFile to stamp inFile pages.
 			"PdfSingleStampDefault.pdf",
 			2,
 		},
-		{"TestPdfMultiStampDefault", // Start stamping at page 1 using page 1 of stampFile.
+		{
+			"TestPdfMultiStampDefault", // Start stamping at page 1 using page 1 of stampFile.
 			"TestPdfMultiStampDefault.pdf",
 			0, // special case defaulting to multistamping
 		},
@@ -314,7 +316,6 @@ func TestPdfSingleStampVariations(t *testing.T) {
 			false,                                  // no update
 			conf.Unit,
 		)
-
 		if err != nil {
 			t.Fatalf("%s: %v\n", tt.msg, err)
 		}
@@ -348,22 +349,26 @@ func TestPdfMultiStampVariations(t *testing.T) {
 		startPageNrSrc  int
 		startPageNrDest int
 	}{
-		{"TestPdfMultiStamp11", // Start stamping at page 1 using page 1 of stampFile. (=TestPdfMultiStampDefault)
+		{
+			"TestPdfMultiStamp11", // Start stamping at page 1 using page 1 of stampFile. (=TestPdfMultiStampDefault)
 			"PdfMultiStamp11.pdf",
 			1,
 			1,
 		},
-		{"TestPdfMultiStamp13", // Skip first 2 page and start stamping at page 3 using page 1 of stampFile.
+		{
+			"TestPdfMultiStamp13", // Skip first 2 page and start stamping at page 3 using page 1 of stampFile.
 			"PdfMultiStamp13.pdf",
 			1,
 			3,
 		},
-		{"TestPdfMultiStamp31", // Start stamping at page 1 using page 3 of stampFile.
+		{
+			"TestPdfMultiStamp31", // Start stamping at page 1 using page 3 of stampFile.
 			"PdfMultiStamp31.pdf",
 			3,
 			1,
 		},
-		{"TestPdfMultiStamp33", // Skip first 2 page and start stamping at page 3 using page 3 of stampFile.
+		{
+			"TestPdfMultiStamp33", // Skip first 2 page and start stamping at page 3 using page 3 of stampFile.
 			"PdfMultiStamp33.pdf",
 			3,
 			3,
@@ -378,7 +383,6 @@ func TestPdfMultiStampVariations(t *testing.T) {
 			false,                                  // no update
 			conf.Unit,
 		)
-
 		if err != nil {
 			t.Fatalf("%s: %v\n", tt.msg, err)
 		}

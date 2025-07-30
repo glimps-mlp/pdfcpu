@@ -20,9 +20,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func testCut(t *testing.T, msg, inFile, outFile string, unit types.DisplayUnit, cutConf string) {
@@ -48,41 +48,53 @@ func TestCut(t *testing.T) {
 		unit            types.DisplayUnit
 		cutConf         string
 	}{
-		{"TestRotatedCutHor",
+		{
+			"TestRotatedCutHor",
 			"testRot.pdf",
 			"cutHorRot",
 			types.CENTIMETRES,
-			"hor:.5, margin:1, border:on"},
+			"hor:.5, margin:1, border:on",
+		},
 
-		{"TestCutHor",
+		{
+			"TestCutHor",
 			"test.pdf",
 			"cutHor",
 			types.CENTIMETRES,
-			"hor:.5, margin:1, bgcol:#E9967A, border:on"},
+			"hor:.5, margin:1, bgcol:#E9967A, border:on",
+		},
 
-		{"TestCutVer",
+		{
+			"TestCutVer",
 			"test.pdf",
 			"cutVer",
 			types.CENTIMETRES,
-			"ver:.5, margin:1, bgcol:#E9967A"},
+			"ver:.5, margin:1, bgcol:#E9967A",
+		},
 
-		{"TestCutHorAndVerQuarter",
+		{
+			"TestCutHorAndVerQuarter",
 			"test.pdf",
 			"cutHorAndVerQuarter",
 			types.POINTS,
-			"h:.5, v:.5"},
+			"h:.5, v:.5",
+		},
 
-		{"TestCutHorAndVerThird",
+		{
+			"TestCutHorAndVerThird",
 			"test.pdf",
 			"cutHorAndVerThird",
 			types.POINTS,
-			"h:.33333, h:.66666, v:.33333, v:.66666"},
+			"h:.33333, h:.66666, v:.33333, v:.66666",
+		},
 
-		{"Test",
+		{
+			"Test",
 			"test.pdf",
 			"cutCustom",
 			types.POINTS,
-			"h:.25, v:.5"},
+			"h:.25, v:.5",
+		},
 	} {
 		testCut(t, tt.msg, tt.inFile, tt.outFile, tt.unit, tt.cutConf)
 	}
@@ -113,33 +125,41 @@ func TestNDown(t *testing.T) {
 		unit    types.DisplayUnit
 		cutConf string
 	}{
-		{"TestNDownRot2",
+		{
+			"TestNDownRot2",
 			"testRot.pdf",
 			"ndownRot2",
 			2,
 			types.CENTIMETRES,
-			"margin:1, bgcol:#E9967A"},
+			"margin:1, bgcol:#E9967A",
+		},
 
-		{"TestNDown2",
+		{
+			"TestNDown2",
 			"test.pdf",
 			"ndown2",
 			2,
 			types.CENTIMETRES,
-			"margin:1, border:on"},
+			"margin:1, border:on",
+		},
 
-		{"TestNDown9",
+		{
+			"TestNDown9",
 			"test.pdf",
 			"ndown9",
 			9,
 			types.CENTIMETRES,
-			"margin:1, bgcol:#E9967A, border:on"},
+			"margin:1, bgcol:#E9967A, border:on",
+		},
 
-		{"TestNDown16",
+		{
+			"TestNDown16",
 			"test.pdf",
 			"ndown16",
 			16,
 			types.CENTIMETRES,
-			""}, // optional border, margin, bgcolor
+			"",
+		}, // optional border, margin, bgcolor
 	} {
 		testNDown(t, tt.msg, tt.inFile, tt.outFile, tt.n, tt.unit, tt.cutConf)
 	}
@@ -169,29 +189,37 @@ func TestPoster(t *testing.T) {
 		unit    types.DisplayUnit
 		cutConf string
 	}{
-		{"TestPoster", // 2x2 grid of A6 => A4
-			"test.pdf", // A4
+		{
+			"TestPoster", // 2x2 grid of A6 => A4
+			"test.pdf",   // A4
 			"poster",
 			types.POINTS,
-			"f:A6"},
+			"f:A6",
+		},
 
-		{"TestPosterScaled", // 4x4 grid of A6 => A2
-			"test.pdf", // A4
+		{
+			"TestPosterScaled", // 4x4 grid of A6 => A2
+			"test.pdf",         // A4
 			"posterScaled",
 			types.CENTIMETRES,
-			"f:A6, scale:2.0, margin:1, bgcol:#E9967A"},
+			"f:A6, scale:2.0, margin:1, bgcol:#E9967A",
+		},
 
-		{"TestPosterDim", // grid made up of 15x10 cm tiles => A4
-			"test.pdf", // A4
+		{
+			"TestPosterDim", // grid made up of 15x10 cm tiles => A4
+			"test.pdf",      // A4
 			"posterDim",
 			types.CENTIMETRES,
-			"dim:15 10, margin:1, border:on"},
+			"dim:15 10, margin:1, border:on",
+		},
 
-		{"TestPosterDimScaled", // grid made up of 15x10 cm tiles => A2
-			"test.pdf", // A4
+		{
+			"TestPosterDimScaled", // grid made up of 15x10 cm tiles => A2
+			"test.pdf",            // A4
 			"posterDimScaled",
 			types.CENTIMETRES,
-			"dim:15 10, scale:2.0, margin:1, bgcol:#E9967A, border:on"},
+			"dim:15 10, scale:2.0, margin:1, bgcol:#E9967A, border:on",
+		},
 	} {
 		testPoster(t, tt.msg, tt.inFile, tt.outFile, tt.unit, tt.cutConf)
 	}

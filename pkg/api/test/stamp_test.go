@@ -21,9 +21,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func testAddWatermarks(t *testing.T, msg, inFile, outFile string, selectedPages []string, mode, modeParam, desc string, onTop bool) {
@@ -61,7 +61,6 @@ func TestAddWatermarks(t *testing.T) {
 		modeParm        string
 		wmConf          string
 	}{
-
 		// Avoid font embedding for CJK fonts like so:
 
 		// Any font name ending with GB2312 will be recognized as using HANS:
@@ -84,7 +83,8 @@ func TestAddWatermarks(t *testing.T) {
 		// 	"测试中文字体水印增加的文件大小\n2023-10-16",
 		// 	"font: KaiTi_GB2312, script: hans,  points: 36, scale: 1 abs, color: #ff0000, op: 0.3, ro: 30"},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextDefaults.pdf",
 			[]string{"1-"},
@@ -94,9 +94,11 @@ func TestAddWatermarks(t *testing.T) {
 				"position:c, offset:0 0, scale:0.5 rel, diagonal:1,\n" +
 				"opacity:1, rendermode:0, fillcolor: 0.5 0.5 0.5,\n" +
 				"strokecol: 0.5 0.5 0.5\"",
-			""},
+			"",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextDefaultsAbbr.pdf",
 			[]string{"1-"},
@@ -107,25 +109,31 @@ func TestAddWatermarks(t *testing.T) {
 					pos:c, off:0 0, scale:0.5 rel, d:1,
 					op:1, mode:0, fillc: 0.5 0.5 0.5,
 					strokec: #808080"`,
-			""},
+			"",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextAlongLeftBorder.pdf",
 			[]string{"1-"},
 			"text",
 			"Welcome to pdfcpu",
-			"pos:l, off:0 0, rot:-90"},
+			"pos:l, off:0 0, rot:-90",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextPagenumbers.pdf",
 			[]string{"1-"},
 			"text",
 			"Page %p of %P",
-			"scale:1 abs, pos:bc, rot:0"},
+			"scale:1 abs, pos:bc, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextRenderMode0.pdf",
 			[]string{"1-"},
@@ -133,9 +141,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Rendermode 0 fills text using fill color.\n" +
 				"\"rendermode\" or \"mode\" works - also abbreviated: \n" +
 				"\"mode:0, fillc:#3277d3, rot:0, scale:.8\"",
-			"mode:0, fillc:#3277d3, rot:0, scale:.8"},
+			"mode:0, fillc:#3277d3, rot:0, scale:.8",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextRenderMode1.pdf",
 			[]string{"1-"},
@@ -143,9 +153,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Rendermode 1 strokes text using stroke color.\n" +
 				"\"rendermode\" or \"mode\" works - also abbreviated: \n" +
 				"\"mo:1, strokec:#335522, rot:0, scale:.8\"",
-			"mo:1, strokec:#335522, rot:0, scale:.8"},
+			"mo:1, strokec:#335522, rot:0, scale:.8",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextRenderMode2.pdf",
 			[]string{"1-"},
@@ -154,9 +166,11 @@ func TestAddWatermarks(t *testing.T) {
 				"and fills text using fill color\n" +
 				"\"rendermode\" or \"mode\" works - also abbreviated: \n" +
 				"\"re:2, fillc:#3277d3, strokec:#335522, rot:0, scale:.8\"",
-			"re:2, fillc:#3277d3, strokec:#335522, rot:0, scale:.8"},
+			"re:2, fillc:#3277d3, strokec:#335522, rot:0, scale:.8",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextAlignLeft.pdf",
 			[]string{"1-"},
@@ -164,9 +178,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Here we have\n" +
 				"some left aligned text lines\n" +
 				"\"align:l, fillc:#3277d3, rot:0\"",
-			"align:l, fillc:#3277d3, rot:0"},
+			"align:l, fillc:#3277d3, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextAlignRight.pdf",
 			[]string{"1-"},
@@ -175,9 +191,11 @@ func TestAddWatermarks(t *testing.T) {
 				"some right aligned text lines\n" +
 				"with background color\n" +
 				"\"align:l, fillc:#3277d3, bgcol:#f7e6c7, rot:0\"",
-			"align:r, fillc:#3277d3, bgcol:#f7e6c7, rot:0"},
+			"align:r, fillc:#3277d3, bgcol:#f7e6c7, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextAlignCenter.pdf",
 			[]string{"1-"},
@@ -186,9 +204,11 @@ func TestAddWatermarks(t *testing.T) {
 				"some centered text lines\n" +
 				"with background color\n" +
 				"\"fillc:#3277d3, bgcol:#beded9, rot:0\"",
-			"fillc:#3277d3, bgcol:#beded9, rot:0"},
+			"fillc:#3277d3, bgcol:#beded9, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextAlignJustify.pdf",
 			[]string{"1-"},
@@ -197,9 +217,11 @@ func TestAddWatermarks(t *testing.T) {
 				"some justified text lines\n" +
 				"with background color\n" +
 				"\"al:j, fillc:#3277d3, bgcol:#000000, rot:0\"",
-			"al:j, fillc:#3277d3, bgcol:#000000, rot:0"},
+			"al:j, fillc:#3277d3, bgcol:#000000, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextScaleRel25.pdf",
 			[]string{"1-"},
@@ -207,9 +229,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Relative scale factor: .25\n" +
 				"scales relative to page dimensions.\n" +
 				"\"scale:.25 rel, fillc:#3277d3, rot:0\"",
-			"scale:.25 rel, fillc:#3277d3, rot:0"},
+			"scale:.25 rel, fillc:#3277d3, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextScaleRel50.pdf",
 			[]string{"1-"},
@@ -217,9 +241,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Relative scale factor: .5\n" +
 				"scales relative to page dimensions.\n" +
 				"\"scale:.5, fillc:#3277d3, rot:0\"",
-			"scale:.5, fillc:#3277d3, rot:0"},
+			"scale:.5, fillc:#3277d3, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextScaleRel100.pdf",
 			[]string{"1-"},
@@ -227,9 +253,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Relative scale factor: 1\n" +
 				"scales relative to page dimensions.\n" +
 				"\"scale:1, fillc:#3277d3, rot:0\"",
-			"scale:1, fillc:#3277d3, rot:0"},
+			"scale:1, fillc:#3277d3, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextScaleAbs50.pdf",
 			[]string{"1-"},
@@ -238,9 +266,11 @@ func TestAddWatermarks(t *testing.T) {
 				"scales fontsize\n" +
 				"(here using the 24 points default)\n" +
 				"\"scale:.5 abs, font:Courier, rot:0\"",
-			"scale:.5 abs, font:Courier, rot:0"},
+			"scale:.5 abs, font:Courier, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextScaleAbs100.pdf",
 			[]string{"1-"},
@@ -249,9 +279,11 @@ func TestAddWatermarks(t *testing.T) {
 				"scales fontsize\n" +
 				"(here using the 24 points default)\n" +
 				"\"scale:1 abs, font:Courier, rot:0\"",
-			"scale:1 abs, font:Courier, rot:0"},
+			"scale:1 abs, font:Courier, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextScaleAbs150.pdf",
 			[]string{"1-"},
@@ -260,9 +292,11 @@ func TestAddWatermarks(t *testing.T) {
 				"scales fontsize\n" +
 				"(here using the 24 points default)\n" +
 				"\"scale:1.5 abs, font:Courier, rot:0\"",
-			"scale:1.5 abs, font:Courier, rot:0"},
+			"scale:1.5 abs, font:Courier, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextPosBotLeft.pdf",
 			[]string{"1-"},
@@ -270,9 +304,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Positioning using anchors:\n" +
 				"bottom left corner with left alignment\n" +
 				"\"pos:bl, bgcol:#f7e6c7, rot:0\"",
-			"pos:bl, bgcol:#f7e6c7, rot:0"},
+			"pos:bl, bgcol:#f7e6c7, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextPosBotRightWithOffset.pdf",
 			[]string{"1-"},
@@ -280,17 +316,21 @@ func TestAddWatermarks(t *testing.T) {
 			"Positioning using anchors and offset:\n" +
 				"bottom right corner with right alignment\n" +
 				"\"pos:br, off: -10 10, align:r, bgcol:#f7e6c7, rot:0\"",
-			"pos:br, off: -10 10, align:r, bgcol:#f7e6c7, rot:0"},
+			"pos:br, off: -10 10, align:r, bgcol:#f7e6c7, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextOffAndRot.pdf",
 			[]string{"1-"},
 			"text",
 			"Confidential\n\"scale:1 abs, points:20, pos:c, off:0 50, fillc:#000000, rot:20\"",
-			"scale:1 abs, points:20, pos:c, off:0 50, fillc:#000000, rot:20"},
+			"scale:1 abs, points:20, pos:c, off:0 50, fillc:#000000, rot:20",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextMargins1Value.pdf",
 			[]string{"1-"},
@@ -298,9 +338,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Set all margins:\n" +
 				"(needs \"bgcol\")\n" +
 				"\"margins: 10, fillc:#3277d3, bgcol:#beded9, rot:0\"",
-			"margins: 10,fillc:#3277d3, bgcol:#beded9, rot:0"},
+			"margins: 10,fillc:#3277d3, bgcol:#beded9, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextMargins2Values.pdf",
 			[]string{"1-"},
@@ -308,9 +350,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Set top/bottom and left/right margins:\n" +
 				"(needs \"bgcol\")\n" +
 				"\"ma: 5 10, fillc:#3277d3, bgcol:#beded9, rot:0\"",
-			"ma: 5 10, fillc:#3277d3, bgcol:#beded9, rot:0"},
+			"ma: 5 10, fillc:#3277d3, bgcol:#beded9, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextMargins3Values.pdf",
 			[]string{"1-"},
@@ -318,9 +362,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Set top, left/right and  bottom margins:\n" +
 				"(needs \"bgcol\")\n" +
 				"\"ma: 5 10 15, fillc:#3277d3, bgcol:#beded9, rot:0\"",
-			"ma: 5 10 15, fillc:#3277d3, bgcol:#beded9, rot:0"},
+			"ma: 5 10 15, fillc:#3277d3, bgcol:#beded9, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextMargins4Values.pdf",
 			[]string{"1-"},
@@ -328,9 +374,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Set all margins individually:\n" +
 				"(needs \"bgcol\")\n" +
 				"\"ma: 5 10 15 20, fillc:#3277d3, bgcol:#beded9, rot:0\"",
-			"ma: 5 10 15 20, fillc:#3277d3, bgcol:#beded9, rot:0"},
+			"ma: 5 10 15 20, fillc:#3277d3, bgcol:#beded9, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextRoundCornersAndBorder5.pdf",
 			[]string{"1-"},
@@ -339,9 +387,11 @@ func TestAddWatermarks(t *testing.T) {
 				"(needs \"bgcol\" and a border)\n" +
 				"round corner effect depends on border width\n" +
 				"\"border: 5 round, fillc:#3277d3, bgcol:#beded9, rot:0\"",
-			"border: 5 round, fillc:#3277d3, bgcol:#beded9, rot:0"},
+			"border: 5 round, fillc:#3277d3, bgcol:#beded9, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextRoundCornersAndBorder10.pdf",
 			[]string{"1-"},
@@ -350,9 +400,11 @@ func TestAddWatermarks(t *testing.T) {
 				"(needs \"bgcol\" and a border)\n" +
 				"round corner effect depends on border width\n" +
 				"\"border: 10 round, fillc:#3277d3, bgcol:#beded9, rot:0\"",
-			"border: 10 round, fillc:#3277d3, bgcol:#beded9, rot:0"},
+			"border: 10 round, fillc:#3277d3, bgcol:#beded9, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextRoundCornersAndColoredBorder.pdf",
 			[]string{"1-"},
@@ -361,9 +413,11 @@ func TestAddWatermarks(t *testing.T) {
 				"(needs \"bgcol\")\n" +
 				"round corner effect depends on border width\n" +
 				"\"border: 10 round #f7e6c7, fillc:#3277d3, bgcol:#beded9, rot:0\"",
-			"border: 10 round #f7e6c7, fillc:#3277d3, bgcol:#beded9, rot:0"},
+			"border: 10 round #f7e6c7, fillc:#3277d3, bgcol:#beded9, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextMarginsAndColoredBorder.pdf",
 			[]string{"1-"},
@@ -371,9 +425,11 @@ func TestAddWatermarks(t *testing.T) {
 			"Set margins and colored border:\n" +
 				"(needs \"bgcol\")\n" +
 				"\"ma: 10, bo: 5 .3 .7 .7, fillc:#3277d3, bgcol:#beded9, rot:0\"",
-			"ma: 10, bo: 5 .3 .7 .7, fillc:#3277d3, bgcol:#beded9, rot:0"},
+			"ma: 10, bo: 5 .3 .7 .7, fillc:#3277d3, bgcol:#beded9, rot:0",
+		},
 
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Walden.pdf",
 			"TextMarginsRoundCornersAndColoredBorder.pdf",
 			[]string{"1-"},
@@ -382,86 +438,103 @@ func TestAddWatermarks(t *testing.T) {
 				"(needs \"bgcol\")\n" +
 				"round corner effect depends on border width\n" +
 				"\"ma: 5, bo: 7 round .3 .7 .7, fillc:#3277d3, bgcol:#beded9, rot:0\"",
-			"ma: 5, bo: 7 round .3 .7 .7, fillc:#3277d3, bgcol:#beded9, rot:0"},
+			"ma: 5, bo: 7 round .3 .7 .7, fillc:#3277d3, bgcol:#beded9, rot:0",
+		},
 
 		// Add image watermark to inFile starting at page 1 using no rotation.
-		{"TestWatermarkImage",
+		{
+			"TestWatermarkImage",
 			"Walden.pdf",
 			"ImageRotate90.pdf",
 			[]string{"1-"},
 			"image",
 			filepath.Join(resDir, "logoSmall.png"),
-			"scale:.25, rot:90"},
+			"scale:.25, rot:90",
+		},
 
 		// Add image watermark to inFile for all pages using defaults..
-		{"TestWatermarkImage2",
+		{
+			"TestWatermarkImage2",
 			"Walden.pdf",
 			"ImagePosBottomLeftWithOffset.pdf",
 			nil,
 			"image",
 			filepath.Join(resDir, "logoSmall.png"),
-			"scale:.1, pos:bl, off:15 20, rot:0"},
+			"scale:.1, pos:bl, off:15 20, rot:0",
+		},
 
 		// Add image stamp to inFile using absolute scaling and a rotation of 45 degrees.
-		{"TestStampImageAbsScaling",
+		{
+			"TestStampImageAbsScaling",
 			"Walden.pdf",
 			"ImageAbsScaling.pdf",
 			[]string{"1-"},
 			"image",
 			filepath.Join(resDir, "logoSmall.png"),
-			"scale:.33 abs, rot:45"},
+			"scale:.33 abs, rot:45",
+		},
 
 		// Add a PDF stamp to all pages of inFile using the 1st page of pdfFile
 		// and rotate along the 2nd diagonal running from upper left to lower right corner.
-		{"TestWatermarkPDF",
+		{
+			"TestWatermarkPDF",
 			"Walden.pdf",
 			"PdfSingleStampDefault.pdf",
 			nil,
 			"pdf",
 			filepath.Join(inDir, "Walden.pdf:1"),
-			"d:2"},
+			"d:2",
+		},
 
 		// Add a PDF multistamp in the top right corner to all pages of inFile.
-		{"TestWatermarkPDF",
+		{
+			"TestWatermarkPDF",
 			"Walden.pdf",
 			"PdfMultistampDefault.pdf",
 			nil,
 			"pdf",
 			filepath.Join(inDir, "Walden.pdf"),
-			"scale:.2, pos:tr, off:-10 -10, rot:0"},
+			"scale:.2, pos:tr, off:-10 -10, rot:0",
+		},
 
 		// Add a PDF multistamp to all pages of inFile.
 		// Start by stamping page 3 with page 1.
 		// You may filter stamping by defining selected Pages.
-		{"TestWatermarkPDF",
+		{
+			"TestWatermarkPDF",
 			"zineTest.pdf",
 			"PdfMultistamp13.pdf",
 			nil,
 			"pdf",
 			filepath.Join(inDir, "zineTest.pdf:1:3"),
-			"scale:.2, pos:tr, off:-10 -10, rot:0"},
+			"scale:.2, pos:tr, off:-10 -10, rot:0",
+		},
 
 		// Add a PDF multistamp to all pages of inFile.
 		// Start by stamping page 1 with page 3.
 		// You may filter stamping by defining selected Pages.
-		{"TestWatermarkPDF",
+		{
+			"TestWatermarkPDF",
 			"zineTest.pdf",
 			"PdfMultistamp31.pdf",
 			nil,
 			"pdf",
 			filepath.Join(inDir, "zineTest.pdf:3:1"),
-			"scale:.2, pos:tr, off:-10 -10, rot:0"},
+			"scale:.2, pos:tr, off:-10 -10, rot:0",
+		},
 
 		// Add a PDF multistamp to all pages of inFile.
 		// Start by stamping page 3 with page 3.
 		// You may filter stamping by defining selected Pages.
-		{"TestWatermarkPDF",
+		{
+			"TestWatermarkPDF",
 			"zineTest.pdf",
 			"PdfMultistamp33.pdf",
 			nil,
 			"pdf",
 			filepath.Join(inDir, "zineTest.pdf:3:3"),
-			"scale:.2, pos:tr, off:-10 -10, rot:0"},
+			"scale:.2, pos:tr, off:-10 -10, rot:0",
+		},
 	} {
 		testAddWatermarks(t, tt.msg, tt.inFile, tt.outFile, tt.selectedPages, tt.mode, tt.modeParm, tt.wmConf, false)
 		testAddWatermarks(t, tt.msg, tt.inFile, tt.outFile, tt.selectedPages, tt.mode, tt.modeParm, tt.wmConf, true)
@@ -477,26 +550,29 @@ func TestAddStampWithLink(t *testing.T) {
 		modeParm        string
 		wmConf          string
 	}{
-		{"TestStampTextWithLink",
+		{
+			"TestStampTextWithLink",
 			"Walden.pdf",
 			"TextWithLink.pdf",
 			[]string{"1-"},
 			"text",
 			"A simple text watermark with link",
-			"url:pdfcpu.io"},
+			"url:pdfcpu.io",
+		},
 
-		{"TestStampImageWithLink",
+		{
+			"TestStampImageWithLink",
 			"Walden.pdf",
 			"ImageWithLink.pdf",
 			[]string{"1-"},
 			"image",
 			filepath.Join(resDir, "logoSmall.png"),
-			"url:pdfcpu.io, scale:.33 abs, rot:45"},
+			"url:pdfcpu.io, scale:.33 abs, rot:45",
+		},
 	} {
 		// Links supported for stamps only (watermark onTop:true).
 		testAddWatermarks(t, tt.msg, tt.inFile, tt.outFile, tt.selectedPages, tt.mode, tt.modeParm, tt.wmConf, true)
 	}
-
 }
 
 func TestCropBox(t *testing.T) {

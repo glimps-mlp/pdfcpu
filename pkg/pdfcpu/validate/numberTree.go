@@ -19,13 +19,12 @@ package validate
 import (
 	"fmt"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 func validatePageLabelDict(xRefTable *model.XRefTable, o types.Object) error {
-
 	// see 12.4.2 Page Labels
 
 	d, err := xRefTable.DereferenceDict(o)
@@ -64,7 +63,6 @@ func validatePageLabelDict(xRefTable *model.XRefTable, o types.Object) error {
 }
 
 func validateNumberTreeDictNumsEntry(xRefTable *model.XRefTable, d types.Dict, name string) (firstKey, lastKey int, err error) {
-
 	// Nums: array of the form [key1 value1 key2 value2 ... key n value n]
 	o, found := d.Find("Nums")
 	if !found {
@@ -138,7 +136,6 @@ func validateNumberTreeDictNumsEntry(xRefTable *model.XRefTable, d types.Dict, n
 }
 
 func validateNumberTreeDictLimitsEntry(xRefTable *model.XRefTable, d types.Dict, firstKey, lastKey int) error {
-
 	a, err := validateIntegerArrayEntry(xRefTable, d, "numberTreeDict", "Limits", REQUIRED, model.V10, func(a types.Array) bool { return len(a) == 2 })
 	if err != nil {
 		return err
@@ -166,7 +163,6 @@ func validateNumberTreeDictLimitsEntry(xRefTable *model.XRefTable, d types.Dict,
 }
 
 func validateNumberTree(xRefTable *model.XRefTable, name string, d types.Dict, root bool) (firstKey, lastKey int, err error) {
-
 	// A node has "Kids" or "Nums" entry.
 
 	// Kids: array of indirect references to the immediate children of this node.

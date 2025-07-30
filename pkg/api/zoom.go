@@ -20,9 +20,9 @@ import (
 	"io"
 	"os"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 	"github.com/pkg/errors"
 )
 
@@ -68,9 +68,7 @@ func ZoomFile(inFile, outFile string, selectedPages []string, zoom *model.Zoom, 
 		logWritingTo(inFile)
 	}
 
-	var (
-		f1, f2 *os.File
-	)
+	var f1, f2 *os.File
 
 	if f1, err = os.Open(inFile); err != nil {
 		return err

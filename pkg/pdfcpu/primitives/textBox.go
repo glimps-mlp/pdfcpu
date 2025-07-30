@@ -19,10 +19,10 @@ package primitives
 import (
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/format"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/format"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -129,7 +129,6 @@ func (tb *TextBox) validateHorAlign() error {
 }
 
 func (tb *TextBox) validate() error {
-
 	tb.x = tb.Position[0]
 	tb.y = tb.Position[1]
 
@@ -181,7 +180,6 @@ func (tb *TextBox) padding(name string) *Padding {
 }
 
 func (tb *TextBox) mergeInPos(tb0 *TextBox) {
-
 	if !tb.anchored && tb.x == 0 && tb.y == 0 {
 		tb.x = tb0.x
 		tb.y = tb0.y
@@ -198,7 +196,6 @@ func (tb *TextBox) mergeInPos(tb0 *TextBox) {
 }
 
 func (tb *TextBox) mergeIn(tb0 *TextBox) {
-
 	tb.mergeInPos(tb0)
 
 	if tb.Value == "" {
@@ -287,7 +284,6 @@ func tdMargin(p *Padding, td *model.TextDescriptor) {
 }
 
 func (tb *TextBox) prepareTextDescriptor(p *model.Page, pageNr int, fonts model.FontMap) (*model.TextDescriptor, error) {
-
 	pdf := tb.pdf
 	f := tb.Font
 	fontName := f.Name
@@ -399,7 +395,6 @@ func (tb *TextBox) calcMargin() (float64, float64, float64, float64, error) {
 }
 
 func (tb *TextBox) render(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	pdf := tb.pdf
 
 	if err := tb.calcFont(); err != nil {

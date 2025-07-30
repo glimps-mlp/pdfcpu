@@ -18,10 +18,9 @@ package types
 
 import (
 	"fmt"
-
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
 )
 
 // Array represents a PDF array object.
@@ -29,7 +28,6 @@ type Array []Object
 
 // NewStringLiteralArray returns a PDFArray with StringLiteral entries.
 func NewStringLiteralArray(sVars ...string) Array {
-
 	a := Array{}
 
 	for _, s := range sVars {
@@ -41,7 +39,6 @@ func NewStringLiteralArray(sVars ...string) Array {
 
 // NewHexLiteralArray returns a PDFArray with HexLiteralLiteral entries.
 func NewHexLiteralArray(sVars ...string) Array {
-
 	a := Array{}
 
 	for _, s := range sVars {
@@ -53,7 +50,6 @@ func NewHexLiteralArray(sVars ...string) Array {
 
 // NewNameArray returns a PDFArray with Name entries.
 func NewNameArray(sVars ...string) Array {
-
 	a := Array{}
 
 	for _, s := range sVars {
@@ -65,7 +61,6 @@ func NewNameArray(sVars ...string) Array {
 
 // NewNumberArray returns a PDFArray with Float entries.
 func NewNumberArray(fVars ...float64) Array {
-
 	a := Array{}
 
 	for _, f := range fVars {
@@ -77,7 +72,6 @@ func NewNumberArray(fVars ...float64) Array {
 
 // NewIntegerArray returns a PDFArray with Integer entries.
 func NewIntegerArray(fVars ...int) Array {
-
 	a := Array{}
 
 	for _, f := range fVars {
@@ -100,7 +94,6 @@ func (a Array) Clone() Object {
 }
 
 func (a Array) indentedString(level int) string {
-
 	logstr := []string{"["}
 	tabstr := strings.Repeat("\t", level)
 	first := true
@@ -147,7 +140,6 @@ func (a Array) String() string {
 
 // PDFString returns a string representation as found in and written to a PDF file.
 func (a Array) PDFString() string {
-
 	logstr := []string{}
 	logstr = append(logstr, "[")
 	first := true

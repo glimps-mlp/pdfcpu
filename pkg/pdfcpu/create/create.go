@@ -23,16 +23,15 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	pdffont "github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/primitives"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	pdffont "github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/primitives"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 func ensureFontIndRef(xRefTable *model.XRefTable, fontName string, frPage model.FontResource, fonts model.FontMap) (*types.IndirectRef, error) {
-
 	frGlobal, ok := fonts[fontName]
 	if !ok {
 		return nil, errors.Errorf("pdfcpu: missing global font: %s", fontName)
@@ -68,7 +67,6 @@ func ensureFontIndRef(xRefTable *model.XRefTable, fontName string, frPage model.
 }
 
 func addPageResources(xRefTable *model.XRefTable, d types.Dict, p model.Page, fonts model.FontMap) error {
-
 	fontRes := types.Dict{}
 	for fontName, frPage := range p.Fm {
 		ir, err := ensureFontIndRef(xRefTable, fontName, frPage, fonts)
@@ -98,7 +96,6 @@ func addPageResources(xRefTable *model.XRefTable, d types.Dict, p model.Page, fo
 }
 
 func updatePageResources(xRefTable *model.XRefTable, d, resDict types.Dict, p model.Page, fonts model.FontMap) error {
-
 	if len(p.Fm) > 0 {
 		fontRes, ok := resDict["Font"].(types.Dict)
 		if !ok {
@@ -164,7 +161,6 @@ func setAnnotationParentsAndFields(xRefTable *model.XRefTable, p *model.Page, pI
 }
 
 func addAnnotations(ff []model.FieldAnnotation, m map[int]model.FieldAnnotation) types.Array {
-
 	arr := types.Array{}
 
 	for i, j := 0, 0; j < len(ff); i++ {
@@ -213,7 +209,6 @@ func addAnnotations(ff []model.FieldAnnotation, m map[int]model.FieldAnnotation)
 }
 
 func mergeAnnotations(oldAnnots types.Array, ff []model.FieldAnnotation, m map[int]model.FieldAnnotation) (types.Array, error) {
-
 	if len(oldAnnots) == 0 {
 		return addAnnotations(ff, m), nil
 	}
@@ -291,8 +286,8 @@ func CreatePage(
 	xRefTable *model.XRefTable,
 	parentPageIndRef types.IndirectRef,
 	p *model.Page,
-	fonts model.FontMap) (*types.IndirectRef, types.Dict, error) {
-
+	fonts model.FontMap,
+) (*types.IndirectRef, types.Dict, error) {
 	pageDict := types.Dict(
 		map[string]types.Object{
 			"Type":     types.Name("Page"),
@@ -350,7 +345,6 @@ func CreatePage(
 
 // UpdatePage updates the existing page dict d with content provided by p.
 func UpdatePage(xRefTable *model.XRefTable, dIndRef types.IndirectRef, d, res types.Dict, p *model.Page, fonts model.FontMap) error {
-
 	// TODO Account for existing page rotation.
 
 	err := updatePageResources(xRefTable, d, res, *p, fonts)
@@ -399,7 +393,6 @@ func UpdatePage(xRefTable *model.XRefTable, dIndRef types.IndirectRef, d, res ty
 }
 
 func cacheFormFieldIDs(ctx *model.Context, pdf *primitives.PDF) error {
-
 	if ctx.Form == nil {
 		return nil
 	}
@@ -449,7 +442,6 @@ func cacheResIDs(ctx *model.Context, pdf *primitives.PDF) error {
 }
 
 func parseFromJSON(ctx *model.Context, bb []byte) (*primitives.PDF, error) {
-
 	if !json.Valid(bb) {
 		return nil, errors.Errorf("pdfcpu: invalid JSON encoding detected.")
 	}
@@ -503,8 +495,8 @@ func appendPage(
 	pagesDictIndRef types.IndirectRef,
 	pagesDict types.Dict,
 	p *model.Page,
-	fonts model.FontMap) error {
-
+	fonts model.FontMap,
+) error {
 	ir, _, err := CreatePage(ctx.XRefTable, pagesDictIndRef, p, fonts)
 	if err != nil {
 		return err
@@ -524,7 +516,6 @@ func appendPage(
 }
 
 func updatePage(ctx *model.Context, pageNr int, p *model.Page, fonts model.FontMap) error {
-
 	pageDict, pageDictIndRef, inhPAttrs, err := ctx.PageDict(pageNr, false)
 	if err != nil {
 		return err
@@ -541,7 +532,6 @@ func updatePage(ctx *model.Context, pageNr int, p *model.Page, fonts model.FontM
 
 // UpdatePageTree merges new pages or updates existing pages into ctx.
 func UpdatePageTree(ctx *model.Context, pages []*model.Page, fontMap model.FontMap) (types.Array, model.FontMap, error) {
-
 	pageCount := ctx.PageCount
 
 	ir, err := ctx.Pages()
@@ -583,7 +573,6 @@ func UpdatePageTree(ctx *model.Context, pages []*model.Page, fontMap model.FontM
 }
 
 func prepareFormFontResDict(ctx *model.Context, pdf *primitives.PDF, fonts model.FontMap) (types.Dict, error) {
-
 	d := types.Dict{}
 
 	for id, f := range pdf.FormFonts {
@@ -623,8 +612,8 @@ func createForm(
 	ctx *model.Context,
 	pdf *primitives.PDF,
 	fields types.Array,
-	fonts model.FontMap) error {
-
+	fonts model.FontMap,
+) error {
 	d := types.Dict{"Fields": fields}
 
 	if len(pdf.FormFonts) > 0 {
@@ -644,8 +633,8 @@ func updateForm(
 	ctx *model.Context,
 	pdf *primitives.PDF,
 	fields types.Array,
-	fonts model.FontMap) error {
-
+	fonts model.FontMap,
+) error {
 	d := ctx.Form
 
 	o, _ := d.Find("Fields")
@@ -704,8 +693,8 @@ func handleForm(
 	ctx *model.Context,
 	pdf *primitives.PDF,
 	fields types.Array,
-	fonts model.FontMap) error {
-
+	fonts model.FontMap,
+) error {
 	var err error
 	if pdf.Update() && pdf.HasForm {
 		err = updateForm(ctx, pdf, fields, fonts)
@@ -730,7 +719,6 @@ func handleForm(
 
 // FromJSON generates PDF content into ctx as provided by rd.
 func FromJSON(ctx *model.Context, rd io.Reader) error {
-
 	var buf bytes.Buffer
 	if _, err := io.Copy(&buf, rd); err != nil {
 		return err

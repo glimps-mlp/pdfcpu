@@ -26,11 +26,11 @@ import (
 	"os"
 	"strings"
 
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/hhrutter/tiff"
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -199,7 +199,7 @@ func streamBytes(sd *types.StreamDict) ([]byte, error) {
 		}
 
 	case filter.JPX:
-		//imageObj.Extension = "jpx"
+		// imageObj.Extension = "jpx"
 
 	default:
 		if log.DebugEnabled() {
@@ -213,7 +213,6 @@ func streamBytes(sd *types.StreamDict) ([]byte, error) {
 
 // Return the soft mask for this image or nil.
 func softMask(xRefTable *model.XRefTable, d *types.StreamDict, w, h, objNr int) ([]byte, error) {
-
 	// TODO Process optional "Matte".
 
 	o, _ := d.Find("SMask")
@@ -264,7 +263,6 @@ func softMask(xRefTable *model.XRefTable, d *types.StreamDict, w, h, objNr int) 
 }
 
 func imageForCMYKWithoutSoftMask(im *PDFImage) image.Image {
-
 	// Preserve CMYK color model for print applications.
 
 	// TODO support bpc, decode.
@@ -281,11 +279,9 @@ func imageForCMYKWithoutSoftMask(im *PDFImage) image.Image {
 	}
 
 	return img
-
 }
 
 func imageForCMYKWithSoftMask(im *PDFImage) image.Image {
-
 	// TODO support bpc, decode.
 
 	img := image.NewNRGBA(image.Rect(0, 0, im.w, im.h))
@@ -521,7 +517,7 @@ func renderIndexedGrayToPNG(im *PDFImage, lookup []byte) (io.Reader, string, err
 				if im.bpc < 8 {
 					v = scaleToBPC8(v, im.bpc)
 				}
-				//fmt.Printf("x=%d y=%d pix=#%02x v=#%02x\n", x, y, pix, v)
+				// fmt.Printf("x=%d y=%d pix=#%02x v=#%02x\n", x, y, pix, v)
 				img.Set(x, y, color.Gray{Y: v})
 				p <<= uint8(im.bpc)
 				x++
@@ -550,7 +546,7 @@ func renderIndexedRGBToPNG(im *PDFImage, lookup []byte) (io.Reader, string, erro
 			p := b[i]
 			for j := 0; j < 8/im.bpc && x < im.w; j++ {
 				ind := p >> (8 - uint8(im.bpc))
-				//fmt.Printf("x=%d y=%d i=%d j=%d p=#%02x ind=#%02x\n", x, y, i, j, p, ind)
+				// fmt.Printf("x=%d y=%d i=%d j=%d p=#%02x ind=#%02x\n", x, y, i, j, p, ind)
 				alpha := uint8(255)
 				if im.softMask != nil {
 					alpha = im.softMask[y*im.w+x]
@@ -573,7 +569,6 @@ func renderIndexedRGBToPNG(im *PDFImage, lookup []byte) (io.Reader, string, erro
 }
 
 func imageForIndexedCMYKWithoutSoftMask(im *PDFImage, lookup []byte) image.Image {
-
 	// Preserve CMYK color model for print applications.
 
 	// TODO handle decode
@@ -587,7 +582,7 @@ func imageForIndexedCMYKWithoutSoftMask(im *PDFImage, lookup []byte) image.Image
 			p := b[i]
 			for j := 0; j < 8/im.bpc && x < im.w; j++ {
 				ind := p >> (8 - uint8(im.bpc))
-				//fmt.Printf("x=%d y=%d i=%d j=%d p=#%02x ind=#%02x\n", x, y, i, j, p, ind)
+				// fmt.Printf("x=%d y=%d i=%d j=%d p=#%02x ind=#%02x\n", x, y, i, j, p, ind)
 				l := 4 * int(ind)
 				img.Set(x, y, color.CMYK{C: lookup[l], M: lookup[l+1], Y: lookup[l+2], K: lookup[l+3]})
 				p <<= uint8(im.bpc)
@@ -601,7 +596,6 @@ func imageForIndexedCMYKWithoutSoftMask(im *PDFImage, lookup []byte) image.Image
 }
 
 func imageForIndexedCMYKWithSoftMask(im *PDFImage, lookup []byte) image.Image {
-
 	// TODO handle decode
 
 	img := image.NewNRGBA(image.Rect(0, 0, im.w, im.h))
@@ -613,7 +607,7 @@ func imageForIndexedCMYKWithSoftMask(im *PDFImage, lookup []byte) image.Image {
 			p := b[i]
 			for j := 0; j < 8/im.bpc && x < im.w; j++ {
 				ind := p >> (8 - uint8(im.bpc))
-				//fmt.Printf("x=%d y=%d i=%d j=%d p=#%02x ind=#%02x\n", x, y, i, j, p, ind)
+				// fmt.Printf("x=%d y=%d i=%d j=%d p=#%02x ind=#%02x\n", x, y, i, j, p, ind)
 				l := 4 * int(ind)
 				cr, cg, cb := color.CMYKToRGB(lookup[l], lookup[l+1], lookup[l+2], lookup[l+3])
 				alpha := im.softMask[y*im.w+x]
@@ -629,7 +623,6 @@ func imageForIndexedCMYKWithSoftMask(im *PDFImage, lookup []byte) image.Image {
 }
 
 func renderIndexedCMYKToTIFF(im *PDFImage, lookup []byte) (io.Reader, string, error) {
-
 	var img image.Image
 	if im.softMask != nil {
 		img = imageForIndexedCMYKWithSoftMask(im, lookup)
@@ -681,12 +674,12 @@ func renderIndexedArrayCS(xRefTable *model.XRefTable, im *PDFImage, csa types.Ar
 
 	switch cs {
 
-	//case CalGrayCS:
+	// case CalGrayCS:
 
 	case model.CalRGBCS:
 		return renderIndexedRGBToPNG(im, lookup)
 
-	//case LabCS:
+	// case LabCS:
 	//	return renderIndexedRGBToPNG(im, resourceName, lookup)
 
 	case model.ICCBasedCS:

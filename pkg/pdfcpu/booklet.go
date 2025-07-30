@@ -24,9 +24,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -457,8 +457,8 @@ func bookletPages(
 	selectedPages types.IntSet,
 	nup *model.NUp,
 	pagesDict types.Dict,
-	pagesIndRef *types.IndirectRef) error {
-
+	pagesIndRef *types.IndirectRef,
+) error {
 	var buf bytes.Buffer
 	formsResDict := types.NewDict()
 	rr := nup.RectsForGrid()

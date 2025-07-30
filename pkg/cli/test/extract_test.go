@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
 )
 
 func TestExtractImagesCommand(t *testing.T) {
@@ -28,7 +28,7 @@ func TestExtractImagesCommand(t *testing.T) {
 
 	// Extract all images for each PDF file into outDir.
 	cmd := cli.ExtractImagesCommand("", outDir, nil, conf)
-	//for _, f := range allPDFs(t, inDir) {
+	// for _, f := range allPDFs(t, inDir) {
 	for _, f := range []string{"5116.DCT_Filter.pdf", "testImage.pdf", "go.pdf"} {
 		inFile := filepath.Join(inDir, f)
 		cmd.InFile = &inFile

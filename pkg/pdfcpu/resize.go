@@ -22,19 +22,18 @@ import (
 	"math"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/matrix"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/matrix"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 // ParseResizeConfig parses a Resize command string into an internal structure.
 // "scale:.5, form:A4, dim:400 200 bgcol:#D00000"
 func ParseResizeConfig(s string, u types.DisplayUnit) (*model.Resize, error) {
-
 	if s == "" {
 		return nil, errors.New("pdfcpu: missing resize configuration string")
 	}
@@ -70,7 +69,6 @@ func ParseResizeConfig(s string, u types.DisplayUnit) (*model.Resize, error) {
 }
 
 func prepTransform(rSrc, rDest *types.Rectangle, enforce bool) (float64, float64, float64, float64, float64) {
-
 	if !enforce && (rSrc.Portrait() && rDest.Landscape()) || (rSrc.Landscape() && rDest.Portrait()) {
 		w1 := rDest.Width()
 		rDest.UR.X = rDest.LL.X + rDest.Height()
@@ -154,7 +152,6 @@ func handleBgColAndBorder(dx, dy float64, cropBox *types.Rectangle, bb *[]byte, 
 }
 
 func resizePage(ctx *model.Context, pageNr int, res *model.Resize) error {
-
 	d, _, inhPAttrs, err := ctx.PageDict(pageNr, false)
 	if err != nil {
 		return err

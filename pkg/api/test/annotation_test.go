@@ -21,11 +21,11 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 var textAnn model.AnnotationRenderer = model.NewTextAnnotation(
@@ -645,7 +645,6 @@ func TestAddAnnotationsFile(t *testing.T) {
 	if err := api.AddAnnotationsFile(outFile, outFile, nil, circleAnnCJK, nil, false); err != nil {
 		t.Fatalf("%s add: %v\n", msg, err)
 	}
-
 }
 
 func TestAddAnnotations(t *testing.T) {
@@ -683,7 +682,6 @@ func TestAddAnnotations(t *testing.T) {
 	if err := api.WriteContextFile(ctx, outFile); err != nil {
 		t.Fatalf("%s write: %v\n", msg, err)
 	}
-
 }
 
 func TestPopupAnnotation(t *testing.T) {

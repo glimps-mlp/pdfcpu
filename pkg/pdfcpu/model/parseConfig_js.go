@@ -22,7 +22,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -347,7 +347,7 @@ func parseKeyValue(k, v string, c *Configuration) error {
 }
 
 func parseConfigFile(r io.Reader, configPath string) error {
-	//fmt.Println("parseConfigFile For JS")
+	// fmt.Println("parseConfigFile For JS")
 	var conf Configuration
 	conf.Path = configPath
 

@@ -20,9 +20,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 )
 
 func testBooklet(t *testing.T, msg string, inFiles []string, outFile string, selectedPages []string, desc string, n int, isImg bool, conf *model.Configuration) {
@@ -64,9 +64,9 @@ func TestBookletCommand(t *testing.T) {
 		n             int
 		isImg         bool
 	}{
-
 		// 2-up booklet from images on A4
-		{"TestBookletFromImagesA42Up",
+		{
+			"TestBookletFromImagesA42Up",
 			imageFileNames(t, resDir),
 			filepath.Join(outDir, "BookletFromImagesA4_2Up.pdf"),
 			nil,
@@ -77,7 +77,8 @@ func TestBookletCommand(t *testing.T) {
 		},
 
 		// 4-up booklet from images on A4
-		{"TestBookletFromImagesA44Up",
+		{
+			"TestBookletFromImagesA44Up",
 			imageFileNames(t, resDir),
 			filepath.Join(outDir, "BookletFromImagesA4_4Up.pdf"),
 			nil,
@@ -88,7 +89,8 @@ func TestBookletCommand(t *testing.T) {
 		},
 
 		// 2-up booklet from PDF on A4
-		{"TestBookletFromPDF2UpA4",
+		{
+			"TestBookletFromPDF2UpA4",
 			[]string{filepath.Join(inDir, "zineTest.pdf")},
 			filepath.Join(outDir, "BookletFromPDFA4_2Up.pdf"),
 			nil, // all pages
@@ -99,7 +101,8 @@ func TestBookletCommand(t *testing.T) {
 		},
 
 		// 4-up booklet from PDF on A4
-		{"TestBookletFromPDF4UpA4",
+		{
+			"TestBookletFromPDF4UpA4",
 			[]string{filepath.Join(inDir, "zineTest.pdf")},
 			filepath.Join(outDir, "BookletFromPDFA4_4Up.pdf"),
 			[]string{"1-"}, // all pages
@@ -110,7 +113,8 @@ func TestBookletCommand(t *testing.T) {
 		},
 
 		// 4-up booklet from PDF on Ledger
-		{"TestBookletFromPDF4UpLedger",
+		{
+			"TestBookletFromPDF4UpLedger",
 			[]string{filepath.Join(inDir, "bookletTest.pdf")},
 			filepath.Join(outDir, "BookletFromPDFLedger_4Up.pdf"),
 			[]string{"1-24"},
@@ -121,7 +125,8 @@ func TestBookletCommand(t *testing.T) {
 		},
 
 		// 4-up booklet from PDF on Ledger where the number of pages don't fill the whole sheet
-		{"TestBookletFromPDF4UpLedgerWithTrailingBlankPages",
+		{
+			"TestBookletFromPDF4UpLedgerWithTrailingBlankPages",
 			[]string{filepath.Join(inDir, "bookletTest.pdf")},
 			filepath.Join(outDir, "BookletFromPDFLedger_4UpWithTrailingBlankPages.pdf"),
 			[]string{"1-21"},
@@ -132,7 +137,8 @@ func TestBookletCommand(t *testing.T) {
 		},
 
 		// 2-up booklet from PDF on Letter
-		{"TestBookletFromPDF2UpLetter",
+		{
+			"TestBookletFromPDF2UpLetter",
 			[]string{filepath.Join(inDir, "bookletTest.pdf")},
 			filepath.Join(outDir, "BookletFromPDFLetter_2Up.pdf"),
 			[]string{"1-16"},
@@ -143,7 +149,8 @@ func TestBookletCommand(t *testing.T) {
 		},
 
 		// 2-up booklet from PDF on Letter where the number of pages don't fill the whole sheet
-		{"TestBookletFromPDF2UpLetterWithTrailingBlankPages",
+		{
+			"TestBookletFromPDF2UpLetterWithTrailingBlankPages",
 			[]string{filepath.Join(inDir, "bookletTest.pdf")},
 			filepath.Join(outDir, "BookletFromPDFLetter_2UpWithTrailingBlankPages.pdf"),
 			[]string{"1-14"},
@@ -158,7 +165,8 @@ func TestBookletCommand(t *testing.T) {
 		// Here we print 2 complete folios (2 x 8 sheets) + 1 partial folio
 		// multi folio only makes sense for n = 2
 		// See also  https://www.instructables.com/How-to-bind-your-own-Hardback-Book/
-		{"TestHardbackBookFromPDF",
+		{
+			"TestHardbackBookFromPDF",
 			[]string{filepath.Join(inDir, "WaldenFull.pdf")},
 			filepath.Join(outDir, "HardbackBookFromPDF.pdf"),
 			[]string{"1-70"},

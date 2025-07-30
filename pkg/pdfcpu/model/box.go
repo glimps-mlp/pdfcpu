@@ -21,7 +21,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -1077,12 +1077,12 @@ type boxes struct {
 func applyBoxDefinitions(d types.Dict, pb *PageBoundaries, b *boxes) {
 	parentBox := b.mediaBox
 	if pb.Media != nil {
-		//fmt.Println("add mb")
+		// fmt.Println("add mb")
 		b.mediaBox = ApplyBox("MediaBox", pb.Media, d, parentBox)
 	}
 
 	if pb.Crop != nil {
-		//fmt.Println("add cb")
+		// fmt.Println("add cb")
 		b.cropBox = ApplyBox("CropBox", pb.Crop, d, parentBox)
 	}
 
@@ -1090,17 +1090,17 @@ func applyBoxDefinitions(d types.Dict, pb *PageBoundaries, b *boxes) {
 		parentBox = b.cropBox
 	}
 	if pb.Trim != nil && pb.Trim.RefBox == "" {
-		//fmt.Println("add tb")
+		// fmt.Println("add tb")
 		b.trimBox = ApplyBox("TrimBox", pb.Trim, d, parentBox)
 	}
 
 	if pb.Bleed != nil && pb.Bleed.RefBox == "" {
-		//fmt.Println("add bb")
+		// fmt.Println("add bb")
 		b.bleedBox = ApplyBox("BleedBox", pb.Bleed, d, parentBox)
 	}
 
 	if pb.Art != nil && pb.Art.RefBox == "" {
-		//fmt.Println("add ab")
+		// fmt.Println("add ab")
 		b.artBox = ApplyBox("ArtBox", pb.Art, d, parentBox)
 	}
 }

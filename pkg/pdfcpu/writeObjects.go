@@ -19,9 +19,9 @@ package pdfcpu
 import (
 	"fmt"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -565,7 +565,6 @@ func writeNullObject(ctx *model.Context, objNumber, genNumber int) error {
 }
 
 func writeDeepDict(ctx *model.Context, d types.Dict, objNr, genNr int) error {
-
 	if d.IsPage() {
 		valid, err := ctx.IsObjValid(objNr, genNr)
 		if err != nil {

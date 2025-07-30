@@ -21,10 +21,10 @@ import (
 	"fmt"
 	"unicode/utf8"
 
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -187,7 +187,6 @@ func (cb *ComboBox) validateTab() error {
 }
 
 func (cb *ComboBox) validate() error {
-
 	if err := cb.validateID(); err != nil {
 		return err
 	}
@@ -295,7 +294,6 @@ func (cb *ComboBox) calcMargin() (float64, float64, float64, float64, error) {
 }
 
 func (cb *ComboBox) labelPos(labelHeight, w, g float64) (float64, float64) {
-
 	var x, y float64
 	bb, horAlign := cb.BoundingBox, cb.Label.HorAlign
 
@@ -360,7 +358,7 @@ func (cb *ComboBox) renderN(xRefTable *model.XRefTable) ([]byte, error) {
 		v = cb.Value
 	}
 
-	//cjk := fo.CJK(f.Script, f.Lang)
+	// cjk := fo.CJK(f.Script, f.Lang)
 	if font.IsCoreFont(f.Name) && utf8.ValidString(v) {
 		v = model.DecodeUTF8ToByte(v)
 	}
@@ -558,7 +556,6 @@ func (cb *ComboBox) prepareRectLL(mTop, mRight, mBottom, mLeft float64) (float64
 }
 
 func (cb *ComboBox) prepLabel(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	if cb.Label == nil {
 		return nil
 	}
@@ -621,7 +618,6 @@ func (cb *ComboBox) prepLabel(p *model.Page, pageNr int, fonts model.FontMap) er
 }
 
 func (cb *ComboBox) prepForRender(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	mTop, mRight, mBottom, mLeft, err := cb.calcMargin()
 	if err != nil {
 		return err
@@ -661,7 +657,6 @@ func (cb *ComboBox) prepForRender(p *model.Page, pageNr int, fonts model.FontMap
 }
 
 func (cb *ComboBox) doRender(p *model.Page, fonts model.FontMap) error {
-
 	d, err := cb.prepareDict(fonts)
 	if err != nil {
 		return err
@@ -686,7 +681,6 @@ func (cb *ComboBox) doRender(p *model.Page, fonts model.FontMap) error {
 }
 
 func (cb *ComboBox) render(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	if err := cb.prepForRender(p, pageNr, fonts); err != nil {
 		return err
 	}
@@ -700,8 +694,8 @@ func NewComboBox(
 	d types.Dict,
 	v string,
 	da *string,
-	fonts map[string]types.IndirectRef) (*ComboBox, *types.IndirectRef, error) {
-
+	fonts map[string]types.IndirectRef,
+) (*ComboBox, *types.IndirectRef, error) {
 	cb := &ComboBox{Value: v}
 
 	obj, _ := d.Find("Rect")
@@ -741,7 +735,6 @@ func NewComboBox(
 }
 
 func renderComboBoxAP(ctx *model.Context, d types.Dict, v string, da *string, fonts map[string]types.IndirectRef) error {
-
 	cb, fontIndRef, err := NewComboBox(ctx, d, v, da, fonts)
 	if err != nil {
 		return err
@@ -763,7 +756,6 @@ func renderComboBoxAP(ctx *model.Context, d types.Dict, v string, da *string, fo
 }
 
 func refreshComboBoxAP(ctx *model.Context, d types.Dict, v string, da *string, fonts map[string]types.IndirectRef, irN *types.IndirectRef) error {
-
 	cb, _, err := NewComboBox(ctx, d, v, da, fonts)
 	if err != nil {
 		return err
@@ -778,7 +770,6 @@ func refreshComboBoxAP(ctx *model.Context, d types.Dict, v string, da *string, f
 }
 
 func EnsureComboBoxAP(ctx *model.Context, d types.Dict, v string, da *string, fonts map[string]types.IndirectRef) error {
-
 	apd := d.DictEntry("AP")
 	if apd == nil {
 		return renderComboBoxAP(ctx, d, v, da, fonts)

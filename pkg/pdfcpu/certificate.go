@@ -26,8 +26,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 	"github.com/hhrutter/pkcs7"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
 	"github.com/pkg/errors"
 )
 
@@ -75,8 +75,10 @@ func loadCertsFromPEM(filename string) ([]*x509.Certificate, error) {
 	return certs, nil
 }
 
-const PKCS7_PREFIX = "-----BEGIN PKCS7-----"
-const PKCS7_SUFFIX = "-----END PKCS7-----"
+const (
+	PKCS7_PREFIX = "-----BEGIN PKCS7-----"
+	PKCS7_SUFFIX = "-----END PKCS7-----"
+)
 
 func isPEMEncoded(s string) bool {
 	s = strings.TrimRight(s, " \t\r\n")

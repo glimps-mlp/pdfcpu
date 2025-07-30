@@ -23,18 +23,17 @@ import (
 	"math"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/matrix"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/matrix"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 // ParseCutConfigForPoster parses a Cut command string into an internal structure.
 // formsize(=papersize) or dimensions, optionally: scalefactor, border, margin, bgcolor
 func ParseCutConfigForPoster(s string, u types.DisplayUnit) (*model.Cut, error) {
-
 	if s == "" {
 		return nil, errors.New("pdfcpu: missing poster configuration string")
 	}
@@ -64,7 +63,6 @@ func ParseCutConfigForPoster(s string, u types.DisplayUnit) (*model.Cut, error) 
 // ParseCutConfigForN parses a NDown command string into an internal structure.
 // n, Optionally: border, margin, bgcolor
 func ParseCutConfigForN(n int, s string, u types.DisplayUnit) (*model.Cut, error) {
-
 	cut := &model.Cut{Unit: u}
 
 	if !types.IntMemberOf(n, []int{2, 3, 4, 6, 8, 9, 12, 16}) {
@@ -98,7 +96,6 @@ func ParseCutConfigForN(n int, s string, u types.DisplayUnit) (*model.Cut, error
 // ParseCutConfig parses a Cut command string into an internal structure.
 // optionally: horizontalCut, verticalCut, bgcolor, border, margin, origin
 func ParseCutConfig(s string, u types.DisplayUnit) (*model.Cut, error) {
-
 	if s == "" {
 		return nil, errors.New("pdfcpu: missing cut configuration string")
 	}
@@ -150,8 +147,8 @@ func createOutline(
 	pageNr int,
 	cropBox *types.Rectangle,
 	migrated map[int]int,
-	cut *model.Cut) error {
-
+	cut *model.Cut,
+) error {
 	cb := cropBox.Clone()
 
 	var expCropBox bool
@@ -231,8 +228,8 @@ func prepForCut(ctxSrc *model.Context, pageNr int) (
 	types.Dict,
 	types.Dict,
 	*model.InheritedPageAttrs,
-	error) {
-
+	error,
+) {
 	ctxDest, err := CreateContextWithXRefTable(nil, types.PaperSize["A4"])
 	if err != nil {
 		return nil, nil, nil, nil, nil, nil, err
@@ -388,8 +385,8 @@ func createTiles(
 	cropBox *types.Rectangle,
 	inhPAttrs *model.InheritedPageAttrs,
 	migrated map[int]int,
-	cut *model.Cut) error {
-
+	cut *model.Cut,
+) error {
 	var sc float64
 
 	for i := 0; i < len(cut.Hor); i++ {
@@ -452,7 +449,6 @@ func createTiles(
 }
 
 func CutPage(ctxSrc *model.Context, pageNr int, cut *model.Cut) (*model.Context, error) {
-
 	// required: at least one of horizontalCut, verticalCut
 	// optionally: border, margin, bgcolor
 
@@ -527,7 +523,6 @@ func createNDownCuts(n int, cropBox *types.Rectangle, cut *model.Cut) {
 }
 
 func NDownPage(ctxSrc *model.Context, pageNr, n int, cut *model.Cut) (*model.Context, error) {
-
 	// Optionally: border, margin, bgcolor
 
 	ctxDest, cropBox, pagesIndRef, pagesDict, d, inhPAttrs, err := prepForCut(ctxSrc, pageNr)
@@ -594,7 +589,6 @@ func createPosterCuts(cropBox *types.Rectangle, cut *model.Cut) {
 }
 
 func PosterPage(ctxSrc *model.Context, pageNr int, cut *model.Cut) (*model.Context, error) {
-
 	// required: formsize(=papersize) or dimensions
 	// optionally: scalefactor, border, margin, bgcolor
 

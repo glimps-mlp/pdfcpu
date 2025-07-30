@@ -20,10 +20,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func testAddWatermarks(t *testing.T, msg, inFile, outFile string, selectedPages []string, mode, modeParm, desc string, onTop bool) {
@@ -68,77 +68,91 @@ func TestAddWatermarks(t *testing.T) {
 		wmConf          string
 	}{
 		// Add text watermark to all pages of inFile starting at page 1 using a rotation angle of 20 degrees.
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Acroforms2.pdf",
 			"testwm.pdf",
 			[]string{"1-"},
 			false,
 			"text",
 			"Draft",
-			"scale:0.7, rot:20"},
+			"scale:0.7, rot:20",
+		},
 
 		// Add a greenish, slightly transparent stroked and filled text stamp to all odd pages of inFile other than page 1
 		// using the default rotation which is aligned along the first diagonal running from lower left to upper right corner.
-		{"TestStampText",
+		{
+			"TestStampText",
 			"pike-stanford.pdf",
 			"testStampText1.pdf",
 			[]string{"odd", "!1"},
 			true,
 			"text",
 			"Demo",
-			"font:Courier, c: 0 .8 0, op:0.8, mode:2"},
+			"font:Courier, c: 0 .8 0, op:0.8, mode:2",
+		},
 
 		// Add a red filled text stamp to all odd pages of inFile other than page 1 using a font size of 48 points
 		// and the default rotation which is aligned along the first diagonal running from lower left to upper right corner.
-		{"TestStampTextUsingFontsize",
+		{
+			"TestStampTextUsingFontsize",
 			"pike-stanford.pdf",
 			"testStampText2.pdf",
 			[]string{"odd", "!1"},
 			true,
 			"text",
 			"Demo",
-			"font:Courier, c: 1 0 0, op:1, scale:1 abs, points:48"},
+			"font:Courier, c: 1 0 0, op:1, scale:1 abs, points:48",
+		},
 
 		// Add image watermark to inFile starting at page 1 using no rotation.
-		{"TestWatermarkImage",
+		{
+			"TestWatermarkImage",
 			"Acroforms2.pdf", "testWMImageRel.pdf",
 			[]string{"1-"},
 			false,
 			"image",
 			filepath.Join(resDir, "pdfchip3.png"),
-			"rot:0"},
+			"rot:0",
+		},
 
 		// Add image stamp to inFile using absolute scaling and a negative rotation of 90 degrees.
-		{"TestStampImageAbsScaling",
+		{
+			"TestStampImageAbsScaling",
 			"Acroforms2.pdf",
 			"testWMImageAbs.pdf",
 			[]string{"1-"},
 			true,
 			"image",
 			filepath.Join(resDir, "pdfchip3.png"),
-			"scale:.5 a, rot:-90"},
+			"scale:.5 a, rot:-90",
+		},
 
 		// Add a PDF stamp to all pages of inFile using the 3rd page of pdfFile
 		// and rotate along the 2nd diagonal running from upper left to lower right corner.
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Acroforms2.pdf",
 			"testStampPDF.pdf",
 			nil,
 			true,
 			"pdf",
 			filepath.Join(inDir, "Wonderwall.pdf:3"),
-			"d:2"},
+			"d:2",
+		},
 
 		// Add a PDF multistamp to all pages of inFile
 		// and rotate along the 2nd diagonal running from upper left to lower right corner.
-		{"TestWatermarkText",
+		{
+			"TestWatermarkText",
 			"Acroforms2.pdf",
 			"testMultistampPDF.pdf",
 			nil,
 			true,
 			"pdf",
 			filepath.Join(inDir, "Wonderwall.pdf"),
-			"d:2"},
+			"d:2",
+		},
 	} {
 		testAddWatermarks(t, tt.msg, tt.inFile, tt.outFile, tt.selectedPages, tt.mode, tt.modeParm, tt.wmConf, tt.onTop)
 	}

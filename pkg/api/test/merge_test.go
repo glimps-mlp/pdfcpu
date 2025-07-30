@@ -23,7 +23,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
 )
 
 func TestMergeCreateNew(t *testing.T) {
@@ -126,7 +126,7 @@ func TestMergeToBufNew(t *testing.T) {
 		t.Fatalf("%s: merge: %v\n", msg, err)
 	}
 
-	if err := os.WriteFile(outFile, buf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(outFile, buf.Bytes(), 0o644); err != nil {
 		t.Fatalf("%s: write: %v\n", msg, err)
 	}
 
@@ -164,7 +164,7 @@ func TestMergeRaw(t *testing.T) {
 		t.Fatalf("%s: merge: %v\n", msg, err)
 	}
 
-	if err := os.WriteFile(outFile, buf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(outFile, buf.Bytes(), 0o644); err != nil {
 		t.Fatalf("%s: write: %v\n", msg, err)
 	}
 

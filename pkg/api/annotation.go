@@ -20,8 +20,8 @@ import (
 	"io"
 	"os"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 	"github.com/pkg/errors"
 )
 
@@ -126,7 +126,7 @@ func AddAnnotationsFile(inFile, outFile string, selectedPages []string, ar model
 	} else {
 		logWritingTo(inFile)
 		if incr {
-			f, err := os.OpenFile(inFile, os.O_RDWR, 0644)
+			f, err := os.OpenFile(inFile, os.O_RDWR, 0o644)
 			if err != nil {
 				return err
 			}
@@ -235,7 +235,7 @@ func AddAnnotationsMapFile(inFile, outFile string, m map[int][]model.AnnotationR
 	} else {
 		logWritingTo(inFile)
 		if incr {
-			f, err := os.OpenFile(inFile, os.O_RDWR, 0644)
+			f, err := os.OpenFile(inFile, os.O_RDWR, 0o644)
 			if err != nil {
 				return err
 			}
@@ -358,7 +358,7 @@ func RemoveAnnotationsFile(inFile, outFile string, selectedPages, idsAndTypes []
 	} else {
 		logWritingTo(inFile)
 		if incr {
-			if f1, err = os.OpenFile(inFile, os.O_RDWR, 0644); err != nil {
+			if f1, err = os.OpenFile(inFile, os.O_RDWR, 0o644); err != nil {
 				return err
 			}
 			defer func() {

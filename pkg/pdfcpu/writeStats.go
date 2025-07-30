@@ -22,14 +22,13 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 func logWriteStats(ctx *model.Context) {
-
 	xRefTable := ctx.XRefTable
 
 	if len(xRefTable.Table) != *xRefTable.Size {
@@ -78,7 +77,6 @@ func logWriteStats(ctx *model.Context) {
 }
 
 func statsHeadLine() *string {
-
 	hl := "name;version;author;creator;producer;src_size (bin|text);src_bin:imgs|fonts|other;dest_size (bin|text);dest_bin:imgs|fonts|other;"
 	hl += "linearized;hybrid;xrefstr;objstr;pages;objs;missing;garbage;"
 	hl += "R_Version;R_Extensions;R_PageLabels;R_Names;R_Dests;R_ViewerPrefs;R_PageLayout;R_PageMode;"
@@ -94,7 +92,6 @@ func statsHeadLine() *string {
 }
 
 func statsLine(ctx *model.Context) *string {
-
 	xRefTable := ctx.XRefTable
 
 	version := xRefTable.HeaderVersion.String()
@@ -231,18 +228,17 @@ func statsLine(ctx *model.Context) *string {
 
 // AppendStatsFile appends a stats line for this xRefTable to the configured csv file name.
 func AppendStatsFile(ctx *model.Context) error {
-
 	fileName := ctx.StatsFileName
 
 	// if file does not exist, create file
-	file, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, 0600)
+	file, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, 0o600)
 	if err != nil {
 
 		if os.IsExist(err) {
 			return errors.Errorf("can't open %s\n%s", fileName, err)
 		}
 
-		file, err = os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+		file, err = os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0o600)
 		if err != nil {
 			return errors.Errorf("can't create %s\n%s", fileName, err)
 		}

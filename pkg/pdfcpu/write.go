@@ -26,10 +26,10 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -78,7 +78,6 @@ func WriteContext(ctx *model.Context) (err error) {
 		ctx.Write.Writer = bufio.NewWriter(file)
 
 		defer func() {
-
 			// The underlying bufio.Writer has already been flushed.
 
 			// Processing error takes precedence.
@@ -89,7 +88,6 @@ func WriteContext(ctx *model.Context) (err error) {
 
 			// Do not miss out on closing errors.
 			err = file.Close()
-
 		}()
 
 	}
@@ -267,7 +265,6 @@ func writePages(ctx *model.Context, rootDict types.Dict) error {
 }
 
 func writeRootAttrsBatch1(ctx *model.Context, d types.Dict, dictName string) error {
-
 	if err := writeAcroFormRootEntry(ctx, d, dictName); err != nil {
 		return err
 	}
@@ -506,7 +503,6 @@ func deleteRedundantObject(ctx *model.Context, objNr int) {
 		ctx.Read.IsObjectStreamObject(objNr) {
 		ctx.FreeObject(objNr)
 	}
-
 }
 
 func detectLinearizationObjs(xRefTable *model.XRefTable, entry *model.XRefTableEntry, i int) {
@@ -971,7 +967,7 @@ func updateEncryption(ctx *model.Context) error {
 	}
 
 	if ctx.Cmd == model.SETPERMISSIONS {
-		//fmt.Printf("updating permissions to: %v\n", ctx.UserAccessPermissions)
+		// fmt.Printf("updating permissions to: %v\n", ctx.UserAccessPermissions)
 		ctx.E.P = int(ctx.Permissions)
 		d.Update("P", types.Integer(ctx.E.P))
 		// and moving on, U is dependent on P
@@ -980,12 +976,12 @@ func updateEncryption(ctx *model.Context) error {
 	// ctx.Cmd == CHANGEUPW or CHANGE OPW
 
 	if ctx.UserPWNew != nil {
-		//fmt.Printf("change upw from <%s> to <%s>\n", ctx.UserPW, *ctx.UserPWNew)
+		// fmt.Printf("change upw from <%s> to <%s>\n", ctx.UserPW, *ctx.UserPWNew)
 		ctx.UserPW = *ctx.UserPWNew
 	}
 
 	if ctx.OwnerPWNew != nil {
-		//fmt.Printf("change opw from <%s> to <%s>\n", ctx.OwnerPW, *ctx.OwnerPWNew)
+		// fmt.Printf("change opw from <%s> to <%s>\n", ctx.OwnerPW, *ctx.OwnerPWNew)
 		ctx.OwnerPW = *ctx.OwnerPWNew
 	}
 
@@ -999,33 +995,29 @@ func updateEncryption(ctx *model.Context) error {
 		return writePermissions(ctx, d)
 	}
 
-	//fmt.Printf("opw before: length:%d <%s>\n", len(ctx.E.O), ctx.E.O)
+	// fmt.Printf("opw before: length:%d <%s>\n", len(ctx.E.O), ctx.E.O)
 	if ctx.E.O, err = o(ctx); err != nil {
 		return err
 	}
-	//fmt.Printf("opw after: length:%d <%s> %0X\n", len(ctx.E.O), ctx.E.O, ctx.E.O)
+	// fmt.Printf("opw after: length:%d <%s> %0X\n", len(ctx.E.O), ctx.E.O, ctx.E.O)
 	d.Update("O", types.HexLiteral(hex.EncodeToString(ctx.E.O)))
 
-	//fmt.Printf("upw before: length:%d <%s>\n", len(ctx.E.U), ctx.E.U)
+	// fmt.Printf("upw before: length:%d <%s>\n", len(ctx.E.U), ctx.E.U)
 	if ctx.E.U, ctx.EncKey, err = u(ctx); err != nil {
 		return err
 	}
-	//fmt.Printf("upw after: length:%d <%s> %0X\n", len(ctx.E.U), ctx.E.U, ctx.E.U)
-	//fmt.Printf("encKey = %0X\n", ctx.EncKey)
+	// fmt.Printf("upw after: length:%d <%s> %0X\n", len(ctx.E.U), ctx.E.U, ctx.E.U)
+	// fmt.Printf("encKey = %0X\n", ctx.EncKey)
 	d.Update("U", types.HexLiteral(hex.EncodeToString(ctx.E.U)))
 
 	return nil
 }
 
 func handleEncryption(ctx *model.Context) error {
-
 	if ctx.Cmd == model.ENCRYPT || ctx.Cmd == model.DECRYPT {
-
 		if ctx.Cmd == model.DECRYPT {
-
 			// Remove encryption.
 			ctx.EncKey = nil
-
 		} else {
 
 			if err := setupEncryption(ctx); err != nil {
@@ -1040,13 +1032,10 @@ func handleEncryption(ctx *model.Context) error {
 				log.CLI.Printf("using %s-%d\n", alg, ctx.EncryptKeyLength)
 			}
 		}
-
 	} else if ctx.UserPWNew != nil || ctx.OwnerPWNew != nil || ctx.Cmd == model.SETPERMISSIONS {
-
 		if err := updateEncryption(ctx); err != nil {
 			return err
 		}
-
 	}
 
 	// write xrefstream if using xrefstream only.

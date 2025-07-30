@@ -17,18 +17,16 @@ limitations under the License.
 package api
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func ExampleValidateFile() {
-
 	// Use the default configuration to validate in.pdf.
 	ValidateFile("in.pdf", nil)
 }
 
 func ExampleOptimizeFile() {
-
 	conf := model.NewDefaultConfiguration()
 
 	// Set passwords for encrypted files.
@@ -48,7 +46,6 @@ func ExampleOptimizeFile() {
 }
 
 func ExampleTrimFile() {
-
 	// Create a trimmed version of in.pdf containing odd page numbers only.
 	TrimFile("in.pdf", "outFile", []string{"odd"}, nil)
 
@@ -58,7 +55,6 @@ func ExampleTrimFile() {
 }
 
 func ExampleSplitFile() {
-
 	// Create single page PDFs for in.pdf in outDir using the default configuration.
 	SplitFile("in.pdf", "outDir", 1, nil)
 
@@ -70,7 +66,6 @@ func ExampleSplitFile() {
 }
 
 func ExampleRotateFile() {
-
 	// Rotate all pages of in.pdf, clockwise by 90 degrees and write the result to out.pdf.
 	RotateFile("in.pdf", "out.pdf", 90, nil, nil)
 
@@ -80,7 +75,6 @@ func ExampleRotateFile() {
 }
 
 func ExampleMergeCreateFile() {
-
 	// Merge inFiles by concatenation in the order specified and write the result to out.pdf.
 	// out.pdf will be overwritten.
 	inFiles := []string{"in1.pdf", "in2.pdf"}
@@ -88,7 +82,6 @@ func ExampleMergeCreateFile() {
 }
 
 func ExampleMergeAppendFile() {
-
 	// Merge inFiles by concatenation in the order specified and write the result to out.pdf.
 	// If out.pdf already exists it will be preserved and serves as the beginning of the merge result.
 	inFiles := []string{"in1.pdf", "in2.pdf"}
@@ -96,7 +89,6 @@ func ExampleMergeAppendFile() {
 }
 
 func ExampleInsertPagesFile() {
-
 	// Insert a blank page into in.pdf before page #3.
 	InsertPagesFile("in.pdf", "", []string{"3"}, true, nil, nil)
 
@@ -105,7 +97,6 @@ func ExampleInsertPagesFile() {
 }
 
 func ExampleRemovePagesFile() {
-
 	// Remove pages 2 and 8 of in.pdf.
 	RemovePagesFile("in.pdf", "", []string{"2", "8"}, nil)
 
@@ -117,7 +108,6 @@ func ExampleRemovePagesFile() {
 }
 
 func ExampleAddWatermarksFile() {
-
 	// Unique abbreviations are accepted for all watermark descriptor parameters.
 	// eg. sc = scalefactor or rot = rotation
 
@@ -144,7 +134,6 @@ func ExampleAddWatermarksFile() {
 }
 
 func ExampleRemoveWatermarksFile() {
-
 	// Add a "Demo" stamp to all pages of in.pdf along the diagonal running from lower left to upper right.
 	onTop := true
 	update := false
@@ -168,7 +157,6 @@ func ExampleRemoveWatermarksFile() {
 }
 
 func ExampleImportImagesFile() {
-
 	// Convert an image into a single page of out.pdf which will be created if necessary.
 	// The page dimensions will match the image dimensions.
 	// If out.pdf already exists, append a new page.
@@ -183,7 +171,6 @@ func ExampleImportImagesFile() {
 }
 
 func ExampleNUpFile() {
-
 	// 4-Up in.pdf and write result to out.pdf.
 	nup, _ := PDFNUpConfig(4, "", nil)
 	inFiles := []string{"in.pdf"}
@@ -206,7 +193,6 @@ func ExampleNUpFile() {
 }
 
 func ExampleSetPermissionsFile() {
-
 	// Setting all permissions for the AES-256 encrypted in.pdf.
 	conf := model.NewAESConfiguration("upw", "opw", 256)
 	conf.Permissions = model.PermissionsAll
@@ -219,41 +205,35 @@ func ExampleSetPermissionsFile() {
 }
 
 func ExampleEncryptFile() {
-
 	// Encrypting a file using AES-256.
 	conf := model.NewAESConfiguration("upw", "opw", 256)
 	EncryptFile("in.pdf", "", conf)
 }
 
 func ExampleDecryptFile() {
-
 	// Decrypting an AES-256 encrypted file.
 	conf := model.NewAESConfiguration("upw", "opw", 256)
 	DecryptFile("in.pdf", "", conf)
 }
 
 func ExampleChangeUserPasswordFile() {
-
 	// Changing the user password for an AES-256 encrypted file.
 	conf := model.NewAESConfiguration("upw", "opw", 256)
 	ChangeUserPasswordFile("in.pdf", "", "upw", "upwNew", conf)
 }
 
 func ExampleChangeOwnerPasswordFile() {
-
 	// Changing the owner password for an AES-256 encrypted file.
 	conf := model.NewAESConfiguration("upw", "opw", 256)
 	ChangeOwnerPasswordFile("in.pdf", "", "opw", "opwNew", conf)
 }
 
 func ExampleAddAttachmentsFile() {
-
 	// Attach 3 files to in.pdf.
 	AddAttachmentsFile("in.pdf", "", []string{"img.jpg", "attach.pdf", "test.zip"}, false, nil)
 }
 
 func ExampleRemoveAttachmentsFile() {
-
 	// Remove 1 attachment from in.pdf.
 	RemoveAttachmentsFile("in.pdf", "", []string{"img.jpg"}, nil)
 
@@ -262,7 +242,6 @@ func ExampleRemoveAttachmentsFile() {
 }
 
 func ExampleExtractAttachmentsFile() {
-
 	// Extract 1 attachment from in.pdf into outDir.
 	ExtractAttachmentsFile("in.pdf", "outDir", []string{"img.jpg"}, nil)
 
@@ -271,31 +250,26 @@ func ExampleExtractAttachmentsFile() {
 }
 
 func ExampleExtractImagesFile() {
-
 	// Extract embedded images from in.pdf into outDir.
 	ExtractImagesFile("in.pdf", "outDir", nil, nil)
 }
 
 func ExampleExtractFontsFile() {
-
 	// Extract embedded fonts for pages 1-3 from in.pdf into outDir.
 	ExtractFontsFile("in.pdf", "outDir", []string{"1-3"}, nil)
 }
 
 func ExampleExtractContentFile() {
-
 	// Extract content for all pages in PDF syntax from in.pdf into outDir.
 	ExtractContentFile("in.pdf", "outDir", nil, nil)
 }
 
 func ExampleExtractPagesFile() {
-
 	// Extract all even numbered pages from in.pdf into outDir.
 	ExtractPagesFile("in.pdf", "outDir", []string{"even"}, nil)
 }
 
 func ExampleExtractMetadataFile() {
-
 	// Extract all metadata from in.pdf into outDir.
 	ExtractMetadataFile("in.pdf", "outDir", nil)
 }

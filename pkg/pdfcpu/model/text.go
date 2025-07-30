@@ -24,11 +24,11 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/matrix"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/matrix"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 // TextDescriptor contains all attributes needed for rendering a text column in PDF user space.
@@ -274,8 +274,8 @@ func prepJustifiedLine(xRefTable *XRefTable, lines *[]string, strbuf []string, s
 func newPrepJustifiedString(
 	xRefTable *XRefTable,
 	fontName string,
-	fontSize int) func(lines *[]string, s string, w float64, fontName string, fontSize *int, lastline, parIndent, cjk, rtl bool) int {
-
+	fontSize int,
+) func(lines *[]string, s string, w float64, fontName string, fontSize *int, lastline, parIndent, cjk, rtl bool) int {
 	// Not yet rendered content.
 	strbuf := []string{}
 
@@ -291,7 +291,6 @@ func newPrepJustifiedString(
 	blankWidth := font.TextWidth(" ", fontName, fontSize)
 
 	return func(lines *[]string, s string, w float64, fontName string, fontSize *int, lastline, parIndent, embed, rtl bool) int {
-
 		if len(s) == 0 {
 			if len(strbuf) > 0 {
 				s1 := PrepBytes(xRefTable, strings.Join(strbuf, " "), fontName, embed, rtl, false)
@@ -360,8 +359,8 @@ func preRenderJustifiedText(
 	x, y, width float64,
 	td TextDescriptor,
 	mLeft, mRight, borderWidth float64,
-	fontSize *int) float64 {
-
+	fontSize *int,
+) float64 {
 	var ww float64
 	if !td.ScaleAbs {
 		ww = r.Width() * td.Scale
@@ -392,7 +391,8 @@ func preRenderJustifiedText(
 
 func scaleFontSize(r *types.Rectangle, lines []string, scaleAbs bool,
 	scale, width, x, y, mLeft, mRight, borderWidth float64,
-	fontName string, fontSize *int) {
+	fontName string, fontSize *int,
+) {
 	if scaleAbs {
 		*fontSize = int(float64(*fontSize) * scale)
 	} else {
@@ -407,7 +407,8 @@ func scaleFontSize(r *types.Rectangle, lines []string, scaleAbs bool,
 
 func horizontalWrapUp(box *types.Rectangle, maxLine string, hAlign types.HAlignment,
 	x *float64, width, ww, mLeft, mRight, borderWidth float64,
-	fontName string, fontSize *int) {
+	fontName string, fontSize *int,
+) {
 	switch hAlign {
 	case types.AlignLeft:
 		box.Translate(mLeft+borderWidth, 0)
@@ -453,8 +454,8 @@ func createBoundingBoxForColumn(xRefTable *XRefTable, r *types.Rectangle, x, y *
 	dx, dy float64,
 	mTop, mBot, mLeft, mRight float64,
 	borderWidth float64,
-	fontSize *int, lines *[]string) *types.Rectangle {
-
+	fontSize *int, lines *[]string,
+) *types.Rectangle {
 	var ww float64
 	if td.HAlign == types.AlignJustify {
 		ww = preRenderJustifiedText(xRefTable, lines, r, *x, *y, width, td, mLeft, mRight, borderWidth, fontSize)
@@ -531,7 +532,6 @@ func DrawMargins(w io.Writer, c color.SimpleColor, colBB *types.Rectangle, borde
 		r = types.RectForWidthAndHeight(colBB.UR.X-borderWidth-mRight, colBB.LL.Y+borderWidth+mBot, mRight, colBB.Height()-2*borderWidth-mTop-mBot)
 		draw.FillRectNoBorder(w, r, c)
 	}
-
 }
 
 func renderBackgroundAndBorder(w io.Writer, td TextDescriptor, borderWidth float64, colBB *types.Rectangle) {

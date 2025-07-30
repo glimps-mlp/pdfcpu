@@ -19,7 +19,7 @@ package main
 import (
 	"flag"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
 )
 
 func initAnnotsCmdMap() commandMap {
@@ -442,7 +442,7 @@ func initLogging(verbose, veryVerbose bool) {
 
 	if veryVerbose {
 		log.SetDefaultTraceLogger()
-		//log.SetDefaultParseLogger()
+		// log.SetDefaultParseLogger()
 		log.SetDefaultReadLogger()
 		log.SetDefaultValidateLogger()
 		log.SetDefaultOptimizeLogger()

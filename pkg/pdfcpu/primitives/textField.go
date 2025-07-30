@@ -20,15 +20,14 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-
 	"unicode/utf8"
 
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	pdffont "github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/format"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	pdffont "github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/format"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -903,8 +902,8 @@ func NewTextField(
 	maxLen int,
 	da *string,
 	fontIndRef *types.IndirectRef,
-	fonts map[string]types.IndirectRef) (*TextField, *types.IndirectRef, error) {
-
+	fonts map[string]types.IndirectRef,
+) (*TextField, *types.IndirectRef, error) {
 	tf := &TextField{Value: v, Multiline: multiLine, Comb: comb}
 
 	i := d.IntEntry("MaxLen") // Inheritable!

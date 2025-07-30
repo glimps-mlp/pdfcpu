@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
 )
 
 /**************************************************************
@@ -28,7 +28,6 @@ import (
  **************************************************************/
 
 func TestListFormFields(t *testing.T) {
-
 	msg := "TestListFormFields"
 	inFile := filepath.Join(samplesDir, "form", "demo", "english.pdf")
 
@@ -39,7 +38,6 @@ func TestListFormFields(t *testing.T) {
 }
 
 func TestRemoveFormFields(t *testing.T) {
-
 	msg := "TestRemoveFormFields"
 	inFile := filepath.Join(samplesDir, "form", "demo", "english.pdf")
 	outFile := filepath.Join(outDir, "removedField.pdf")
@@ -51,7 +49,6 @@ func TestRemoveFormFields(t *testing.T) {
 }
 
 func TestResetFormFields(t *testing.T) {
-
 	for _, tt := range []struct {
 		msg     string
 		inFile  string
@@ -71,11 +68,9 @@ func TestResetFormFields(t *testing.T) {
 			t.Fatalf("%s %s: %v\n", tt.msg, inFile, err)
 		}
 	}
-
 }
 
 func TestLockFormFields(t *testing.T) {
-
 	for _, tt := range []struct {
 		msg     string
 		inFile  string
@@ -98,7 +93,6 @@ func TestLockFormFields(t *testing.T) {
 }
 
 func TestUnlockFormFields(t *testing.T) {
-
 	for _, tt := range []struct {
 		msg     string
 		inFile  string
@@ -121,7 +115,6 @@ func TestUnlockFormFields(t *testing.T) {
 }
 
 func TestExportForm(t *testing.T) {
-
 	inDir := filepath.Join(samplesDir, "form", "demoSinglePage")
 
 	for _, tt := range []struct {
@@ -146,7 +139,6 @@ func TestExportForm(t *testing.T) {
 }
 
 func TestFillForm(t *testing.T) {
-
 	inDir := filepath.Join(samplesDir, "form", "demoSinglePage")
 	jsonDir := filepath.Join(samplesDir, "form", "fill")
 
@@ -174,7 +166,6 @@ func TestFillForm(t *testing.T) {
 }
 
 func TestMultiFillFormJSON(t *testing.T) {
-
 	inDir := filepath.Join(samplesDir, "form", "demoSinglePage")
 	jsonDir := filepath.Join(samplesDir, "form", "multifill", "json")
 
@@ -197,7 +188,6 @@ func TestMultiFillFormJSON(t *testing.T) {
 }
 
 func TestMultiFillFormJSONMerged(t *testing.T) {
-
 	inDir := filepath.Join(samplesDir, "form", "demoSinglePage")
 	jsonDir := filepath.Join(samplesDir, "form", "multifill", "json")
 
@@ -220,7 +210,6 @@ func TestMultiFillFormJSONMerged(t *testing.T) {
 }
 
 func TestMultiFillFormCSV(t *testing.T) {
-
 	inDir := filepath.Join(samplesDir, "form", "demoSinglePage")
 	csvDir := filepath.Join(samplesDir, "form", "multifill", "csv")
 
@@ -244,7 +233,6 @@ func TestMultiFillFormCSV(t *testing.T) {
 }
 
 func TestMultiFillFormCSVMerged(t *testing.T) {
-
 	inDir := filepath.Join(samplesDir, "form", "demoSinglePage")
 	csvDir := filepath.Join(samplesDir, "form", "multifill", "csv")
 

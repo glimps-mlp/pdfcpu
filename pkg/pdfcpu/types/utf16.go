@@ -24,7 +24,7 @@ import (
 	"unicode/utf16"
 	"unicode/utf8"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
 	"github.com/pkg/errors"
 )
 

@@ -26,9 +26,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -151,11 +151,11 @@ func metaDataModifiedAfterInfoDict(xRefTable *model.XRefTable) (bool, error) {
 	modTimestampMetaData := time.Time(xmpMeta.RDF.Description.ModDate)
 	if modTimestampMetaData.IsZero() {
 		//  xmlns:xap='http://ns.adobe.com/xap/1.0/ ...xap:ModifyDate='2006-06-05T21:58:13-05:00'></rdf:Description>
-		//fmt.Println("metadata modificationDate is zero -> older than infodict")
+		// fmt.Println("metadata modificationDate is zero -> older than infodict")
 		return false, nil
 	}
 
-	//fmt.Printf("infoDict: %s metaData: %s\n", modTimestampInfoDict, modTimestampMetaData)
+	// fmt.Printf("infoDict: %s metaData: %s\n", modTimestampInfoDict, modTimestampMetaData)
 
 	if *modTimestampInfoDict == modTimestampMetaData {
 		return false, nil
@@ -222,8 +222,10 @@ func validateNames(xRefTable *model.XRefTable, rootDict types.Dict, required boo
 	}
 
 	validateNameTreeName := func(s string) bool {
-		return types.MemberOf(s, []string{"Dests", "AP", "JavaScript", "Pages", "Templates", "IDS",
-			"URLS", "EmbeddedFiles", "AlternatePresentations", "Renditions"})
+		return types.MemberOf(s, []string{
+			"Dests", "AP", "JavaScript", "Pages", "Templates", "IDS",
+			"URLS", "EmbeddedFiles", "AlternatePresentations", "Renditions",
+		})
 	}
 
 	d1 := types.Dict{}
@@ -1105,7 +1107,7 @@ func validateRootObject(ctx *model.Context) error {
 		{validateRootVersion, OPTIONAL, model.V14},
 		{validateExtensions, OPTIONAL, model.V10},
 		{validatePageLabels, OPTIONAL, model.V13},
-		{validateNames, OPTIONAL, model.V11}, //model.V12},
+		{validateNames, OPTIONAL, model.V11}, // model.V12},
 		{validateNamedDestinations, OPTIONAL, model.V11},
 		{validateViewerPreferences, OPTIONAL, model.V12},
 		{validatePageLayout, OPTIONAL, model.V10},

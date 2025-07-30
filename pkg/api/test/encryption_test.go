@@ -21,9 +21,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 )
 
 func listPermissions(t *testing.T, fileName string) ([]string, error) {
@@ -96,7 +96,6 @@ func setPermissions(t *testing.T, aes bool, keyLength int, msg, outFile string) 
 	if p == nil || uint16(*p) != uint16(model.PermissionsAll) {
 		t.Fatal()
 	}
-
 }
 
 func testEncryption(t *testing.T, fileName string, alg string, keyLength int) {

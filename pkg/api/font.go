@@ -19,18 +19,17 @@ package api
 import (
 	"bytes"
 	"fmt"
-
 	"path/filepath"
 	"sort"
 	"unicode/utf8"
 
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -69,14 +68,14 @@ func InstallFonts(fileNames []string) error {
 	for _, fn := range fileNames {
 		switch filepath.Ext(fn) {
 		case ".ttf":
-			//log.CLI.Println(filepath.Base(fn))
+			// log.CLI.Println(filepath.Base(fn))
 			if err := font.InstallTrueTypeFont(font.UserFontDir, fn); err != nil {
 				if log.CLIEnabled() {
 					log.CLI.Printf("%v", err)
 				}
 			}
 		case ".ttc":
-			//log.CLI.Println(filepath.Base(fn))
+			// log.CLI.Println(filepath.Base(fn))
 			if err := font.InstallTrueTypeCollection(font.UserFontDir, fn); err != nil {
 				if log.CLIEnabled() {
 					log.CLI.Printf("%v", err)

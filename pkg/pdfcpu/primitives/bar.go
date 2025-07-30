@@ -17,10 +17,10 @@
 package primitives
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -38,7 +38,6 @@ type Bar struct {
 }
 
 func (b *Bar) validate() error {
-
 	if b.X != 0 && b.Y != 0 || b.X < 0 || b.Y < 0 {
 		return errors.Errorf("pdfcpu: bar: supply positive values for either x (vertical bar) or y (horizontal)")
 	}
@@ -69,7 +68,6 @@ func (b *Bar) validate() error {
 }
 
 func (b *Bar) render(p *model.Page) error {
-
 	if b.col == nil {
 		return nil
 	}

@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -274,8 +274,8 @@ func NewAnnotation(
 	col *color.SimpleColor,
 	borderRadX float64,
 	borderRadY float64,
-	borderWidth float64) Annotation {
-
+	borderWidth float64,
+) Annotation {
 	return Annotation{
 		SubType:          typ,
 		CustomSubType:    customTyp,
@@ -304,8 +304,8 @@ func NewAnnotationForRawType(
 	col *color.SimpleColor,
 	borderRadX float64,
 	borderRadY float64,
-	borderWidth float64) Annotation {
-
+	borderWidth float64,
+) Annotation {
 	annType, ok := AnnotTypes[typ]
 	if !ok {
 		annType = AnnotTypes["Custom"]
@@ -423,8 +423,8 @@ func NewPopupAnnotation(
 	borderWidth float64,
 
 	parentIndRef *types.IndirectRef,
-	displayOpen bool) PopupAnnotation {
-
+	displayOpen bool,
+) PopupAnnotation {
 	ann := NewAnnotation(AnnPopup, "", rect, apObjNr, contents, id, modDate, f, col, borderRadX, borderRadY, borderWidth)
 
 	return PopupAnnotation{
@@ -483,8 +483,8 @@ func NewLinkAnnotation(
 	quad types.QuadPoints,
 	border bool,
 	borderWidth float64,
-	borderStyle BorderStyle) LinkAnnotation {
-
+	borderStyle BorderStyle,
+) LinkAnnotation {
 	ann := NewAnnotation(AnnLink, "", rect, apObjNr, contents, id, modDate, f, borderCol, 0, 0, 0)
 
 	return LinkAnnotation{
@@ -589,8 +589,8 @@ func NewMarkupAnnotation(
 	title string,
 	popupIndRef *types.IndirectRef,
 	ca *float64,
-	rc, subject string) MarkupAnnotation {
-
+	rc, subject string,
+) MarkupAnnotation {
 	ann := NewAnnotation(subType, "", rect, apObjNr, contents, id, modDate, f, col, borderRadX, borderRadY, borderWidth)
 
 	return MarkupAnnotation{
@@ -600,7 +600,8 @@ func NewMarkupAnnotation(
 		CA:           ca,
 		RC:           rc,
 		CreationDate: types.DateString(time.Now()),
-		Subj:         subject}
+		Subj:         subject,
+	}
 }
 
 // ContentString returns a string representation of ann's content.
@@ -679,8 +680,8 @@ func NewTextAnnotation(
 	borderWidth float64,
 
 	displayOpen bool,
-	name string) TextAnnotation {
-
+	name string,
+) TextAnnotation {
 	ma := NewMarkupAnnotation(AnnText, rect, apObjNr, contents, id, modDate, f, col, borderRadX, borderRadY, borderWidth, title, popupIndRef, ca, rc, subject)
 
 	return TextAnnotation{
@@ -778,8 +779,8 @@ func NewFreeTextAnnotation(
 	borderWidth float64,
 	borderStyle BorderStyle,
 	cloudyBorder bool,
-	cloudyBorderIntensity int) FreeTextAnnotation {
-
+	cloudyBorderIntensity int,
+) FreeTextAnnotation {
 	// validate required DA, DS
 
 	// validate callOutline: 2 or 3 points => array of 4 or 6 numbers.
@@ -955,8 +956,8 @@ func NewLineAnnotation(
 	captionOffsetY float64,
 	fillCol *color.SimpleColor,
 	borderWidth float64,
-	borderStyle BorderStyle) LineAnnotation {
-
+	borderStyle BorderStyle,
+) LineAnnotation {
 	ma := NewMarkupAnnotation(AnnLine, rect, apObjNr, contents, id, modDate, f, col, 0, 0, 0, title, popupIndRef, ca, rc, subject)
 
 	lineIntent := ""
@@ -983,11 +984,10 @@ func NewLineAnnotation(
 	}
 
 	if beginLineEndingStyle != nil && endLineEndingStyle != nil {
-		lineAnn.LineEndings =
-			types.NewNameArray(
-				LineEndingStyleName(*beginLineEndingStyle),
-				LineEndingStyleName(*endLineEndingStyle),
-			)
+		lineAnn.LineEndings = types.NewNameArray(
+			LineEndingStyleName(*beginLineEndingStyle),
+			LineEndingStyleName(*endLineEndingStyle),
+		)
 	}
 
 	return lineAnn
@@ -1011,7 +1011,6 @@ func (ann LineAnnotation) validateLeaderLineAttrs() error {
 
 // RenderDict renders ann into a PDF annotation dict.
 func (ann LineAnnotation) RenderDict(xRefTable *XRefTable, pageIndRef *types.IndirectRef) (types.Dict, error) {
-
 	d, err := ann.MarkupAnnotation.RenderDict(xRefTable, pageIndRef)
 	if err != nil {
 		return nil, err
@@ -1040,7 +1039,6 @@ func (ann LineAnnotation) RenderDict(xRefTable *XRefTable, pageIndRef *types.Ind
 
 	if ann.Intent != "" {
 		d.InsertName("IT", ann.Intent)
-
 	}
 
 	d["Cap"] = types.Boolean(ann.Caption)
@@ -1095,8 +1093,8 @@ func NewSquareAnnotation(
 	borderWidth float64,
 	borderStyle BorderStyle,
 	cloudyBorder bool,
-	cloudyBorderIntensity int) SquareAnnotation {
-
+	cloudyBorderIntensity int,
+) SquareAnnotation {
 	ma := NewMarkupAnnotation(AnnSquare, rect, apObjNr, contents, id, modDate, f, col, 0, 0, 0, title, popupIndRef, ca, rc, subject)
 
 	if cloudyBorderIntensity < 0 || cloudyBorderIntensity > 2 {
@@ -1174,8 +1172,8 @@ func NewCircleAnnotation(
 	borderWidth float64,
 	borderStyle BorderStyle,
 	cloudyBorder bool,
-	cloudyBorderIntensity int) CircleAnnotation {
-
+	cloudyBorderIntensity int,
+) CircleAnnotation {
 	ma := NewMarkupAnnotation(AnnCircle, rect, apObjNr, contents, id, modDate, f, col, 0, 0, 0, title, popupIndRef, ca, rc, subject)
 
 	if cloudyBorderIntensity < 0 || cloudyBorderIntensity > 2 {
@@ -1278,8 +1276,8 @@ func NewPolygonAnnotation(
 	borderWidth float64,
 	borderStyle BorderStyle,
 	cloudyBorder bool,
-	cloudyBorderIntensity int) PolygonAnnotation {
-
+	cloudyBorderIntensity int,
+) PolygonAnnotation {
 	ma := NewMarkupAnnotation(AnnPolygon, rect, apObjNr, contents, id, modDate, f, col, 0, 0, 0, title, popupIndRef, ca, rc, subject)
 
 	polygonIntent := ""
@@ -1309,7 +1307,6 @@ func NewPolygonAnnotation(
 
 // RenderDict renders ann into a PDF annotation dict.
 func (ann PolygonAnnotation) RenderDict(xRefTable *XRefTable, pageIndRef *types.IndirectRef) (types.Dict, error) {
-
 	d, err := ann.MarkupAnnotation.RenderDict(xRefTable, pageIndRef)
 	if err != nil {
 		return nil, err
@@ -1331,7 +1328,6 @@ func (ann PolygonAnnotation) RenderDict(xRefTable *XRefTable, pageIndRef *types.
 
 	if ann.Intent != "" {
 		d.InsertName("IT", ann.Intent)
-
 	}
 
 	if ann.FillCol != nil {
@@ -1399,8 +1395,8 @@ func NewPolyLineAnnotation(
 	borderWidth float64,
 	borderStyle BorderStyle,
 	beginLineEndingStyle *LineEndingStyle,
-	endLineEndingStyle *LineEndingStyle) PolyLineAnnotation {
-
+	endLineEndingStyle *LineEndingStyle,
+) PolyLineAnnotation {
 	ma := NewMarkupAnnotation(AnnPolyLine, rect, apObjNr, contents, id, modDate, f, col, 0, 0, 0, title, popupIndRef, ca, rc, subject)
 
 	polyLineIntent := ""
@@ -1420,11 +1416,10 @@ func NewPolyLineAnnotation(
 	}
 
 	if beginLineEndingStyle != nil && endLineEndingStyle != nil {
-		polyLineAnn.LineEndings =
-			types.NewNameArray(
-				LineEndingStyleName(*beginLineEndingStyle),
-				LineEndingStyleName(*endLineEndingStyle),
-			)
+		polyLineAnn.LineEndings = types.NewNameArray(
+			LineEndingStyleName(*beginLineEndingStyle),
+			LineEndingStyleName(*endLineEndingStyle),
+		)
 	}
 
 	return polyLineAnn
@@ -1432,7 +1427,6 @@ func NewPolyLineAnnotation(
 
 // RenderDict renders ann into a PDF annotation dict.
 func (ann PolyLineAnnotation) RenderDict(xRefTable *XRefTable, pageIndRef *types.IndirectRef) (types.Dict, error) {
-
 	d, err := ann.MarkupAnnotation.RenderDict(xRefTable, pageIndRef)
 	if err != nil {
 		return nil, err
@@ -1454,7 +1448,6 @@ func (ann PolyLineAnnotation) RenderDict(xRefTable *XRefTable, pageIndRef *types
 
 	if ann.Intent != "" {
 		d.InsertName("IT", ann.Intent)
-
 	}
 
 	if ann.FillCol != nil {
@@ -1493,8 +1486,8 @@ func NewTextMarkupAnnotation(
 	ca *float64,
 	rc, subject string,
 
-	quad types.QuadPoints) TextMarkupAnnotation {
-
+	quad types.QuadPoints,
+) TextMarkupAnnotation {
 	ma := NewMarkupAnnotation(subType, rect, apObjNr, contents, id, modDate, f, col, borderRadX, borderRadY, borderWidth, title, popupIndRef, ca, rc, subject)
 
 	return TextMarkupAnnotation{
@@ -1535,8 +1528,8 @@ func NewHighlightAnnotation(
 	ca *float64,
 	rc, subject string,
 
-	quad types.QuadPoints) HighlightAnnotation {
-
+	quad types.QuadPoints,
+) HighlightAnnotation {
 	return HighlightAnnotation{
 		NewTextMarkupAnnotation(AnnHighLight, rect, apObjNr, contents, id, modDate, f, col, borderRadX, borderRadY, borderWidth, title, popupIndRef, ca, rc, subject, quad),
 	}
@@ -1561,8 +1554,8 @@ func NewUnderlineAnnotation(
 	ca *float64,
 	rc, subject string,
 
-	quad types.QuadPoints) UnderlineAnnotation {
-
+	quad types.QuadPoints,
+) UnderlineAnnotation {
 	return UnderlineAnnotation{
 		NewTextMarkupAnnotation(AnnUnderline, rect, apObjNr, contents, id, modDate, f, col, borderRadX, borderRadY, borderWidth, title, popupIndRef, ca, rc, subject, quad),
 	}
@@ -1587,8 +1580,8 @@ func NewSquigglyAnnotation(
 	ca *float64,
 	rc, subject string,
 
-	quad types.QuadPoints) SquigglyAnnotation {
-
+	quad types.QuadPoints,
+) SquigglyAnnotation {
 	return SquigglyAnnotation{
 		NewTextMarkupAnnotation(AnnSquiggly, rect, apObjNr, contents, id, modDate, f, col, borderRadX, borderRadY, borderWidth, title, popupIndRef, ca, rc, subject, quad),
 	}
@@ -1613,8 +1606,8 @@ func NewStrikeOutAnnotation(
 	ca *float64,
 	rc, subject string,
 
-	quad types.QuadPoints) StrikeOutAnnotation {
-
+	quad types.QuadPoints,
+) StrikeOutAnnotation {
 	return StrikeOutAnnotation{
 		NewTextMarkupAnnotation(AnnStrikeOut, rect, apObjNr, contents, id, modDate, f, col, borderRadX, borderRadY, borderWidth, title, popupIndRef, ca, rc, subject, quad),
 	}
@@ -1642,8 +1635,8 @@ func NewCaretAnnotation(
 	rc, subject string,
 
 	rd *types.Rectangle,
-	paragraph bool) CaretAnnotation {
-
+	paragraph bool,
+) CaretAnnotation {
 	ma := NewMarkupAnnotation(AnnCaret, rect, apObjNr, contents, id, modDate, f, col, borderRadX, borderRadY, borderWidth, title, popupIndRef, ca, rc, subject)
 
 	return CaretAnnotation{
@@ -1694,8 +1687,8 @@ func NewInkAnnotation(
 
 	ink []InkPath,
 	borderWidth float64,
-	borderStyle BorderStyle) InkAnnotation {
-
+	borderStyle BorderStyle,
+) InkAnnotation {
 	ma := NewMarkupAnnotation(AnnInk, rect, apObjNr, contents, id, modDate, f, col, 0, 0, 0, title, popupIndRef, ca, rc, subject)
 
 	return InkAnnotation{

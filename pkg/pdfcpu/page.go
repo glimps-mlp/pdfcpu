@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -30,7 +30,6 @@ type pagesParamMap map[string]func(string, *PageConfiguration) error
 // Handle applies parameter completion and if successful
 // parses the parameter values into pages.
 func (m pagesParamMap) Handle(paramPrefix, paramValueStr string, pageConf *PageConfiguration) error {
-
 	var param string
 
 	// Completion support
@@ -98,7 +97,6 @@ func parseDimensions(s string, p *PageConfiguration) (err error) {
 
 // ParsePageConfiguration parses a page configuration string into an internal structure.
 func ParsePageConfiguration(s string, u types.DisplayUnit) (*PageConfiguration, error) {
-
 	if s == "" {
 		return nil, nil
 	}
@@ -133,8 +131,8 @@ func addPages(
 	pagesIndRef types.IndirectRef,
 	pagesDict types.Dict,
 	fieldsSrc, fieldsDest *types.Array,
-	migrated map[int]int) error {
-
+	migrated map[int]int,
+) error {
 	// Used by collect, extractPages, split
 
 	pageCache := map[int]*types.IndirectRef{}
@@ -220,7 +218,6 @@ func migrateNamedDests(ctxSrc *model.Context, n *model.Node, migrated map[int]in
 
 // AddPages adds pages and corresponding resources from ctxSrc to ctxDest.
 func AddPages(ctxSrc, ctxDest *model.Context, pageNrs []int, usePgCache bool) error {
-
 	pagesIndRef, err := ctxDest.Pages()
 	if err != nil {
 		return err

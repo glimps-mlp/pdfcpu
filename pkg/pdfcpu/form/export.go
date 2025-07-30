@@ -24,9 +24,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/primitives"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/primitives"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -204,7 +204,6 @@ func (f Form) listBoxValuesAndLock(id, name string) ([]string, bool, bool) {
 }
 
 func locateAPN(xRefTable *model.XRefTable, d types.Dict) (types.Dict, error) {
-
 	obj, ok := d.Find("AP")
 	if !ok {
 		return nil, errors.New("corrupt form field: missing entry \"AP\"")
@@ -234,7 +233,6 @@ func locateAPN(xRefTable *model.XRefTable, d types.Dict) (types.Dict, error) {
 }
 
 func extractRadioButtonGroupOptions(xRefTable *model.XRefTable, d types.Dict) ([]string, bool, error) {
-
 	var opts []string
 	p := 0
 
@@ -307,7 +305,6 @@ func resolveOption(s string, opts []string, explicit bool) (string, error) {
 }
 
 func extractRadioButtonGroup(xRefTable *model.XRefTable, page int, d types.Dict, id, name, altName string, locked bool) (*RadioButtonGroup, error) {
-
 	rbg := &RadioButtonGroup{Pages: []int{page}, ID: id, Name: name, AltName: altName, Locked: locked}
 
 	opts, explicit, err := extractRadioButtonGroupOptions(xRefTable, d)
@@ -339,7 +336,6 @@ func extractRadioButtonGroup(xRefTable *model.XRefTable, page int, d types.Dict,
 }
 
 func extractCheckBox(page int, d types.Dict, id, name, altName string, locked bool) (*CheckBox, error) {
-
 	cb := &CheckBox{Pages: []int{page}, ID: id, Name: name, AltName: altName, Locked: locked}
 
 	if o, ok := d.Find("DV"); ok {
@@ -355,7 +351,6 @@ func extractCheckBox(page int, d types.Dict, id, name, altName string, locked bo
 }
 
 func extractComboBox(xRefTable *model.XRefTable, page int, d types.Dict, id, name, altName string, locked bool) (*ComboBox, error) {
-
 	cb := &ComboBox{Pages: []int{page}, ID: id, Name: name, AltName: altName, Locked: locked}
 
 	if sl := d.StringLiteralEntry("DV"); sl != nil {
@@ -457,7 +452,6 @@ func extractDateFormat(xRefTable *model.XRefTable, d types.Dict) (*primitives.Da
 }
 
 func extractDateField(xRefTable *model.XRefTable, page int, d types.Dict, id, name, altName string, df *primitives.DateFormat, locked bool) (*DateField, error) {
-
 	dfield := &DateField{Pages: []int{page}, ID: id, Name: name, AltName: altName, Format: df.Ext, Locked: locked}
 
 	v, err := getV(xRefTable, d)
@@ -476,7 +470,6 @@ func extractDateField(xRefTable *model.XRefTable, page int, d types.Dict, id, na
 }
 
 func extractTextField(xRefTable *model.XRefTable, page int, d types.Dict, id, name, altName string, ff *int, locked bool) (*TextField, error) {
-
 	multiLine := ff != nil && uint(primitives.FieldFlags(*ff))&uint(primitives.FieldMultiline) > 0
 
 	maxLen := 0
@@ -503,7 +496,6 @@ func extractTextField(xRefTable *model.XRefTable, page int, d types.Dict, id, na
 }
 
 func extractListBox(xRefTable *model.XRefTable, page int, d types.Dict, id, name, altName string, locked, multi bool) (*ListBox, error) {
-
 	lb := &ListBox{Pages: []int{page}, ID: id, Name: name, AltName: altName, Locked: locked, Multi: multi}
 
 	if !multi {
@@ -563,7 +555,6 @@ func header(xRefTable *model.XRefTable, source string) Header {
 }
 
 func fieldsForAnnots(xRefTable *model.XRefTable, annots, fields types.Array) (map[string]fieldInfo, error) {
-
 	m := map[string]fieldInfo{}
 	var prevId string
 
@@ -599,8 +590,8 @@ func exportBtn(
 	d types.Dict,
 	id, name, altName string,
 	locked bool,
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	if len(d.ArrayEntry("Kids")) > 1 {
 
 		for _, rb := range form.RadioButtonGroups {
@@ -644,8 +635,8 @@ func exportCh(
 	d types.Dict,
 	id, name, altName string,
 	locked bool,
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	ff := d.IntEntry("Ff")
 	if ff == nil {
 		return errors.New("pdfcpu: corrupt form field: missing entry Ff")
@@ -695,8 +686,8 @@ func exportTx(
 	id, name, altName string,
 	ff *int,
 	locked bool,
-	ok *bool) error {
-
+	ok *bool,
+) error {
 	df, err := extractDateFormat(xRefTable, d)
 	if err != nil {
 		return err
@@ -801,7 +792,6 @@ func exportPageFields(xRefTable *model.XRefTable, i int, form *Form, m map[strin
 
 // ExportForm extracts form data originating from source from xRefTable.
 func ExportForm(xRefTable *model.XRefTable, source string) (*FormGroup, bool, error) {
-
 	fields, err := fields(xRefTable)
 	if err != nil {
 		return nil, false, err
@@ -848,7 +838,6 @@ func ExportForm(xRefTable *model.XRefTable, source string) (*FormGroup, bool, er
 
 // ExportFormJSON extracts form data originating from source from xRefTable and writes a JSON representation to w.
 func ExportFormJSON(xRefTable *model.XRefTable, source string, w io.Writer) (bool, error) {
-
 	formGroup, ok, err := ExportForm(xRefTable, source)
 	if err != nil || !ok {
 		return false, err

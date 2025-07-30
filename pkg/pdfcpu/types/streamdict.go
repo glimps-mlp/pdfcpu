@@ -22,8 +22,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
 
 	"github.com/pkg/errors"
 )
@@ -43,7 +43,7 @@ type StreamDict struct {
 	FilterPipeline    []PDFFilter
 	Raw               []byte // Encoded
 	Content           []byte // Decoded
-	//DCTImage          image.Image
+	// DCTImage          image.Image
 	IsPageContent bool
 	CSComponents  int
 }
@@ -58,7 +58,7 @@ func NewStreamDict(d Dict, streamOffset int64, streamLength *int64, streamLength
 		filterPipeline,
 		nil,
 		nil,
-		//nil,
+		// nil,
 		false,
 		0,
 	}
@@ -181,7 +181,7 @@ func (l *LazyObjectStreamObject) DecodedObject(c context.Context) (Object, error
 		}
 
 		if log.ReadEnabled() {
-			//log.Read.Printf("parseObjectStream: [%d] = obj %s:\n%s\n", i/2-1, objs[i-2], o)
+			// log.Read.Printf("parseObjectStream: [%d] = obj %s:\n%s\n", i/2-1, objs[i-2], o)
 		}
 	}
 	return l.decodedObject, l.decodedError
@@ -372,7 +372,7 @@ func (sd *StreamDict) decodeLength(maxLen int64) ([]byte, error) {
 			return nil, err
 		}
 
-		//fmt.Printf("decodedStream after:%s\n%s\n", f.Name, hex.Dump(c.Bytes()))
+		// fmt.Printf("decodedStream after:%s\n%s\n", f.Name, hex.Dump(c.Bytes()))
 		b = c
 	}
 
@@ -411,7 +411,7 @@ func (sd *StreamDict) DecodeLength(maxLen int64) ([]byte, error) {
 	// No filter or sole filter DTC && !CMYK or JPX - nothing to decode.
 	if fpl == nil || len(fpl) == 1 && ((fpl[0].Name == filter.DCT && sd.CSComponents != 4) || fpl[0].Name == filter.JPX) {
 		sd.Content = sd.Raw
-		//fmt.Printf("decodedStream returning %d(#%02x)bytes: \n%s\n", len(sd.Content), len(sd.Content), hex.Dump(sd.Content))
+		// fmt.Printf("decodedStream returning %d(#%02x)bytes: \n%s\n", len(sd.Content), len(sd.Content), hex.Dump(sd.Content))
 		if maxLen < 0 {
 			return sd.Content, nil
 		}
@@ -419,7 +419,7 @@ func (sd *StreamDict) DecodeLength(maxLen int64) ([]byte, error) {
 		return sd.Content[:maxLen], nil
 	}
 
-	//fmt.Printf("decodedStream before:\n%s\n", hex.Dump(sd.Raw))
+	// fmt.Printf("decodedStream before:\n%s\n", hex.Dump(sd.Raw))
 
 	return sd.decodeLength(maxLen)
 }
@@ -442,7 +442,7 @@ func (osd *ObjectStreamDict) AddObject(objNumber int, pdfString string) error {
 	}
 	s = s + fmt.Sprintf("%d %d", objNumber, offset)
 	osd.Prolog = append(osd.Prolog, []byte(s)...)
-	//pdfString := entry.Object.PDFString()
+	// pdfString := entry.Object.PDFString()
 	osd.Content = append(osd.Content, []byte(pdfString)...)
 	osd.ObjCount++
 	if log.TraceEnabled() {

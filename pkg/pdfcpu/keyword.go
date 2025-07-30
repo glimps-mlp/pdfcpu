@@ -19,8 +19,8 @@ package pdfcpu
 import (
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 // KeywordsList returns a list of keywords as recorded in the document info dict.
@@ -52,7 +52,7 @@ func removeKeywordsFromMetadata(ctx *model.Context) error {
 		return err
 	}
 
-	//fmt.Println(hex.Dump(sd.Content))
+	// fmt.Println(hex.Dump(sd.Content))
 
 	if err := sd.Encode(); err != nil {
 		return err

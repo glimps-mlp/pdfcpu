@@ -26,7 +26,7 @@ import (
 	"slices"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/ocsp"
 )
@@ -65,8 +65,8 @@ func checkRevocation(
 	crls [][]byte,
 	ocsps [][]byte,
 	result *model.SignatureValidationResult,
-	conf *model.Configuration) {
-
+	conf *model.Configuration,
+) {
 	revocationDetails, err := checkCertificateRevocation(cert, issuer, rootCerts, signer, signingTime, crls, ocsps, conf)
 	if err != nil {
 		signer.AddProblem(fmt.Sprintf("certificate revocation check failed: %v", err))
@@ -102,8 +102,8 @@ func checkCertificateRevocation(
 	signingTime *time.Time,
 	crls [][]byte,
 	ocsps [][]byte,
-	conf *model.Configuration) (*model.RevocationDetails, error) {
-
+	conf *model.Configuration,
+) (*model.RevocationDetails, error) {
 	// Hybrid Approach - configure your preferredCertRevocationChecker in config.yml
 
 	var f1, f2 func(
@@ -149,8 +149,8 @@ func checkCertAgainstCRL(
 	rootCerts *x509.CertPool,
 	signingTime *time.Time,
 	crls [][]byte,
-	conf *model.Configuration) (*model.RevocationDetails, error) {
-
+	conf *model.Configuration,
+) (*model.RevocationDetails, error) {
 	if signingTime != nil && len(crls) > 0 {
 		// Assumption: signingTime in the past
 		rd, err := processArchivedCRLs(cert, *signingTime, crls)
@@ -171,7 +171,6 @@ func checkCertAgainstCRL(
 }
 
 func processArchivedCRLs(cert *x509.Certificate, signingTime time.Time, crls [][]byte) (*model.RevocationDetails, error) {
-
 	const (
 		reasonUnspecified   = 0
 		reasonKeyCompromise = 1
@@ -270,8 +269,8 @@ func checkCertViaOCSP(
 	rootCerts *x509.CertPool,
 	signingTime *time.Time,
 	ocsps [][]byte,
-	conf *model.Configuration) (*model.RevocationDetails, error) {
-
+	conf *model.Configuration,
+) (*model.RevocationDetails, error) {
 	if conf.Offline {
 		return nil, errors.New("offline: unable to contact OSCP responder") // / unable to verify OSCP certificate")
 	}
@@ -308,8 +307,8 @@ func processArchivedOCSPResponses(
 	rootCerts *x509.CertPool,
 	signingTime time.Time,
 	ocsps [][]byte,
-	client *http.Client) (*model.RevocationDetails, error) {
-
+	client *http.Client,
+) (*model.RevocationDetails, error) {
 	var lastErr error
 
 	for _, bb := range ocsps {
@@ -373,8 +372,8 @@ func checkArchivedOCSPResponse(resp *ocsp.Response, signingTime time.Time) error
 func processCurrentOCSPResponses(
 	cert, issuer *x509.Certificate,
 	rootCerts *x509.CertPool,
-	client *http.Client) (*model.RevocationDetails, error) {
-
+	client *http.Client,
+) (*model.RevocationDetails, error) {
 	ocspRequest, err := ocsp.CreateRequest(cert, issuer, nil)
 	if err != nil {
 		return nil, errors.Errorf("OCSP: failed to create request: %v", err)

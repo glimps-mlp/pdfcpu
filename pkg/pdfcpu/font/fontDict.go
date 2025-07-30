@@ -29,10 +29,10 @@ import (
 	"time"
 	"unicode/utf16"
 
-	"github.com/pdfcpu/pdfcpu/pkg/font"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -281,7 +281,7 @@ func ttfFontDescriptorFlags(ttf font.TTFLight) uint32 {
 	flags := uint32(0)
 
 	// Bit 1
-	//fmt.Printf("fixedPitch: %t\n", ttf.FixedPitch)
+	// fmt.Printf("fixedPitch: %t\n", ttf.FixedPitch)
 	if ttf.FixedPitch {
 		flags |= 0x01
 	}
@@ -291,12 +291,12 @@ func ttfFontDescriptorFlags(ttf font.TTFLight) uint32 {
 	flags |= 0x20
 
 	// Bit 7
-	//fmt.Printf("italicAngle: %f\n", ttf.ItalicAngle)
+	// fmt.Printf("italicAngle: %f\n", ttf.ItalicAngle)
 	if ttf.ItalicAngle != 0 {
 		flags |= 0x40
 	}
 
-	//fmt.Printf("flags: %08x\n", flags)
+	// fmt.Printf("flags: %08x\n", flags)
 
 	return flags
 }
@@ -1161,7 +1161,7 @@ func FontDescriptor(xRefTable *model.XRefTable, fontDict types.Dict, objNr int) 
 
 	o, ok := fontDict.Find("DescendantFonts")
 	if !ok {
-		//logErrorOptimize.Printf("FontDescriptor: Neither FontDescriptor nor DescendantFonts for font object %d\n", objectNumber)
+		// logErrorOptimize.Printf("FontDescriptor: Neither FontDescriptor nor DescendantFonts for font object %d\n", objectNumber)
 		return nil, nil
 	}
 

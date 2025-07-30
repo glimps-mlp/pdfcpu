@@ -17,9 +17,9 @@
 package primitives
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 // FieldGroup is a container for fields.
@@ -84,7 +84,6 @@ func (fg *FieldGroup) validateBorderPaddingBgCol() error {
 }
 
 func (fg *FieldGroup) validate() error {
-
 	if err := fg.validateBorderPaddingBgCol(); err != nil {
 		return err
 	}

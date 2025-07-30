@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
 	"github.com/pkg/errors"
 )
 
@@ -44,7 +44,6 @@ const (
 
 // PDFVersion returns the PDFVersion for a version string.
 func PDFVersion(versionStr string) (Version, error) {
-
 	switch versionStr {
 	case "1.0":
 		return V10, nil
@@ -93,7 +92,6 @@ func identicalMajorAndMinorVersions(v1, v2 string) bool {
 
 // CheckConfigVersion prints a warning if the configuration is outdated.
 func CheckConfigVersion(v string) {
-
 	if identicalMajorAndMinorVersions(v, VersionStr) {
 		return
 	}

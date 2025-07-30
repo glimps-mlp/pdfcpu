@@ -29,10 +29,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/filter"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/scan"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/filter"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/scan"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -697,7 +697,7 @@ func (xRefTable *XRefTable) NewFileSpecDict(f, uf, desc string, indRefStreamDict
 	// CI, optional, collection item dict, since V1.7
 	// a corresponding collection schema dict in a collection.
 	ciDict := types.NewDict()
-	//add contextual meta info here.
+	// add contextual meta info here.
 	d.Insert("CI", ciDict)
 
 	return d, nil
@@ -1234,7 +1234,6 @@ func (xRefTable *XRefTable) list(logStr []string) []string {
 						str = fmt.Sprintf("%5d:   offset=nil generation=%d %s \n%s\n",
 							k, *entry.Generation, typeStr, entry.Object)
 					}
-
 				}
 
 				sd, ok := entry.Object.(types.StreamDict)
@@ -1576,7 +1575,7 @@ func (xRefTable *XRefTable) EnsureCollection() error {
 	modDateCFDict.Insert("O", types.Integer(4))
 	schemaDict.Insert("ModDate", modDateCFDict)
 
-	//TODO use xRefTable.InsertAndUseRecycled(xRefTableEntry)
+	// TODO use xRefTable.InsertAndUseRecycled(xRefTableEntry)
 
 	indRef, err := xRefTable.IndRefForNewObject(schemaDict)
 	if err != nil {
@@ -1937,7 +1936,6 @@ func (xRefTable *XRefTable) consolidateResourcesWithContent(pageDict, resDict ty
 }
 
 func (xRefTable *XRefTable) pageObjType(indRef types.IndirectRef) (string, error) {
-
 	pageNodeDict, err := xRefTable.DereferenceDict(indRef)
 	if err != nil {
 		return "", err
@@ -1980,7 +1978,7 @@ func errForUnexpectedPageObjectType(validationMode int, objType string, indRef t
 func (xRefTable *XRefTable) processPageTreeForPageDict(root *types.IndirectRef, pAttrs *InheritedPageAttrs, p *int, page int, consolidateRes bool) (types.Dict, *types.IndirectRef, error) {
 	// Walk this page tree all the way down to the leaf node representing page.
 
-	//fmt.Printf("entering processPageTreeForPageDict: p=%d obj#%d\n", *p, root.ObjectNumber.Value())
+	// fmt.Printf("entering processPageTreeForPageDict: p=%d obj#%d\n", *p, root.ObjectNumber.Value())
 
 	d, err := xRefTable.DereferenceDict(*root)
 	if err != nil {
@@ -2107,7 +2105,7 @@ func (xRefTable *XRefTable) PageDictIndRef(page int) (*types.IndirectRef, error)
 
 // Calculate logical page number for page dict object number.
 func (xRefTable *XRefTable) processPageTreeForPageNumber(root *types.IndirectRef, pageCount *int, pageObjNr int) (int, error) {
-	//fmt.Printf("entering processPageTreeForPageNumber: p=%d obj#%d\n", *p, root.ObjectNumber.Value())
+	// fmt.Printf("entering processPageTreeForPageNumber: p=%d obj#%d\n", *p, root.ObjectNumber.Value())
 
 	d, err := xRefTable.DereferenceDict(*root)
 	if err != nil {
@@ -2291,8 +2289,8 @@ func (xRefTable *XRefTable) collectPageBoundariesForPageTreeKids(
 	pb []PageBoundaries,
 	r int,
 	p *int,
-	selectedPages types.IntSet) error {
-
+	selectedPages types.IntSet,
+) error {
 	// Iterate over page tree.
 	for _, o := range kids {
 
@@ -2342,8 +2340,8 @@ func (xRefTable *XRefTable) collectPageBoundariesForPageTree(
 	pb []PageBoundaries,
 	r int,
 	p *int,
-	selectedPages types.IntSet) error {
-
+	selectedPages types.IntSet,
+) error {
 	d, err := xRefTable.DereferenceDict(*root)
 	if err != nil {
 		return err
@@ -2490,8 +2488,8 @@ func (xRefTable *XRefTable) insertBlankPages(
 	pAttrs *InheritedPageAttrs,
 	p *int, selectedPages types.IntSet,
 	dim *types.Dim,
-	before bool) (int, error) {
-
+	before bool,
+) (int, error) {
 	d, err := xRefTable.DereferenceDict(*parent)
 	if err != nil {
 		return 0, err

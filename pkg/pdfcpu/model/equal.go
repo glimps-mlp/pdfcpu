@@ -23,15 +23,14 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 // EqualObjects returns true if two objects are equal in the context of given xrefTable.
 // Some object and an indirect reference to it are treated as equal.
 // Objects may in fact be object trees.
 func EqualObjects(o1, o2 types.Object, xRefTable *XRefTable) (ok bool, err error) {
-
-	//log.Debug.Printf("equalObjects: comparing %T with %T \n", o1, o2)
+	// log.Debug.Printf("equalObjects: comparing %T with %T \n", o1, o2)
 
 	ir1, ok := o1.(types.IndirectRef)
 	if ok {
@@ -57,7 +56,7 @@ func EqualObjects(o1, o2 types.Object, xRefTable *XRefTable) (ok bool, err error
 
 	o1Type := fmt.Sprintf("%T", o1)
 	o2Type := fmt.Sprintf("%T", o2)
-	//log.Debug.Printf("equalObjects: comparing dereferenced %s with %s \n", o1Type, o2Type)
+	// log.Debug.Printf("equalObjects: comparing dereferenced %s with %s \n", o1Type, o2Type)
 
 	if o1Type != o2Type {
 		return false, nil
@@ -88,7 +87,6 @@ func EqualObjects(o1, o2 types.Object, xRefTable *XRefTable) (ok bool, err error
 }
 
 func equalArrays(a1, a2 types.Array, xRefTable *XRefTable) (bool, error) {
-
 	if len(a1) != len(a2) {
 		return false, nil
 	}
@@ -110,7 +108,6 @@ func equalArrays(a1, a2 types.Array, xRefTable *XRefTable) (bool, error) {
 
 // EqualStreamDicts returns true if two stream dicts are equal and contain the same bytes.
 func EqualStreamDicts(sd1, sd2 *types.StreamDict, xRefTable *XRefTable) (bool, error) {
-
 	ok, err := equalDicts(sd1.Dict, sd2.Dict, xRefTable)
 	if err != nil {
 		return false, err
@@ -128,7 +125,6 @@ func EqualStreamDicts(sd1, sd2 *types.StreamDict, xRefTable *XRefTable) (bool, e
 }
 
 func equalFontNames(v1, v2 types.Object, xRefTable *XRefTable) (bool, error) {
-
 	v1, err := xRefTable.Dereference(v1)
 	if err != nil {
 		return false, err
@@ -158,14 +154,13 @@ func equalFontNames(v1, v2 types.Object, xRefTable *XRefTable) (bool, error) {
 		bf2 = bf2[i+1:]
 	}
 
-	//log.Debug.Printf("equalFontNames: bf1=%s fb2=%s\n", bf1, bf2)
+	// log.Debug.Printf("equalFontNames: bf1=%s fb2=%s\n", bf1, bf2)
 
 	return bf1 == bf2, nil
 }
 
 func equalDicts(d1, d2 types.Dict, xRefTable *XRefTable) (bool, error) {
-
-	//log.Debug.Printf("equalDicts: %v\n%v\n", d1, d2)
+	// log.Debug.Printf("equalDicts: %v\n%v\n", d1, d2)
 
 	if d1.Len() != d2.Len() {
 		return false, nil
@@ -178,7 +173,7 @@ func equalDicts(d1, d2 types.Dict, xRefTable *XRefTable) (bool, error) {
 
 		v2, found := d2[key]
 		if !found {
-			//log.Debug.Printf("equalDict: return false, key=%s\n", key)
+			// log.Debug.Printf("equalDict: return false, key=%s\n", key)
 			return false, nil
 		}
 
@@ -187,12 +182,12 @@ func equalDicts(d1, d2 types.Dict, xRefTable *XRefTable) (bool, error) {
 
 			ok, err := equalFontNames(v1, v2, xRefTable)
 			if err != nil {
-				//log.Debug.Printf("equalDict: return2 false, key=%s v1=%v\nv2=%v\n", key, v1, v2)
+				// log.Debug.Printf("equalDict: return2 false, key=%s v1=%v\nv2=%v\n", key, v1, v2)
 				return false, err
 			}
 
 			if !ok {
-				//log.Debug.Printf("equalDict: return3 false, key=%s v1=%v\nv2=%v\n", key, v1, v2)
+				// log.Debug.Printf("equalDict: return3 false, key=%s v1=%v\nv2=%v\n", key, v1, v2)
 				return false, nil
 			}
 
@@ -201,26 +196,25 @@ func equalDicts(d1, d2 types.Dict, xRefTable *XRefTable) (bool, error) {
 
 		ok, err := EqualObjects(v1, v2, xRefTable)
 		if err != nil {
-			//log.Debug.Printf("equalDict: return4 false, key=%s v1=%v\nv2=%v\n%v\n", key, v1, v2, err)
+			// log.Debug.Printf("equalDict: return4 false, key=%s v1=%v\nv2=%v\n%v\n", key, v1, v2, err)
 			return false, err
 		}
 
 		if !ok {
-			//log.Debug.Printf("equalDict: return5 false, key=%s v1=%v\nv2=%v\n", key, v1, v2)
+			// log.Debug.Printf("equalDict: return5 false, key=%s v1=%v\nv2=%v\n", key, v1, v2)
 			return false, nil
 		}
 
 	}
 
-	//log.Debug.Println("equalDict: return true")
+	// log.Debug.Println("equalDict: return true")
 
 	return true, nil
 }
 
 // EqualFontDicts returns true, if two font dicts are equal.
 func EqualFontDicts(fd1, fd2 types.Dict, xRefTable *XRefTable) (bool, error) {
-
-	//log.Debug.Printf("EqualFontDicts: %v\n%v\n", fd1, fd2)
+	// log.Debug.Printf("EqualFontDicts: %v\n%v\n", fd1, fd2)
 
 	if fd1 == nil {
 		return fd2 == nil, nil

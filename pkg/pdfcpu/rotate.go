@@ -17,9 +17,9 @@ limitations under the License.
 package pdfcpu
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func rotatePage(xRefTable *model.XRefTable, i, j int) error {
@@ -40,7 +40,6 @@ func rotatePage(xRefTable *model.XRefTable, i, j int) error {
 
 // RotatePages rotates all selected pages by a multiple of 90 degrees.
 func RotatePages(ctx *model.Context, selectedPages types.IntSet, rotation int) error {
-
 	for k, v := range selectedPages {
 		if v {
 			err := rotatePage(ctx.XRefTable, k, rotation)

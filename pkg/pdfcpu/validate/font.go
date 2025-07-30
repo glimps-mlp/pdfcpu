@@ -19,25 +19,25 @@ package validate
 import (
 	"fmt"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 var ErrMissingFont = errors.New("pdfcpu: missing font dict")
 
 func validateStandardType1Font(s string) bool {
-
-	return types.MemberOf(s, []string{"Times-Roman", "Times-Bold", "Times-Italic", "Times-BoldItalic",
+	return types.MemberOf(s, []string{
+		"Times-Roman", "Times-Bold", "Times-Italic", "Times-BoldItalic",
 		"Helvetica", "Helvetica-Bold", "Helvetica-Oblique", "Helvetica-BoldOblique",
 		"Courier", "Courier-Bold", "Courier-Oblique", "Courier-BoldOblique",
-		"Symbol", "ZapfDingbats"})
+		"Symbol", "ZapfDingbats",
+	})
 }
 
 func validateFontFile3SubType(sd *types.StreamDict, fontType string) error {
-
 	// Hint about used font program.
 	dictSubType := sd.Subtype()
 
@@ -71,7 +71,6 @@ func validateFontFile3SubType(sd *types.StreamDict, fontType string) error {
 }
 
 func validateFontFile(xRefTable *model.XRefTable, d types.Dict, dictName string, entryName string, fontType string, required bool, sinceVersion model.Version) error {
-
 	sd, err := validateStreamDictEntry(xRefTable, d, dictName, entryName, required, sinceVersion, nil)
 	if err != nil || sd == nil {
 		return err
@@ -111,11 +110,9 @@ func validateFontFile(xRefTable *model.XRefTable, d types.Dict, dictName string,
 }
 
 func validateFontDescriptorType(xRefTable *model.XRefTable, d types.Dict) (err error) {
-
 	dictType := d.Type()
 
 	if dictType == nil {
-
 		if xRefTable.ValidationMode == model.ValidationRelaxed {
 			if log.ValidateEnabled() {
 				log.Validate.Println("validateFontDescriptor: missing entry \"Type\"")
@@ -123,7 +120,6 @@ func validateFontDescriptorType(xRefTable *model.XRefTable, d types.Dict) (err e
 		} else {
 			return errors.New("pdfcpu: validateFontDescriptor: missing entry \"Type\"")
 		}
-
 	}
 
 	if dictType != nil && *dictType != "FontDescriptor" && *dictType != "Font" {
@@ -134,7 +130,6 @@ func validateFontDescriptorType(xRefTable *model.XRefTable, d types.Dict) (err e
 }
 
 func validateFontDescriptorPart1(xRefTable *model.XRefTable, d types.Dict, dictName, fontDictType string) error {
-
 	err := validateFontDescriptorType(xRefTable, d)
 	if err != nil {
 		return err
@@ -206,7 +201,6 @@ func validateFontDescriptorPart1(xRefTable *model.XRefTable, d types.Dict, dictN
 }
 
 func validateFontDescriptorPart2(xRefTable *model.XRefTable, d types.Dict, dictName, fontDictType string) error {
-
 	_, err := validateNumberEntry(xRefTable, d, dictName, "Ascent", fontDictType != "Type3", model.V10, nil)
 	if err != nil {
 		if xRefTable.ValidationMode != model.ValidationRelaxed {
@@ -280,7 +274,6 @@ func validateFontDescriptorPart2(xRefTable *model.XRefTable, d types.Dict, dictN
 }
 
 func validateFontDescriptorFontFile(xRefTable *model.XRefTable, d types.Dict, dictName, fontDictType string) (err error) {
-
 	switch fontDictType {
 
 	case "Type1", "MMType1":
@@ -309,7 +302,6 @@ func validateFontDescriptorFontFile(xRefTable *model.XRefTable, d types.Dict, di
 }
 
 func validateFontDescriptor(xRefTable *model.XRefTable, d types.Dict, fontDictName string, fontDictType string, required bool, sinceVersion model.Version) error {
-
 	d1, err := validateDictEntry(xRefTable, d, fontDictName, "FontDescriptor", required, sinceVersion, nil)
 	if err != nil || d1 == nil {
 		return err
@@ -332,7 +324,6 @@ func validateFontDescriptor(xRefTable *model.XRefTable, d types.Dict, fontDictNa
 	if fontDictType == "CIDFontType0" || fontDictType == "CIDFontType2" {
 
 		validateStyleDict := func(d types.Dict) bool {
-
 			// see 9.8.3.2
 
 			if d.Len() != 1 {
@@ -378,7 +369,6 @@ func validateFontDescriptor(xRefTable *model.XRefTable, d types.Dict, fontDictNa
 }
 
 func validateFontEncoding(xRefTable *model.XRefTable, d types.Dict, dictName string, required bool) error {
-
 	entryName := "Encoding"
 
 	o, err := validateEntry(xRefTable, d, dictName, entryName, required, model.V10)
@@ -414,7 +404,6 @@ func validateFontEncoding(xRefTable *model.XRefTable, d types.Dict, dictName str
 }
 
 func validateTrueTypeFontDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// see 9.6.3
 	dictName := "trueTypeFontDict"
 
@@ -479,7 +468,6 @@ func validateTrueTypeFontDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateCIDToGIDMap(xRefTable *model.XRefTable, o types.Object) error {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return err
@@ -505,7 +493,6 @@ func validateCIDToGIDMap(xRefTable *model.XRefTable, o types.Object) error {
 }
 
 func validateCIDFontGlyphWidths(xRefTable *model.XRefTable, d types.Dict, dictName string, entryName string, required bool, sinceVersion model.Version) error {
-
 	a, err := validateArrayEntry(xRefTable, d, dictName, entryName, required, sinceVersion, nil)
 	if err != nil || a == nil {
 		return err
@@ -542,7 +529,6 @@ func validateCIDFontGlyphWidths(xRefTable *model.XRefTable, d types.Dict, dictNa
 }
 
 func validateCIDFontDictEntryCIDSystemInfo(xRefTable *model.XRefTable, d types.Dict, dictName string) error {
-
 	d1, err := validateDictEntry(xRefTable, d, dictName, "CIDSystemInfo", REQUIRED, model.V10, nil)
 	if err != nil {
 		return err
@@ -550,14 +536,12 @@ func validateCIDFontDictEntryCIDSystemInfo(xRefTable *model.XRefTable, d types.D
 
 	if d1 != nil {
 		err = validateCIDSystemInfoDict(xRefTable, d1)
-
 	}
 
 	return err
 }
 
 func validateCIDFontDictEntryCIDToGIDMap(xRefTable *model.XRefTable, d types.Dict, isCIDFontType2 bool) error {
-
 	if o, found := d.Find("CIDToGIDMap"); found {
 
 		if xRefTable.ValidationMode == model.ValidationStrict && !isCIDFontType2 {
@@ -575,7 +559,6 @@ func validateCIDFontDictEntryCIDToGIDMap(xRefTable *model.XRefTable, d types.Dic
 }
 
 func validateCIDFontDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// see 9.7.4
 
 	dictName := "CIDFontDict"
@@ -647,7 +630,6 @@ func validateCIDFontDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateDescendantFonts(xRefTable *model.XRefTable, d types.Dict, fontDictName string, required bool) error {
-
 	// A one-element array holding a CID font dictionary.
 
 	a, err := validateArrayEntry(xRefTable, d, fontDictName, "DescendantFonts", required, model.V10, func(a types.Array) bool { return len(a) == 1 })
@@ -675,7 +657,6 @@ func validateDescendantFonts(xRefTable *model.XRefTable, d types.Dict, fontDictN
 }
 
 func validateType0FontDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	dictName := "type0FontDict"
 
 	// BaseFont, required, name
@@ -706,7 +687,6 @@ func validateType0FontDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateType1FontDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// see 9.6.2
 
 	dictName := "type1FontDict"
@@ -772,7 +752,6 @@ func validateType1FontDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateCharProcsDict(xRefTable *model.XRefTable, d types.Dict, dictName string, required bool, sinceVersion model.Version) error {
-
 	d1, err := validateDictEntry(xRefTable, d, dictName, "CharProcs", required, sinceVersion, nil)
 	if err != nil || d1 == nil {
 		return err
@@ -791,7 +770,6 @@ func validateCharProcsDict(xRefTable *model.XRefTable, d types.Dict, dictName st
 }
 
 func validateUseCMapEntry(xRefTable *model.XRefTable, d types.Dict, dictName string, required bool, sinceVersion model.Version) error {
-
 	entryName := "UseCMap"
 
 	o, err := validateEntry(xRefTable, d, dictName, entryName, required, sinceVersion)
@@ -819,7 +797,6 @@ func validateUseCMapEntry(xRefTable *model.XRefTable, d types.Dict, dictName str
 }
 
 func validateCIDSystemInfoDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	dictName := "CIDSystemInfoDict"
 
 	// Registry, required, ASCII string
@@ -841,7 +818,6 @@ func validateCIDSystemInfoDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateCMapStreamDict(xRefTable *model.XRefTable, sd *types.StreamDict) error {
-
 	// See table 120
 
 	dictName := "CMapStreamDict"
@@ -884,7 +860,6 @@ func validateCMapStreamDict(xRefTable *model.XRefTable, sd *types.StreamDict) er
 }
 
 func validateType0FontEncoding(xRefTable *model.XRefTable, d types.Dict, dictName string, required bool) error {
-
 	entryName := "Encoding"
 
 	o, err := validateEntry(xRefTable, d, dictName, entryName, required, model.V10)
@@ -909,7 +884,6 @@ func validateType0FontEncoding(xRefTable *model.XRefTable, d types.Dict, dictNam
 }
 
 func validateType3FontDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// see 9.6.5
 
 	dictName := "type3FontDict"
@@ -1024,7 +998,6 @@ func _validateFontDict(xRefTable *model.XRefTable, d types.Dict, isIndRef bool, 
 }
 
 func validateFontDict(xRefTable *model.XRefTable, o types.Object) (err error) {
-
 	indRef, isIndRef := o.(types.IndirectRef)
 	if isIndRef {
 
@@ -1067,7 +1040,6 @@ func validateFontDict(xRefTable *model.XRefTable, o types.Object) (err error) {
 }
 
 func validateFontResourceDict(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// Version check
 	err := xRefTable.ValidateVersion("fontResourceDict", sinceVersion)
 	if err != nil {

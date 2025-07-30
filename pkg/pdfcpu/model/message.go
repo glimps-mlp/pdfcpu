@@ -19,7 +19,7 @@ package model
 import (
 	"fmt"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
 )
 
 func ShowMsg(msg string) {

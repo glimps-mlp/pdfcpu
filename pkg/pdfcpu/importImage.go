@@ -23,11 +23,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/matrix"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/matrix"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -36,7 +36,6 @@ type importParamMap map[string]func(string, *Import) error
 // Handle applies parameter completion and if successful
 // parses the parameter values into import.
 func (m importParamMap) Handle(paramPrefix, paramValueStr string, imp *Import) error {
-
 	var param string
 
 	// Completion support
@@ -99,7 +98,6 @@ func DefaultImportConfig() *Import {
 }
 
 func (imp Import) String() string {
-
 	sc := "relative"
 	if imp.ScaleAbs {
 		sc = "absolute"
@@ -119,7 +117,6 @@ func parsePageFormatImp(s string, imp *Import) (err error) {
 }
 
 func ParsePageDim(v string, u types.DisplayUnit) (*types.Dim, string, error) {
-
 	ss := strings.Split(v, " ")
 	if len(ss) != 2 {
 		return nil, v, errors.Errorf("pdfcpu: illegal dimension string: need 2 positive values, %s\n", v)
@@ -159,7 +156,6 @@ func parsePositionAnchorImp(s string, imp *Import) error {
 }
 
 func parsePositionOffsetImp(s string, imp *Import) error {
-
 	d := strings.Split(s, " ")
 	if len(d) != 2 {
 		return errors.Errorf("pdfcpu: illegal position offset string: need 2 numeric values, %s\n", s)
@@ -227,7 +223,6 @@ func parseImportBackgroundColor(s string, imp *Import) error {
 
 // ParseImportDetails parses an Import command string into an internal structure.
 func ParseImportDetails(s string, u types.DisplayUnit) (*Import, error) {
-
 	if s == "" {
 		return nil, nil
 	}
@@ -256,7 +251,6 @@ func ParseImportDetails(s string, u types.DisplayUnit) (*Import, error) {
 }
 
 func importImagePDFBytes(wr io.Writer, pageDim *types.Dim, imgWidth, imgHeight float64, imp *Import) {
-
 	vpw := float64(pageDim.Width)
 	vph := float64(pageDim.Height)
 	vp := types.RectForDim(vpw, vph)
@@ -329,7 +323,6 @@ func importImagePDFBytes(wr io.Writer, pageDim *types.Dim, imgWidth, imgHeight f
 
 // NewPagesForImage creates a new page dicts in xRefTable for given image reader r.
 func NewPagesForImage(xRefTable *model.XRefTable, r io.Reader, parentIndRef *types.IndirectRef, imp *Import) ([]*types.IndirectRef, error) {
-
 	// create image dict.
 	imgResources, err := model.CreateImageResources(xRefTable, r, imp.Gray, imp.Sepia)
 	if err != nil {

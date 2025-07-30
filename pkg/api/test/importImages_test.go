@@ -24,9 +24,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 func testImportImages(t *testing.T, msg string, imgFiles []string, outFile, impConf string) {
@@ -50,7 +50,6 @@ func testImportImages(t *testing.T, msg string, imgFiles []string, outFile, impC
 }
 
 func TestImportImages(t *testing.T) {
-
 	outDir := filepath.Join(samplesDir, "import")
 
 	testFile1 := filepath.Join(outDir, "CenteredGraySepia.pdf")
@@ -66,41 +65,50 @@ func TestImportImages(t *testing.T) {
 		impConf  string
 	}{
 		// Render image on an A4 portrait mode page.
-		{"TestCenteredGraySepia",
+		{
+			"TestCenteredGraySepia",
 			[]string{filepath.Join(resDir, "mountain.jpg")},
 			testFile1,
-			"f:A4, pos:c, bgcol:#beded9"},
+			"f:A4, pos:c, bgcol:#beded9",
+		},
 
 		// Import another image as a new page of testfile1 and convert image to gray.
-		{"TestCenteredGraySepia",
+		{
+			"TestCenteredGraySepia",
 			[]string{filepath.Join(resDir, "mountain.png")},
 			testFile1,
-			"f:A4, pos:c, sc:.75, bgcol:#beded9, gray:true"},
+			"f:A4, pos:c, sc:.75, bgcol:#beded9, gray:true",
+		},
 
 		// Import another image as a new page of testfile1 and apply a sepia filter.
-		{"TestCenteredGraySepia",
+		{
+			"TestCenteredGraySepia",
 			[]string{filepath.Join(resDir, "mountain.webp")},
 			testFile1,
-			"f:A4, pos:c, sc:.9, bgcol:#beded9, sepia:true"},
+			"f:A4, pos:c, sc:.9, bgcol:#beded9, sepia:true",
+		},
 
 		// Import another image as a new page of testfile1.
-		{"TestCenteredGraySepia",
+		{
+			"TestCenteredGraySepia",
 			[]string{filepath.Join(resDir, "mountain.tif")},
 			testFile1,
-			"f:A4, pos:c, sc:1, bgcol:#beded9"},
+			"f:A4, pos:c, sc:1, bgcol:#beded9",
+		},
 
 		// Page dimensions match image dimensions.
-		{"TestFull",
+		{
+			"TestFull",
 			imageFileNames(t, resDir),
 			testFile2,
-			"pos:full"},
+			"pos:full",
+		},
 	} {
 		testImportImages(t, tt.msg, tt.imgFiles, tt.outFile, tt.impConf)
 	}
 }
 
 func TestMemBasedWriterPanic(t *testing.T) {
-
 	imgFiles := []string{filepath.Join(resDir, "logoSmall.png")}
 
 	rr := make([]io.Reader, len(imgFiles))
@@ -117,5 +125,4 @@ func TestMemBasedWriterPanic(t *testing.T) {
 	if err := api.ImportImages(nil, outBuf, rr, nil, nil); err != nil {
 		t.Fatal(err)
 	}
-
 }

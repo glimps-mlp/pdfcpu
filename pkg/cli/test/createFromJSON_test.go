@@ -20,8 +20,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 )
 
 /**************************************************************
@@ -29,7 +29,6 @@ import (
  **************************************************************/
 
 func createPDF(t *testing.T, msg, inFile, inFileJSON, outFile string, conf *model.Configuration) {
-
 	t.Helper()
 
 	// inFile	inFileJSON 	outFile		action
@@ -50,11 +49,9 @@ func createPDF(t *testing.T, msg, inFile, inFileJSON, outFile string, conf *mode
 	if err := validateFile(t, outFile, conf); err != nil {
 		t.Fatalf("%s: %v\n", msg, err)
 	}
-
 }
 
 func TestCreateSinglePageDemoFormsViaJson(t *testing.T) {
-
 	// Render single page demo forms for export, reset, lock, unlock and fill tests.
 
 	inDirFormDemo := filepath.Join(inDir, "json", "form", "demoSinglePage")
@@ -65,7 +62,6 @@ func TestCreateSinglePageDemoFormsViaJson(t *testing.T) {
 		inFileJSON string
 		outFile    string
 	}{
-
 		{"TestFormDemoEN", "english.json", "english.pdf"},             // Core font (Helvetica)
 		{"TestFormDemoUK", "ukrainian.json", "ukrainian.pdf"},         // User font (Roboto-Regular)
 		{"TestFormDemoAR", "arabic.json", "arabic.pdf"},               // User font RTL (Roboto-Regular)

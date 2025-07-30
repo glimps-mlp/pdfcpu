@@ -21,10 +21,10 @@ import (
 	"io"
 	"math"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/matrix"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/matrix"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 const (
@@ -282,7 +282,6 @@ func (wm *Watermark) CalcBoundingBox(pageNr int) {
 
 // LowerLeftCorner returns the lower left corner for a bounding box anchored onto vp.
 func LowerLeftCorner(vp *types.Rectangle, bbw, bbh float64, a types.Anchor) types.Point {
-
 	var p types.Point
 	vpw := vp.Width()
 	vph := vp.Height()

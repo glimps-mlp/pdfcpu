@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
 )
 
 func TestListAndRemoveAnnotations(t *testing.T) {
@@ -55,5 +55,4 @@ func TestListAndRemoveAnnotations(t *testing.T) {
 	if _, err := cli.Process(cmd); err != nil {
 		t.Fatalf("%s: %v\n", msg, err)
 	}
-
 }

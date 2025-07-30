@@ -23,9 +23,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/sign"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/sign"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -141,7 +141,7 @@ func validateURSignature(sigDict types.Dict, ctx *model.Context, ra io.ReaderAt)
 		f = sign.ValidatePKCS7Signatures
 	case "ETSI.CAdES.detached":
 		f = sign.ValidatePKCS7Signatures
-	//case "ETSI.RFC3161":
+	// case "ETSI.RFC3161":
 	// TODO: Contents shall be the TimeStampToken as specified in Internet RFC 3161 as updated by Internet RFC 5816.
 	default:
 		result.AddProblem(fmt.Sprintf("unsupported subFilter: %s", *subFilter))
@@ -236,7 +236,6 @@ func sigHandler(subFilter string) func(
 	rootCerts *x509.CertPool,
 	result *model.SignatureValidationResult,
 	ctx *model.Context) error {
-
 	switch subFilter {
 	case "adbe.x509.rsa_sha1": // deprecated as of PDF 2.0
 		return sign.ValidateX509RSASHA1Signature

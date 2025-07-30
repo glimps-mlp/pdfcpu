@@ -24,10 +24,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -43,9 +43,7 @@ func Images(ctx *model.Context, selectedPages types.IntSet) ([]map[int]model.Ima
 	sort.Ints(pageNrs)
 
 	mm := []map[int]model.Image{}
-	var (
-		maxLenPageNr, maxLenObjNr, maxLenID, maxLenSize, maxLenFilters int
-	)
+	var maxLenPageNr, maxLenObjNr, maxLenID, maxLenSize, maxLenFilters int
 
 	maxPageNr := 0
 
@@ -253,7 +251,6 @@ type ImageListMaxLengths struct {
 
 // ListImages returns a formatted list of embedded images.
 func ListImages(ctx *model.Context, selectedPages types.IntSet) ([]string, error) {
-
 	mm, maxLen, err := Images(ctx, selectedPages)
 	if err != nil {
 		return nil, err
@@ -312,7 +309,6 @@ func validateImageDimensions(ctx *model.Context, objNr, w, h int) error {
 
 // UpdateImagesByObjNr replaces an XObject.
 func UpdateImagesByObjNr(ctx *model.Context, rd io.Reader, objNr int) error {
-
 	sd, w, h, err := model.CreateImageStreamDict(ctx.XRefTable, rd)
 	if err != nil {
 		return err
@@ -354,7 +350,6 @@ func isInheritedXObjectResource(inhRes types.Dict, id string) bool {
 
 // UpdateImagesByPageNrAndId replaces the XObject referenced by pageNr and id.
 func UpdateImagesByPageNrAndId(ctx *model.Context, rd io.Reader, pageNr int, id string) error {
-
 	imgIndRef, w, h, err := model.CreateImageResource(ctx.XRefTable, rd)
 	if err != nil {
 		return err

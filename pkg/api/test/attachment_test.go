@@ -24,8 +24,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 )
 
 func prepareForAttachmentTest(t *testing.T) error {
@@ -77,7 +77,8 @@ func TestAttachments(t *testing.T) {
 		filepath.Join(outDir, "golang.pdf"),
 		filepath.Join(outDir, "T4.pdf"),
 		filepath.Join(outDir, "go-lecture.pdf"),
-		filepath.Join(outDir, "test.wav")}
+		filepath.Join(outDir, "test.wav"),
+	}
 
 	if err := api.AddAttachmentsFile(fileName, "", files, false, nil); err != nil {
 		t.Fatalf("%s add attachments: %v\n", msg, err)
@@ -135,7 +136,8 @@ func addAttachment(t *testing.T, msg, outFile, id, desc, want string, modTime ti
 		Reader:  strings.NewReader(want),
 		ID:      id,
 		Desc:    desc,
-		ModTime: &modTime}
+		ModTime: &modTime,
+	}
 
 	var err error
 	useCollection := false

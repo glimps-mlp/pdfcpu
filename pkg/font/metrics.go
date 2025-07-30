@@ -28,8 +28,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/pdfcpu/pdfcpu/internal/corefont/metrics"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/internal/corefont/metrics"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 
 	"github.com/pkg/errors"
 )
@@ -179,7 +179,6 @@ func (fd TTFLight) unicodeRangeBits(id string) []int {
 
 // SupportsScript returns true if ttf supports the unicodeblocks identified by iso15924 id.
 func (fd TTFLight) SupportsScript(id string) (bool, error) {
-
 	if len(id) != 4 {
 		return false, errors.New("\"script\" must be a iso15924 code (length = 4")
 	}
@@ -196,11 +195,13 @@ func (fd TTFLight) SupportsScript(id string) (bool, error) {
 var UserFontDir string
 
 // UserFontMetrics represents font metrics for TTF or OTF font files installed into UserFontDir.
-var UserFontMetrics = map[string]TTFLight{}
-var UserFontMetricsLock = &sync.RWMutex{}
+var (
+	UserFontMetrics     = map[string]TTFLight{}
+	UserFontMetricsLock = &sync.RWMutex{}
+)
 
 func load(fileName string, fd *TTFLight) error {
-	//fmt.Printf("reading gob from: %s\n", fileName)
+	// fmt.Printf("reading gob from: %s\n", fileName)
 	f, err := os.Open(fileName)
 	if err != nil {
 		return err
@@ -230,7 +231,7 @@ func isSupportedFontFile(filename string) bool {
 
 // LoadUserFonts loads any installed TTF or OTF font files.
 func LoadUserFonts() error {
-	//fmt.Printf("loading userFonts from %s\n", UserFontDir)
+	// fmt.Printf("loading userFonts from %s\n", UserFontDir)
 	files, err := os.ReadDir(UserFontDir)
 	if err != nil {
 		return err
@@ -245,8 +246,8 @@ func LoadUserFonts() error {
 			return err
 		}
 		fn = strings.TrimSuffix(f.Name(), path.Ext(f.Name()))
-		//fmt.Printf("loading %s.ttf...\n", fn)
-		//fmt.Printf("Loaded %s:\n%s", fn, ttf)
+		// fmt.Printf("loading %s.ttf...\n", fn)
+		// fmt.Printf("Loaded %s:\n%s", fn, ttf)
 		UserFontMetricsLock.Lock()
 		UserFontMetrics[fn] = ttf
 		UserFontMetricsLock.Unlock()

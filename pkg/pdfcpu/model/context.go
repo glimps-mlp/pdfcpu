@@ -24,8 +24,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 // Context represents an environment for processing PDF files.
@@ -41,7 +41,6 @@ type Context struct {
 
 // NewContext initializes a new Context.
 func NewContext(rs io.ReadSeeker, conf *Configuration) (*Context, error) {
-
 	if conf == nil {
 		conf = NewDefaultConfiguration()
 	}
@@ -85,7 +84,6 @@ func (rc *ReadContext) logReadContext(logStr *[]string) {
 }
 
 func (ctx *Context) String() string {
-
 	var logStr []string
 
 	logStr = append(logStr, "*************************************************************************************************\n")
@@ -197,7 +195,6 @@ type ReadContext struct {
 }
 
 func newReadContext(rs io.ReadSeeker) (*ReadContext, error) {
-
 	rdCtx := &ReadContext{
 		RS:            rs,
 		ObjectStreams: types.IntSet{},
@@ -221,7 +218,6 @@ func (rc *ReadContext) IsObjectStreamObject(i int) bool {
 
 // ObjectStreamsString returns a formatted string and the number of object stream objects.
 func (rc *ReadContext) ObjectStreamsString() (int, string) {
-
 	var objs []int
 	for k := range rc.ObjectStreams {
 		if rc.ObjectStreams[k] {
@@ -280,7 +276,6 @@ func (rc *ReadContext) ReadFileSize() int {
 
 // OptimizationContext represents the context for the optimization of a PDF file.
 type OptimizationContext struct {
-
 	// Font section
 	PageFonts         []types.IntSet      // For each page a registry of font object numbers.
 	FontObjects       map[int]*FontObject // FontObject lookup table by font object number.
@@ -329,7 +324,6 @@ func (oc *OptimizationContext) IsDuplicateFontObject(i int) bool {
 
 // DuplicateFontObjectsString returns a formatted string and the number of objs.
 func (oc *OptimizationContext) DuplicateFontObjectsString() (int, string) {
-
 	var objs []int
 	for k := range oc.DuplicateFontObjs {
 		if oc.DuplicateFontObjs[k] {
@@ -353,7 +347,6 @@ func (oc *OptimizationContext) IsDuplicateImageObject(i int) bool {
 
 // DuplicateImageObjectsString returns a formatted string and the number of objs.
 func (oc *OptimizationContext) DuplicateImageObjectsString() (int, string) {
-
 	var objs []int
 	for k := range oc.DuplicateImageObjs {
 		if oc.DuplicateImageObjs[k] {
@@ -377,7 +370,6 @@ func (oc *OptimizationContext) IsDuplicateInfoObject(i int) bool {
 
 // DuplicateInfoObjectsString returns a formatted string and the number of objs.
 func (oc *OptimizationContext) DuplicateInfoObjectsString() (int, string) {
-
 	var objs []int
 	for k := range oc.DuplicateInfoObjects {
 		if oc.DuplicateInfoObjects[k] {
@@ -396,7 +388,6 @@ func (oc *OptimizationContext) DuplicateInfoObjectsString() (int, string) {
 
 // NonReferencedObjsString returns a formatted string and the number of objs.
 func (oc *OptimizationContext) NonReferencedObjsString() (int, string) {
-
 	var s []string
 	for _, o := range oc.NonReferencedObjs {
 		s = append(s, fmt.Sprintf("%d", o))
@@ -407,7 +398,6 @@ func (oc *OptimizationContext) NonReferencedObjsString() (int, string) {
 
 // Prepare info gathered about font usage in form of a string array.
 func (oc *OptimizationContext) collectFontInfo(logStr []string) []string {
-
 	// Print available font info.
 	if len(oc.Fonts) == 0 || len(oc.PageFonts) == 0 {
 		return append(logStr, "No font info available.\n")
@@ -494,7 +484,6 @@ func (oc *OptimizationContext) collectFontInfo(logStr []string) []string {
 
 // Prepare info gathered about image usage in form of a string array.
 func (oc *OptimizationContext) collectImageInfo(logStr []string) []string {
-
 	// Print available image info.
 	if len(oc.ImageObjects) == 0 {
 		return append(logStr, "\nNo image info available.\n")
@@ -567,7 +556,6 @@ func (oc *OptimizationContext) collectImageInfo(logStr []string) []string {
 
 // WriteContext represents the context for writing a PDF file.
 type WriteContext struct {
-
 	// The PDF-File which gets generated.
 	*bufio.Writer                     // A writer associated with Fp.
 	Fp                  *os.File      // A file pointer needed for detecting FileSize.
@@ -633,7 +621,6 @@ func (wc *WriteContext) LogStats() {
 
 // WriteEol writes an end of line sequence.
 func (wc *WriteContext) WriteEol() error {
-
 	_, err := wc.WriteString(wc.Eol)
 
 	return err

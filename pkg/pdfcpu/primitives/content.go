@@ -17,10 +17,10 @@
 package primitives
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -417,7 +417,6 @@ func (c *Content) validateListBoxes() error {
 }
 
 func (c *Content) validate() error {
-
 	if err := c.validateBackgroundColor(); err != nil {
 		return err
 	}
@@ -585,7 +584,6 @@ func (c *Content) namedFieldGroup(id string) *FieldGroup {
 }
 
 func (c *Content) calcFont(ff map[string]*FormFont) {
-
 	fff := map[string]*FormFont{}
 	for id, f0 := range ff {
 		fff[id] = f0
@@ -629,7 +627,6 @@ func (c *Content) mergeIn(fName string, f *FormFont) error {
 }
 
 func (c *Content) calcInputFont(f *FormFont) (*FormFont, error) {
-
 	if f != nil {
 		if f.Name == "" {
 			// Inherited named font "input".
@@ -660,7 +657,6 @@ func (c *Content) calcInputFont(f *FormFont) (*FormFont, error) {
 }
 
 func (c *Content) calcLabelFont(f *FormFont) (*FormFont, error) {
-
 	if f != nil {
 		var f0 *FormFont
 		if f.Name == "" {
@@ -714,7 +710,6 @@ func (c *Content) calcLabelFont(f *FormFont) (*FormFont, error) {
 }
 
 func (c *Content) calcBorder(bb map[string]*Border) {
-
 	bbb := map[string]*Border{}
 	for id, b0 := range bb {
 		bbb[id] = b0
@@ -737,7 +732,6 @@ func (c *Content) calcBorder(bb map[string]*Border) {
 }
 
 func (c *Content) calcMargin(mm map[string]*Margin) {
-
 	mmm := map[string]*Margin{}
 	for id, m0 := range mm {
 		mmm[id] = m0
@@ -760,7 +754,6 @@ func (c *Content) calcMargin(mm map[string]*Margin) {
 }
 
 func (c *Content) calcPadding(pp map[string]*Padding) {
-
 	ppp := map[string]*Padding{}
 	for id, p0 := range pp {
 		ppp[id] = p0
@@ -783,7 +776,6 @@ func (c *Content) calcPadding(pp map[string]*Padding) {
 }
 
 func (c *Content) calcSimpleBoxes(bb map[string]*SimpleBox) {
-
 	bbb := map[string]*SimpleBox{}
 	for id, sb0 := range bb {
 		bbb[id] = sb0
@@ -806,7 +798,6 @@ func (c *Content) calcSimpleBoxes(bb map[string]*SimpleBox) {
 }
 
 func (c *Content) calcTextBoxes(bb map[string]*TextBox) {
-
 	bbb := map[string]*TextBox{}
 	for id, tb0 := range bb {
 		bbb[id] = tb0
@@ -829,7 +820,6 @@ func (c *Content) calcTextBoxes(bb map[string]*TextBox) {
 }
 
 func (c *Content) calcImageBoxes(bb map[string]*ImageBox) {
-
 	bbb := map[string]*ImageBox{}
 	for id, ib0 := range bb {
 		bbb[id] = ib0
@@ -852,7 +842,6 @@ func (c *Content) calcImageBoxes(bb map[string]*ImageBox) {
 }
 
 func (c *Content) calcTables(bb map[string]*Table) {
-
 	bbb := map[string]*Table{}
 	for id, t0 := range bb {
 		bbb[id] = t0
@@ -875,7 +864,6 @@ func (c *Content) calcTables(bb map[string]*Table) {
 }
 
 func (c *Content) calcFieldGroups(bb map[string]*FieldGroup) {
-
 	bbb := map[string]*FieldGroup{}
 	for id, fg0 := range bb {
 		bbb[id] = fg0
@@ -899,7 +887,6 @@ func (c *Content) calcFieldGroups(bb map[string]*FieldGroup) {
 
 // BorderRect returns the border rect for c.
 func (c *Content) BorderRect() *types.Rectangle {
-
 	if c.borderRect == nil {
 
 		mLeft, mRight, mTop, mBottom, borderWidth := 0., 0., 0., 0., 0.
@@ -929,7 +916,6 @@ func (c *Content) BorderRect() *types.Rectangle {
 }
 
 func (c *Content) Box() *types.Rectangle {
-
 	if c.box == nil {
 
 		var mTop, mRight, mBottom, mLeft float64
@@ -976,7 +962,6 @@ func (c *Content) Box() *types.Rectangle {
 }
 
 func (c *Content) calcPosition(x, y, dx, dy, mTop, mRight, mBottom, mLeft float64) (float64, float64) {
-
 	cBox := c.Box()
 
 	r := cBox.CroppedCopy(0)
@@ -1030,7 +1015,6 @@ func (c *Content) calcPosition(x, y, dx, dy, mTop, mRight, mBottom, mLeft float6
 	y += dy
 
 	return x, y
-
 }
 
 func (c *Content) renderBars(p *model.Page) error {
@@ -1288,7 +1272,6 @@ func (c *Content) renderFormPrimitives(p *model.Page, pageNr int, fonts model.Fo
 }
 
 func (c *Content) render(p *model.Page, pageNr int, fonts model.FontMap, images model.ImageMap) error {
-
 	if c.Regions != nil {
 		c.Regions.mediaBox = c.mediaBox
 		c.Regions.page = c.page

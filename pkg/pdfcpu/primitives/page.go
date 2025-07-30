@@ -20,9 +20,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -259,7 +259,6 @@ func (page *PDFPage) validatePools() error {
 }
 
 func (page *PDFPage) validate() error {
-
 	if err := page.validatePageBoundaries(); err != nil {
 		return err
 	}

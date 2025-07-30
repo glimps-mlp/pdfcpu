@@ -20,8 +20,8 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -138,7 +138,7 @@ func skipTJ(l *string) error {
 
 func lookupEI(l *string) (int, error) {
 	s := *l
-	//fmt.Printf("\n%s\n", hex.Dump([]byte(s)))
+	// fmt.Printf("\n%s\n", hex.Dump([]byte(s)))
 	for i := 2; i <= len(s)-2; i++ {
 		if s[i:i+2] != "EI" {
 			continue
@@ -166,7 +166,7 @@ func lookupEI(l *string) (int, error) {
 
 func skipBI(l *string, prn PageResourceNames) error {
 	s := *l
-	//fmt.Printf("skipBI <%s>\n", s)
+	// fmt.Printf("skipBI <%s>\n", s)
 	for {
 		s = strings.TrimLeftFunc(s, whitespaceOrEOL)
 		if strings.HasPrefix(s, "ID") && whitespaceOrEOL(rune(s[2])) {
@@ -271,7 +271,7 @@ func nextContentToken(pre string, line *string, prn PageResourceNames) (string, 
 	l := pre + *line
 	t := ""
 
-	//log.Parse.Printf("nextContentToken: start buf= <%s>\n", *line)
+	// log.Parse.Printf("nextContentToken: start buf= <%s>\n", *line)
 
 	// Skip Tj, TJ and inline images.
 	done, err := positionToNextContentToken(&l, prn)
@@ -409,7 +409,7 @@ func parseContent(s string) (PageResourceNames, error) {
 	)
 	prn := NewPageResourceNames()
 
-	//fmt.Printf("parseContent:\n%s\n", hex.Dump([]byte(s)))
+	// fmt.Printf("parseContent:\n%s\n", hex.Dump([]byte(s)))
 
 	for pos := 0; ; {
 		t, err := nextContentToken(pre, &s, prn)

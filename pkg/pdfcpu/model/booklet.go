@@ -18,12 +18,11 @@ package model
 
 import (
 	"fmt"
-
 	"io"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
 type BookletType int
@@ -136,7 +135,7 @@ func (c cutOrFold) String(nup *NUp) string {
 }
 
 func getCutFolds(nup *NUp) (horizontal cutOrFold, vertical cutOrFold) {
-	var getCutOrFold = func(nup *NUp) (cutOrFold, cutOrFold) {
+	getCutOrFold := func(nup *NUp) (cutOrFold, cutOrFold) {
 		switch nup.N() {
 		case 2:
 			return fold, none

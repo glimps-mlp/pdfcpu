@@ -17,13 +17,12 @@ limitations under the License.
 package validate
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 func validateDestinationArrayFirstElement(xRefTable *model.XRefTable, a types.Array) (types.Object, error) {
-
 	o, err := xRefTable.Dereference(a[0])
 	if err != nil || o == nil {
 		return nil, err
@@ -101,7 +100,6 @@ func validateDestinationArray(xRefTable *model.XRefTable, a types.Array) error {
 }
 
 func validateDestinationDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	// D, required, array
 	a, err := validateArrayEntry(xRefTable, d, "DestinationDict", "D", REQUIRED, model.V10, nil)
 	if err != nil || a == nil {
@@ -112,7 +110,6 @@ func validateDestinationDict(xRefTable *model.XRefTable, d types.Dict) error {
 }
 
 func validateDestination(xRefTable *model.XRefTable, o types.Object, forAction bool) (string, error) {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return "", err
@@ -147,7 +144,6 @@ func validateDestination(xRefTable *model.XRefTable, o types.Object, forAction b
 }
 
 func validateActionDestinationEntry(xRefTable *model.XRefTable, d types.Dict, dictName string, entryName string, required bool, sinceVersion model.Version) error {
-
 	// see 12.3.2
 
 	o, err := validateEntry(xRefTable, d, dictName, entryName, required, sinceVersion)

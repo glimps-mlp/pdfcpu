@@ -18,16 +18,15 @@ package primitives
 
 import (
 	"fmt"
-
 	"math"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/color"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/draw"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/format"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/matrix"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/color"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/draw"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/format"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/matrix"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -352,7 +351,6 @@ func (t *Table) validateColors() error {
 }
 
 func (t *Table) validate() error {
-
 	t.x = t.Position[0]
 	t.y = t.Position[1]
 
@@ -436,7 +434,6 @@ func (t *Table) mergeInAnchor(t0 *Table) {
 }
 
 func (t *Table) mergeIn(t0 *Table) {
-
 	t.mergeInAnchor(t0)
 
 	if t.Dx == 0 {
@@ -718,8 +715,8 @@ func (t *Table) prepareTextDescriptor() (model.TextDescriptor, error) {
 		ScaleAbs:   true,
 		ShowTextBB: false,
 		ShowBorder: false,
-		//ShowBackground: true,
-		//BackgroundCol:  pdfcpu.White,
+		// ShowBackground: true,
+		// BackgroundCol:  pdfcpu.White,
 	}
 
 	applyTextDescriptorPadding(&td, t.Padding)
@@ -884,7 +881,6 @@ func (t *Table) renderHeader(p *model.Page, pageNr int, fonts model.FontMap, col
 }
 
 func (t *Table) render(p *model.Page, pageNr int, fonts model.FontMap) error {
-
 	if err := t.calcFont(); err != nil {
 		return err
 	}

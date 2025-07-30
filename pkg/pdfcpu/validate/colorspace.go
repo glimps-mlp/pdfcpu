@@ -19,8 +19,8 @@ package validate
 import (
 	"fmt"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -33,7 +33,6 @@ func validateAllColorSpaceNamesExceptPattern(s string) bool {
 }
 
 func validateCalGrayColorSpace(xRefTable *model.XRefTable, a types.Array, sinceVersion model.Version) error {
-
 	dictName := "calGrayCSDict"
 
 	// Version check
@@ -67,7 +66,6 @@ func validateCalGrayColorSpace(xRefTable *model.XRefTable, a types.Array, sinceV
 }
 
 func validateCalRGBColorSpace(xRefTable *model.XRefTable, a types.Array, sinceVersion model.Version) error {
-
 	dictName := "calRGBCSDict"
 
 	err := xRefTable.ValidateVersion(dictName, sinceVersion)
@@ -105,7 +103,6 @@ func validateCalRGBColorSpace(xRefTable *model.XRefTable, a types.Array, sinceVe
 }
 
 func validateLabColorSpace(xRefTable *model.XRefTable, a types.Array, sinceVersion model.Version) error {
-
 	dictName := "labCSDict"
 
 	err := xRefTable.ValidateVersion(dictName, sinceVersion)
@@ -138,7 +135,6 @@ func validateLabColorSpace(xRefTable *model.XRefTable, a types.Array, sinceVersi
 }
 
 func validateAlternateColorSpaceEntryForICC(xRefTable *model.XRefTable, d types.Dict, dictName string, entryName string, required bool, excludePatternCS bool) error {
-
 	o, err := validateEntry(xRefTable, d, dictName, entryName, required, model.V10)
 	if err != nil || o == nil {
 		return err
@@ -163,7 +159,6 @@ func validateAlternateColorSpaceEntryForICC(xRefTable *model.XRefTable, d types.
 }
 
 func validateICCBasedColorSpace(xRefTable *model.XRefTable, a types.Array, sinceVersion model.Version) error {
-
 	// see 8.6.5.5
 
 	dictName := "ICCBasedColorSpace"
@@ -217,7 +212,6 @@ func validateICCBasedColorSpace(xRefTable *model.XRefTable, a types.Array, since
 }
 
 func validateIndexedColorSpaceLookuptable(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return err
@@ -240,7 +234,6 @@ func validateIndexedColorSpaceLookuptable(xRefTable *model.XRefTable, o types.Ob
 }
 
 func validateIndexedColorSpace(xRefTable *model.XRefTable, a types.Array, sinceVersion model.Version) error {
-
 	// see 8.6.6.3
 
 	err := xRefTable.ValidateVersion("IndexedColorSpace", sinceVersion)
@@ -269,7 +262,6 @@ func validateIndexedColorSpace(xRefTable *model.XRefTable, a types.Array, sinceV
 }
 
 func validatePatternColorSpace(xRefTable *model.XRefTable, a types.Array, sinceVersion model.Version) error {
-
 	err := xRefTable.ValidateVersion("PatternColorSpace", sinceVersion)
 	if err != nil {
 		return err
@@ -291,7 +283,6 @@ func validatePatternColorSpace(xRefTable *model.XRefTable, a types.Array, sinceV
 }
 
 func validateSeparationColorSpace(xRefTable *model.XRefTable, a types.Array, sinceVersion model.Version) error {
-
 	// see 8.6.6.4
 
 	err := xRefTable.ValidateVersion("SeparationColorSpace", sinceVersion)
@@ -320,7 +311,6 @@ func validateSeparationColorSpace(xRefTable *model.XRefTable, a types.Array, sin
 }
 
 func validateDeviceNColorSpaceColorantsDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	for _, obj := range d {
 
 		a, err := xRefTable.DereferenceArray(obj)
@@ -341,7 +331,6 @@ func validateDeviceNColorSpaceColorantsDict(xRefTable *model.XRefTable, d types.
 }
 
 func validateDeviceNColorSpaceProcessDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	dictName := "DeviceNCSProcessDict"
 
 	err := validateColorSpaceEntry(xRefTable, d, dictName, "ColorSpace", REQUIRED, true)
@@ -355,7 +344,6 @@ func validateDeviceNColorSpaceProcessDict(xRefTable *model.XRefTable, d types.Di
 }
 
 func validateDeviceNColorSpaceSoliditiesDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	for _, obj := range d {
 		_, err := validateFloat(xRefTable, obj, func(f float64) bool { return f >= 0.0 && f <= 1.0 })
 		if err != nil {
@@ -367,7 +355,6 @@ func validateDeviceNColorSpaceSoliditiesDict(xRefTable *model.XRefTable, d types
 }
 
 func validateDeviceNColorSpaceDotGainDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	for _, obj := range d {
 		err := validateFunction(xRefTable, obj)
 		if err != nil {
@@ -379,7 +366,6 @@ func validateDeviceNColorSpaceDotGainDict(xRefTable *model.XRefTable, d types.Di
 }
 
 func validateDeviceNColorSpaceMixingHintsDict(xRefTable *model.XRefTable, d types.Dict) error {
-
 	dictName := "deviceNCSMixingHintsDict"
 
 	d1, err := validateDictEntry(xRefTable, d, dictName, "Solidities", OPTIONAL, model.V11, nil)
@@ -411,7 +397,6 @@ func validateDeviceNColorSpaceMixingHintsDict(xRefTable *model.XRefTable, d type
 }
 
 func validateDeviceNColorSpaceAttributesDict(xRefTable *model.XRefTable, o types.Object) error {
-
 	d, err := xRefTable.DereferenceDict(o)
 	if err != nil || d == nil {
 		return err
@@ -466,7 +451,6 @@ func validateDeviceNColorSpaceAttributesDict(xRefTable *model.XRefTable, o types
 }
 
 func validateDeviceNColorSpace(xRefTable *model.XRefTable, a types.Array, sinceVersion model.Version) error {
-
 	// see 8.6.6.5
 
 	err := xRefTable.ValidateVersion("DeviceNColorSpace", sinceVersion)
@@ -506,7 +490,6 @@ func validateDeviceNColorSpace(xRefTable *model.XRefTable, a types.Array, sinceV
 }
 
 func validateCSArray(xRefTable *model.XRefTable, a types.Array, csName string) error {
-
 	// see 8.6 Color Spaces
 
 	switch csName {
@@ -540,11 +523,9 @@ func validateCSArray(xRefTable *model.XRefTable, a types.Array, csName string) e
 	default:
 		return errors.Errorf("validateColorSpaceArray: undefined color space: %s\n", csName)
 	}
-
 }
 
 func validateColorSpaceArraySubset(xRefTable *model.XRefTable, a types.Array, cs []string) error {
-
 	csName, ok := a[0].(types.Name)
 	if !ok {
 		return errors.New("pdfcpu: validateColorSpaceArraySubset: corrupt Colorspace array")
@@ -560,7 +541,6 @@ func validateColorSpaceArraySubset(xRefTable *model.XRefTable, a types.Array, cs
 }
 
 func validateColorSpaceArray(xRefTable *model.XRefTable, a types.Array, excludePatternCS bool) (err error) {
-
 	// see 8.6 Color Spaces
 
 	name, ok := a[0].(types.Name)
@@ -612,7 +592,6 @@ func validateColorSpaceArray(xRefTable *model.XRefTable, a types.Array, excludeP
 }
 
 func validateColorSpace(xRefTable *model.XRefTable, o types.Object, excludePatternCS bool) error {
-
 	o, err := xRefTable.Dereference(o)
 	if err != nil || o == nil {
 		return err
@@ -640,7 +619,6 @@ func validateColorSpace(xRefTable *model.XRefTable, o types.Object, excludePatte
 }
 
 func validateColorSpaceEntry(xRefTable *model.XRefTable, d types.Dict, dictName string, entryName string, required bool, excludePatternCS bool) error {
-
 	o, err := validateEntry(xRefTable, d, dictName, entryName, required, model.V10)
 	if err != nil || o == nil {
 		return err
@@ -668,7 +646,6 @@ func validateColorSpaceEntry(xRefTable *model.XRefTable, d types.Dict, dictName 
 }
 
 func validateColorSpaceResourceDict(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	// see 8.6 Color Spaces
 
 	// Version check

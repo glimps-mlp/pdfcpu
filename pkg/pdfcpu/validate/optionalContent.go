@@ -17,13 +17,12 @@ limitations under the License.
 package validate
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 func validateOptionalContentGroupIntent(xRefTable *model.XRefTable, d types.Dict, dictName, entryName string, required bool, sinceVersion model.Version) error {
-
 	// see 8.11.2.1
 
 	o, err := validateEntry(xRefTable, d, dictName, entryName, required, sinceVersion)
@@ -68,7 +67,6 @@ func validateOptionalContentGroupIntent(xRefTable *model.XRefTable, d types.Dict
 }
 
 func validateOptionalContentGroupUsageDict(xRefTable *model.XRefTable, d types.Dict, dictName, entryName string, required bool, sinceVersion model.Version) error {
-
 	// see 8.11.4.4
 
 	d1, err := validateDictEntry(xRefTable, d, dictName, entryName, required, sinceVersion, nil)
@@ -127,7 +125,6 @@ func validateOptionalContentGroupUsageDict(xRefTable *model.XRefTable, d types.D
 }
 
 func validateOptionalContentGroupDict(xRefTable *model.XRefTable, d types.Dict, sinceVersion model.Version) error {
-
 	// see 8.11 Optional Content
 
 	dictName := "optionalContentGroupDict"
@@ -155,7 +152,6 @@ func validateOptionalContentGroupDict(xRefTable *model.XRefTable, d types.Dict, 
 }
 
 func validateOptionalContentGroupArray(xRefTable *model.XRefTable, d types.Dict, dictName, dictEntry string, sinceVersion model.Version) error {
-
 	a, err := validateArrayEntry(xRefTable, d, dictName, dictEntry, OPTIONAL, sinceVersion, nil)
 	if err != nil || a == nil {
 		return err
@@ -187,7 +183,6 @@ func validateOptionalContentGroupArray(xRefTable *model.XRefTable, d types.Dict,
 }
 
 func validateOCGs(xRefTable *model.XRefTable, d types.Dict, dictName, entryName string, sinceVersion model.Version) error {
-
 	// see 8.11.2.2
 
 	o, _, err := d.Entry(dictName, entryName, OPTIONAL)
@@ -215,7 +210,6 @@ func validateOCGs(xRefTable *model.XRefTable, d types.Dict, dictName, entryName 
 }
 
 func validateOptionalContentMembershipDict(xRefTable *model.XRefTable, d types.Dict, sinceVersion model.Version) error {
-
 	// see 8.11.2.2
 
 	dictName := "OCMDict"
@@ -240,7 +234,6 @@ func validateOptionalContentMembershipDict(xRefTable *model.XRefTable, d types.D
 }
 
 func validateOptionalContent(xRefTable *model.XRefTable, d types.Dict, dictName, entryName string, required bool, sinceVersion model.Version) error {
-
 	d1, err := validateDictEntry(xRefTable, d, dictName, entryName, required, sinceVersion, nil)
 	if err != nil || d1 == nil {
 		return err
@@ -260,7 +253,6 @@ func validateOptionalContent(xRefTable *model.XRefTable, d types.Dict, dictName,
 }
 
 func validateUsageApplicationDict(xRefTable *model.XRefTable, d types.Dict, sinceVersion model.Version) error {
-
 	dictName := "usageAppDict"
 
 	// Event, required, name
@@ -282,7 +274,6 @@ func validateUsageApplicationDict(xRefTable *model.XRefTable, d types.Dict, sinc
 }
 
 func validateUsageApplicationDictArray(xRefTable *model.XRefTable, d types.Dict, dictName, dictEntry string, required bool, sinceVersion model.Version) error {
-
 	a, err := validateArrayEntry(xRefTable, d, dictName, dictEntry, required, sinceVersion, nil)
 	if err != nil || a == nil {
 		return err
@@ -314,7 +305,6 @@ func validateUsageApplicationDictArray(xRefTable *model.XRefTable, d types.Dict,
 }
 
 func validateOptionalContentConfigurationDict(xRefTable *model.XRefTable, d types.Dict, sinceVersion model.Version) error {
-
 	dictName := "optContentConfigDict"
 
 	// Name, optional, string
@@ -392,7 +382,6 @@ func validateOptionalContentConfigurationDict(xRefTable *model.XRefTable, d type
 }
 
 func validateOCProperties(xRefTable *model.XRefTable, rootDict types.Dict, required bool, sinceVersion model.Version) error {
-
 	// aka optional content properties dict.
 
 	// => 8.11.4 Configuring Optional Content

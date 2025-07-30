@@ -17,9 +17,9 @@ limitations under the License.
 package validate
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -55,7 +55,6 @@ func validatePropertiesDict(xRefTable *model.XRefTable, o types.Object) error {
 	}
 
 	for key, val := range d {
-
 		switch key {
 
 		case "Metadata":
@@ -81,11 +80,11 @@ func validatePropertiesDict(xRefTable *model.XRefTable, o types.Object) error {
 			logProp("unsupported", key, val)
 			return errors.Errorf("validatePropertiesDict: unsupported key \"%s\"\n", key)
 
-		//case "MCID": -> default
-		//case "Alt": -> default
-		//case "ActualText": -> default
-		//case "E": -> default
-		//case "Lang": -> default
+		// case "MCID": -> default
+		// case "Alt": -> default
+		// case "ActualText": -> default
+		// case "E": -> default
+		// case "Lang": -> default
 
 		default:
 			logProp("unknown", key, val)
@@ -93,7 +92,6 @@ func validatePropertiesDict(xRefTable *model.XRefTable, o types.Object) error {
 				return err
 			}
 		}
-
 	}
 
 	return nil

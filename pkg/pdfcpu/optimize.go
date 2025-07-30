@@ -20,11 +20,11 @@ import (
 	"bytes"
 	"sort"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	pdffont "github.com/pdfcpu/pdfcpu/pkg/pdfcpu/font"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/primitives"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	pdffont "github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/font"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/primitives"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -357,7 +357,7 @@ func optimizeFontResourcesDict(ctx *model.Context, rDict types.Dict, pageNr int,
 
 		if _, found := ctx.Optimize.FontObjects[objNr]; found {
 			// This font has already been registered.
-			//log.Optimize.Printf("optimizeFontResourcesDict: Fontobject %d already registered\n", objectNumber)
+			// log.Optimize.Printf("optimizeFontResourcesDict: Fontobject %d already registered\n", objectNumber)
 			pageFonts[objNr] = true
 			continue
 		}
@@ -490,7 +490,6 @@ func handleDuplicateImageObject(ctx *model.Context, imageDict *types.StreamDict,
 }
 
 func optimizeXObjectImage(ctx *model.Context, osd *types.StreamDict, rNamePrefix, rName string, rDict types.Dict, objNr, pageNr, pageObjNumber int, pageImages types.IntSet) error {
-
 	qualifiedRName := rName
 	if rNamePrefix != "" {
 		qualifiedRName = rNamePrefix + "." + rName
@@ -516,11 +515,10 @@ func optimizeXObjectImage(ctx *model.Context, osd *types.StreamDict, rNamePrefix
 
 	if !alreadyDupl {
 		// Register new image dict.
-		ctx.Optimize.ImageObjects[objNr] =
-			&model.ImageObject{
-				ResourceNames: map[int]string{pageNr: qualifiedRName},
-				ImageDict:     osd,
-			}
+		ctx.Optimize.ImageObjects[objNr] = &model.ImageObject{
+			ResourceNames: map[int]string{pageNr: qualifiedRName},
+			ImageDict:     osd,
+		}
 	}
 
 	pageImages[objNr] = true
@@ -528,7 +526,6 @@ func optimizeXObjectImage(ctx *model.Context, osd *types.StreamDict, rNamePrefix
 }
 
 func optimizeXObjectForm(ctx *model.Context, sd *types.StreamDict, objNr int) (*types.IndirectRef, error) {
-
 	f := ctx.Optimize.FormStreamCache
 	if len(f) == 0 {
 		f[objNr] = sd
@@ -591,7 +588,6 @@ func visited(o types.Object, visited []types.Object) bool {
 }
 
 func optimizeForm(ctx *model.Context, osd *types.StreamDict, rNamePrefix, rName string, rDict types.Dict, objNr, pageNr, pageObjNumber int, vis []types.Object) error {
-
 	ir, err := optimizeXObjectForm(ctx, osd, objNr)
 	if err != nil {
 		return err
@@ -905,12 +901,10 @@ func parseResourcesDict(ctx *model.Context, pageDict types.Dict, pageNr, pageObj
 
 	// dict may be nil for inherited resource dicts.
 	if d != nil {
-
 		// Optimize image and font resources.
 		if err = optimizeResources(ctx, d, pageNr, pageObjNumber, "", []types.Object{}); err != nil {
 			return err
 		}
-
 	}
 
 	if log.OptimizeEnabled() {
@@ -1275,12 +1269,10 @@ func calcRedundantEmbeddedFontsMemoryUsage(ctx *model.Context) error {
 
 	// Iterate over all duplicate fonts and record font file references.
 	for objectNumber, fontDict := range ctx.Optimize.DuplicateFonts {
-
 		// Duplicate Fonts have to be embedded, so no check here.
 		if err := processFontFilesForFontDict(ctx.XRefTable, fontDict, objectNumber, fontFileIndRefs); err != nil {
 			return err
 		}
-
 	}
 
 	// Iterate over font file references and calculate total font size.
@@ -1437,7 +1429,7 @@ func fixIndirectObject(ctx *model.Context, ir *types.IndirectRef) error {
 	if entry.Free {
 		// This is a reference to a free object that needs to be fixed.
 
-		//fmt.Printf("fixNullObject: #%d g%d\n", objNr, genNr)
+		// fmt.Printf("fixNullObject: #%d g%d\n", objNr, genNr)
 
 		if ctx.Optimize.NullObjNr == nil {
 			nr, err := ctx.InsertObject(nil)
@@ -1485,7 +1477,6 @@ func fixReferencesToFreeObjects(ctx *model.Context) error {
 }
 
 func CacheFormFonts(ctx *model.Context) error {
-
 	d, err := primitives.FormFontResDict(ctx.XRefTable)
 	if err != nil {
 		return err
@@ -1533,13 +1524,12 @@ func CacheFormFonts(ctx *model.Context) error {
 
 		registerFontDictObjNr(ctx, fName, objNr)
 
-		ctx.Optimize.FormFontObjects[objNr] =
-			&model.FontObject{
-				ResourceNames: []string{rName},
-				Prefix:        prefix,
-				FontName:      fName,
-				FontDict:      fontDict,
-			}
+		ctx.Optimize.FormFontObjects[objNr] = &model.FontObject{
+			ResourceNames: []string{rName},
+			Prefix:        prefix,
+			FontName:      fName,
+			FontDict:      fontDict,
+		}
 	}
 
 	return nil

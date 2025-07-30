@@ -20,7 +20,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/pdfcpu/pdfcpu/pkg/cli"
+	"github.com/glimps-mlp/pdfcpu/pkg/cli"
 )
 
 // Create a custom page sequence.
@@ -39,5 +39,4 @@ func TestCollectCommand(t *testing.T) {
 	if err := validateFile(t, outFile, conf); err != nil {
 		t.Fatalf("%s: %v\n", msg, err)
 	}
-
 }

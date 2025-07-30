@@ -17,7 +17,7 @@ limitations under the License.
 package cli
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 	"github.com/pkg/errors"
 )
 
@@ -298,7 +298,6 @@ func processCertificates(cmd *Command) (out []string, err error) {
 
 func processSignatures(cmd *Command) (out []string, err error) {
 	switch cmd.Mode {
-
 	case model.VALIDATESIGNATURES:
 		return ValidateSignatures(cmd)
 	}

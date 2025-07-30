@@ -24,7 +24,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v2"
 )

@@ -26,14 +26,16 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 )
 
-var inDir, outDir, resDir, samplesDir string
-var conf *model.Configuration
+var (
+	inDir, outDir, resDir, samplesDir string
+	conf                              *model.Configuration
+)
 
 func isTrueType(filename string) bool {
 	s := strings.ToLower(filename)
@@ -190,7 +192,7 @@ func TestValidate(t *testing.T) {
 	msg := "TestValidate"
 	inFile := filepath.Join(inDir, "Acroforms2.pdf")
 
-	//log.SetDefaultStatsLogger()
+	// log.SetDefaultStatsLogger()
 
 	// Validate inFile.
 	if err := api.ValidateFile(inFile, nil); err != nil {

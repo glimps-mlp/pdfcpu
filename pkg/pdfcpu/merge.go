@@ -19,14 +19,13 @@ package pdfcpu
 import (
 	"fmt"
 
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 func EnsureOutlines(ctx *model.Context, fName string, append bool) error {
-
 	rootDict, err := ctx.Catalog()
 	if err != nil {
 		return err
@@ -347,11 +346,10 @@ func rootDicts(ctxSrc, ctxDest *model.Context) (types.Dict, types.Dict, error) {
 }
 
 func mergeInFields(ctxDest *model.Context, arrFieldsSrc, arrFieldsDest types.Array, dDest types.Dict) error {
-	parentDict :=
-		types.Dict(map[string]types.Object{
-			"Kids": arrFieldsSrc,
-			"T":    types.StringLiteral(fmt.Sprintf("%d", len(arrFieldsDest))),
-		})
+	parentDict := types.Dict(map[string]types.Object{
+		"Kids": arrFieldsSrc,
+		"T":    types.StringLiteral(fmt.Sprintf("%d", len(arrFieldsDest))),
+	})
 
 	ir, err := ctxDest.IndRefForNewObject(parentDict)
 	if err != nil {
@@ -410,7 +408,6 @@ func mergeDests(ctxSource, ctxDest *model.Context) error {
 }
 
 func mergeNames(ctxSrc, ctxDest *model.Context) error {
-
 	rootDictSrc, rootDictDest, err := rootDicts(ctxSrc, ctxDest)
 	if err != nil {
 		return err
@@ -446,7 +443,6 @@ func mergeNames(ctxSrc, ctxDest *model.Context) error {
 }
 
 func mergeForms(ctxSrc, ctxDest *model.Context) error {
-
 	rootDictSource, rootDictDest, err := rootDicts(ctxSrc, ctxDest)
 	if err != nil {
 		return err
@@ -635,7 +631,6 @@ func patchObjects(s types.IntSet, lookup map[int]int) types.IntSet {
 }
 
 func patchNameTree(n *model.Node, lookup map[int]int) error {
-
 	patchValues := func(xRefTable *model.XRefTable, k string, v *types.Object) error {
 		*v = patchObject(*v, lookup)
 		return nil
@@ -651,7 +646,7 @@ func patchSourceObjectNumbers(ctxSrc, ctxDest *model.Context) {
 	}
 
 	// Patch source xref tables obj numbers which are essentially the keys.
-	//logInfoMerge.Printf("Source XRefTable before:\n%s\n", ctxSource)
+	// logInfoMerge.Printf("Source XRefTable before:\n%s\n", ctxSource)
 
 	objNrs := objNrsIntSet(ctxSrc)
 
@@ -678,7 +673,7 @@ func patchSourceObjectNumbers(ctxSrc, ctxDest *model.Context) {
 	// Patch all indRefs for xref table entries.
 	for k := range objNrs {
 
-		//logDebugMerge.Printf("patching obj #%d\n", k)
+		// logDebugMerge.Printf("patching obj #%d\n", k)
 
 		entry := ctxSrc.Table[k]
 
@@ -931,7 +926,6 @@ func mergeDuplicateObjNumberIntSets(ctxSrc, ctxDest *model.Context) {
 // zip         ... zip 2 files together (eg. 1A,1B,2A,2B,3A,3B...)
 // dividerPage ... insert blank page between merged files (not applicable for zipping)
 func MergeXRefTables(fName string, ctxSrc, ctxDest *model.Context, zip, dividerPage bool) (err error) {
-
 	patchSourceObjectNumbers(ctxSrc, ctxDest)
 
 	appendSourceObjectsToDest(ctxSrc, ctxDest)

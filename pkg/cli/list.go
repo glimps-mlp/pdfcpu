@@ -31,13 +31,13 @@ import (
 	"strings"
 	"time"
 
+	"github.com/glimps-mlp/pdfcpu/pkg/api"
+	"github.com/glimps-mlp/pdfcpu/pkg/log"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/form"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/hhrutter/pkcs7"
-	"github.com/pdfcpu/pdfcpu/pkg/api"
-	"github.com/pdfcpu/pdfcpu/pkg/log"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/form"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -401,7 +401,6 @@ func listInfoFilesJSON(inFiles []string, selectedPages []string, fonts bool, con
 
 // ListInfoFiles returns formatted information about inFiles.
 func ListInfoFiles(inFiles []string, selectedPages []string, fonts, json bool, conf *model.Configuration) ([]string, error) {
-
 	if json {
 		return listInfoFilesJSON(inFiles, selectedPages, fonts, conf)
 	}
@@ -555,7 +554,7 @@ func listPEM(fName string) (int, error) {
 	}
 
 	if len(bb) == 0 {
-		//return 0, errors.Errorf("%s is empty\n", filepath.Base(fName))
+		// return 0, errors.Errorf("%s is empty\n", filepath.Base(fName))
 		return 0, errors.New("is empty\n")
 	}
 
@@ -595,7 +594,7 @@ func listP7C(fName string) (int, error) {
 	}
 
 	if len(bb) == 0 {
-		//return 0, errors.Errorf("%s is empty\n", filepath.Base(fName))
+		// return 0, errors.Errorf("%s is empty\n", filepath.Base(fName))
 		return 0, errors.New("is empty\n")
 	}
 

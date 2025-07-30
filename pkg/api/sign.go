@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 	"github.com/pkg/errors"
 )
 
@@ -87,7 +87,7 @@ func digest(signValidResults []*model.SignatureValidationResult, full bool) []st
 	if full {
 		ss = append(ss, "")
 		for i, r := range signValidResults {
-			//ss = append(ss, fmt.Sprintf("%d. Sisgnature:\n", i+1))
+			// ss = append(ss, fmt.Sprintf("%d. Sisgnature:\n", i+1))
 			ss = append(ss, fmt.Sprintf("%d:", i+1))
 			ss = append(ss, r.String()+"\n")
 		}
@@ -136,7 +136,6 @@ func digest(signValidResults []*model.SignatureValidationResult, full bool) []st
 
 // ValidateSignatures validates signatures of inFile and returns the signature validation results.
 func ValidateSignatures(inFile string, all bool, conf *model.Configuration) ([]*model.SignatureValidationResult, error) {
-
 	if conf == nil {
 		conf = model.NewDefaultConfiguration()
 	}

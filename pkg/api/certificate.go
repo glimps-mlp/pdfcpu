@@ -21,12 +21,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
 )
 
 func LoadCertificates() (int, error) {
-
 	if model.UserCertPool != nil {
 		return 0, nil
 	}

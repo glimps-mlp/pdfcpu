@@ -17,13 +17,12 @@ limitations under the License.
 package validate
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
 func validateEntryV(xRefTable *model.XRefTable, d types.Dict, dictName string, required bool, sinceVersion model.Version, pBeadIndRef *types.IndirectRef, objNumber int) error {
-
 	previousBeadIndRef, err := validateIndRefEntry(xRefTable, d, dictName, "V", required, sinceVersion)
 	if err != nil {
 		return err
@@ -37,7 +36,6 @@ func validateEntryV(xRefTable *model.XRefTable, d types.Dict, dictName string, r
 }
 
 func validateBeadDict(xRefTable *model.XRefTable, beadIndRef, threadIndRef, pBeadIndRef, lBeadIndRef *types.IndirectRef) error {
-
 	objNumber := beadIndRef.ObjectNumber.Value()
 
 	dictName := "beadDict"
@@ -111,7 +109,6 @@ func validateBeadChainIntegrity(beadIndRef, pBeadIndRef, nBeadIndRef *types.Indi
 }
 
 func validateFirstBeadDict(xRefTable *model.XRefTable, beadIndRef, threadIndRef *types.IndirectRef) error {
-
 	dictName := "firstBeadDict"
 	sinceVersion := model.V10
 
@@ -170,7 +167,6 @@ func validateFirstBeadDict(xRefTable *model.XRefTable, beadIndRef, threadIndRef 
 }
 
 func validateThreadDict(xRefTable *model.XRefTable, o types.Object, sinceVersion model.Version) error {
-
 	dictName := "threadDict"
 
 	threadIndRef, ok := o.(types.IndirectRef)
@@ -209,7 +205,6 @@ func validateThreadDict(xRefTable *model.XRefTable, o types.Object, sinceVersion
 }
 
 func validateThreads(xRefTable *model.XRefTable, rootDict types.Dict, required bool, sinceVersion model.Version) error {
-
 	// => 12.4.3 Articles
 
 	ir := rootDict.IndirectRefEntry("Threads")

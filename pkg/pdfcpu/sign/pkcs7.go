@@ -23,9 +23,9 @@ import (
 	"io"
 	"time"
 
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/hhrutter/pkcs7"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -39,8 +39,8 @@ func ValidatePKCS7Signatures(
 	perms int,
 	rootCerts *x509.CertPool,
 	result *model.SignatureValidationResult,
-	ctx *model.Context) error {
-
+	ctx *model.Context,
+) error {
 	if ctx.Configuration.Offline {
 		result.AddProblem("pdfcpu is offline, unable to perform certificate revocation checking")
 	}
@@ -116,8 +116,8 @@ func verifyP7Signer(
 	authoritative bool,
 	perms, i int,
 	result *model.SignatureValidationResult,
-	ctx *model.Context) {
-
+	ctx *model.Context,
+) {
 	conf := ctx.Configuration
 
 	signer := &model.Signer{}
@@ -215,8 +215,8 @@ func checkP7Digest(
 	p7Content,
 	data []byte, detached bool,
 	signer *model.Signer,
-	result *model.SignatureValidationResult) bool {
-
+	result *model.SignatureValidationResult,
+) bool {
 	reason, err := verifyP7Digest(p7Signer, p7Content, data, detached)
 	if err == nil {
 		return true
@@ -230,7 +230,7 @@ func checkP7Digest(
 			result.DocModified = model.True
 		}
 		if reason == model.SignatureReasonInternal {
-			//result.Status = model.SignatureStatusInvalid
+			// result.Status = model.SignatureStatusInvalid
 			result.Reason = model.SignatureReasonInternal
 		}
 	}
@@ -259,11 +259,9 @@ func verifyP7Digest(p7Signer pkcs7.SignerInfo, p7Content []byte, data []byte, de
 		}
 
 	} else {
-
 		if err := pkcs7.VerifyMessageDigestEmbedded(p7Content, data); err != nil {
 			return model.SignatureReasonDocModified, errors.Errorf("pkcs7: message digest verification failure: %v\n", err)
 		}
-
 	}
 
 	return model.SignatureReasonDocNotModified, nil
@@ -275,8 +273,8 @@ func checkTimestampToken(
 	rootCerts *x509.CertPool,
 	ctx *model.Context,
 	signer *model.Signer,
-	result *model.SignatureValidationResult) (signingTime *time.Time) {
-
+	result *model.SignatureValidationResult,
+) (signingTime *time.Time) {
 	token := handleTimestampToken(p7Signer, rootCerts, signer, result)
 
 	if token != nil {
@@ -446,8 +444,8 @@ func buildP7CertChains(
 	rootCerts *x509.CertPool,
 	signer *model.Signer,
 	signingTime *time.Time,
-	result *model.SignatureValidationResult) [][]*x509.Certificate {
-
+	result *model.SignatureValidationResult,
+) [][]*x509.Certificate {
 	currentTime := time.Now()
 	if signingTime != nil {
 		currentTime = *signingTime

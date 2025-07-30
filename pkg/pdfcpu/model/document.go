@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -630,7 +630,6 @@ func (vp *ViewerPreferences) unmarshalPrinterPreferences(vpJSON ViewerPrefJSON) 
 }
 
 func (vp *ViewerPreferences) UnmarshalJSON(data []byte) error {
-
 	vpJSON := ViewerPrefJSON{}
 
 	if err := json.Unmarshal(data, &vpJSON); err != nil {

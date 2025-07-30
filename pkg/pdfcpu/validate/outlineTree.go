@@ -17,8 +17,8 @@ limitations under the License.
 package validate
 
 import (
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/model"
-	"github.com/pdfcpu/pdfcpu/pkg/pdfcpu/types"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/model"
+	"github.com/glimps-mlp/pdfcpu/pkg/pdfcpu/types"
 	"github.com/pkg/errors"
 )
 
@@ -346,8 +346,8 @@ func handleDuplicate(
 	xRefTable *model.XRefTable,
 	ir, first, last *types.IndirectRef,
 	prevDict types.Dict,
-	objNr, prevObjNr int) error {
-
+	objNr, prevObjNr int,
+) error {
 	if ir == first {
 		return removeDuplFirst(xRefTable, first, last, objNr, prevObjNr)
 	}
@@ -461,7 +461,6 @@ func handleCorruptOutlineItems(xRefTable *model.XRefTable, rootDict types.Dict) 
 }
 
 func scanAndFixOutlines(xRefTable *model.XRefTable, rootDict types.Dict, first, last *types.IndirectRef, count *int) error {
-
 	m := map[int]bool{}
 	var fixed bool
 
