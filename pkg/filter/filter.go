@@ -36,7 +36,27 @@ const (
 	JBIG2     = "JBIG2Decode"
 	DCT       = "DCTDecode"
 	JPX       = "JPXDecode"
+
+	// Additional Abbreviations in an Inline Image Object. See 8.9.7 Inline Images Table 94 in the PDF spec.
+
+	ASCII85Abbrev   = "A85"
+	ASCIIHexAbbrev  = "AHx"
+	RunLengthAbbrev = "RL"
+	LZWAbbrev       = "LZW"
+	FlateAbbrev     = "FI"
+	CCITTFaxAbbrev  = "CCF"
+	DCTAbbrev       = "DCT"
 )
+
+var Abbreviations = map[string]string{
+	ASCII85Abbrev:   ASCII85,
+	ASCIIHexAbbrev:  ASCIIHex,
+	RunLengthAbbrev: RunLength,
+	LZWAbbrev:       LZW,
+	FlateAbbrev:     Flate,
+	CCITTFaxAbbrev:  CCITTFax,
+	DCTAbbrev:       DCT,
+}
 
 // ErrUnsupportedFilter signals unsupported filter encountered.
 var ErrUnsupportedFilter = errors.New("pdfcpu: filter not supported")
@@ -51,8 +71,16 @@ type Filter interface {
 	DecodeLength(r io.Reader, maxLen int64) (io.Reader, error)
 }
 
+func normalize(filter string) string {
+	if normalizedFilter, ok := Abbreviations[filter]; ok {
+		return normalizedFilter
+	}
+	return filter
+}
+
 // NewFilter returns a filter for given filterName and an optional parameter dictionary.
 func NewFilter(filterName string, parms map[string]int) (filter Filter, err error) {
+	filterName = normalize(filterName)
 	switch filterName {
 
 	case ASCII85:
